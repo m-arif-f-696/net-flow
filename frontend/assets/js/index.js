@@ -1,7 +1,5 @@
-let card = /*html*/ `
-<h1 class=" caret-pink-40">makan</h1> 
-<div class="">
+import Navbar from "../../components/Navbar.js";
+import Footer from "../../components/Footer.js";
+import Hero from "../../components/Hero.js";
 
-</div>`;
-
-const id = 4;
+// memamnggil components

@@ -1,29 +1,23 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>NetFlow - Solusi Mencari Wifi yang Sesuai</title>
+
+    <script type="module" src="assets/js/index.js"></script>
+
     <link href="assets/css/output.css" rel="stylesheet" />
   </head>
   <body>
-    <div class="container"></div>
-
-    <script>
-      const container = document.querySelector(".container");
-
-      async function getPackage(id) {
-        try {
-          const response = await fetch(`http://localhost/package/${id}`);
-          const data = await response.json();
-
-          console.log(data);
-        } catch (e) {
-          console.log(e);
-        }
-      }
-
-      getPackage(1);
-    </script>
+    <div class="w-full mx-auto max-h-screen">
+      <nav class="mx-auto sticky top-0 z-10">
+        <navbar-header></navbar-header>
+      </nav>
+      <header>
+        <hero-header></hero-header>
+      </header>
+    </div>
+    <footer-custom></footer-custom>
   </body>
 </html>
