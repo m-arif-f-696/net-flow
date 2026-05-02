@@ -1,0 +1,20 @@
+# Dependency Backend (PHP/Composer)
+backend/vendor/
+
+# Dependency Frontend (Node.js)
+frontend/node_modules/
+
+# File Konfigurasi Sensitif (Sangat Penting!)
+backend/.env
+.env
+
+# Build Artifacts / Log
+*.log
+frontend/dist/
+frontend/.parcel-cache/
+
+# System Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

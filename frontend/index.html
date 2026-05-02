@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="assets/css/output.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container"></div>
+
+    <script>
+      const container = document.querySelector(".container");
+
+      async function getPackage(id) {
+        try {
+          const response = await fetch(`http://localhost/package/${id}`);
+          const data = await response.json();
+
+          console.log(data);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      getPackage(1);
+    </script>
+  </body>
+</html>
