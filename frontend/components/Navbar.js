@@ -5,7 +5,7 @@ export default class Navbar extends HTMLElement {
 
   render() {
     this.innerHTML = /*html*/ `
-    <div class="navbar bg-base-100 shadow-sm w-full px-20 py-4 rounded-2xl">
+    <div id="main-navbar" class="navbar bg-base-100/30 backdrop-blur-md shadow-sm w-full px-20 py-4">
       <div class="navbar-start flex-1">
         <div class="dropdown">
           <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
@@ -16,11 +16,11 @@ export default class Navbar extends HTMLElement {
             <li><a>About</a></li>
           </ul>
         </div>
-        <a class="btn btn-ghost text-xl lg:ml-10"><img src="assets/images/logo.svg" alt="logo" class="w-8 h-8 shrink-0" > NetFlow</a>
+        <a class="btn btn-ghost text-xl lg:ml-10"><img src="../assets/images/logo.svg" alt="logo" class="w-8 h-8 shrink-0" > NetFlow</a>
       </div>
 
       <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1">
+        <ul class="menu menu-horizontal px-1 text-base">
           <li><a>Home</a></li>
           <li><a>About</a></li>
         </ul>

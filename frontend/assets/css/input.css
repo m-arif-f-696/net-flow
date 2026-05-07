@@ -1,2 +1,24 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+@utility bg-mesh {
+  background-image: 
+    /* Glow warna Primary (Opacity 80%) */
+    radial-gradient(
+      ellipse 40% 20% at 50% -10%,
+      color-mix(in oklch, var(--color-primary) 60%, transparent) 0%,
+      transparent 100%
+    ),
+    /* Glow warna Primary Content (Opacity 10%) */
+      radial-gradient(
+        circle at 90% 10%,
+        color-mix(in oklch, var(--color-primary-content) 10%, transparent) 0%,
+        transparent 50%
+      ),
+    /* Glow warna Primary lagi (Opacity 5%) */
+      radial-gradient(
+        circle at 10% 20%,
+        color-mix(in oklch, var(--color-primary) 5%, transparent) 0%,
+        transparent 40%
+      );
+}
