@@ -5,13 +5,19 @@ export default class Hero extends HTMLElement {
 
   render() {
     this.innerHTML = /*html*/ `
-    <div class="hero bg-base-200 min-h-screen">
+    <div class="hero bg-transparent min-h-screen">
       <div class="hero-content text-center flex-col">
         <div class="max-w-xl">
-          <h1 class="text-5xl font-bold">
+          <div class=" flex justify-center gap-1.5 items-center py-1 px-2 mx-auto
+           border-1 rounded-full border-slate-500 w-fit">
+            <span class=" py-0.5 px-2 bg-primary rounded-full text-base-100">New</span>
+            <p>Version 1.0 has launch</p>
+          </div>
+          <h1 class="text-5xl font-bold mt-3">
             Find Your Dream Hotspot<br />with
             <span class="text-primary">NetFlow</span>
           </h1>
+          
           <p class="py-6">
             Provident cupiditate voluptatem et in. Quaerat fugiat ut
             assumenda excepturi exercitationem quasi. In deleniti eaque aut
@@ -26,10 +32,10 @@ export default class Hero extends HTMLElement {
         </div>
         <div class="flex items-center justify-center relative z-20">
           <div
-            class="flex flex-col gap-3 bg-white shadow-md absolute top-4 right-6 rounded-lg px-4 py-2">
+            class="flex flex-col gap-3 bg-white shadow-md absolute top-1/2 right-1/2 rounded-lg px-4 py-2 z-20">
             <div class="flex items-center gap-4">
               <img
-                src="assets/images/logo.svg"
+                src="../assets/images/logo.svg"
                 class="w-8 h-8 flex-1"
                 alt="logo" />
               <div class="flex flex-col items-start">
@@ -47,8 +53,8 @@ export default class Hero extends HTMLElement {
             </div>
           </div>
           <img
-            class="opacity-50 w-[75%]"
-            src="assets/images/globe.svg"
+            class="w-[75%] relative -bottom-24"
+            src="../assets/images/globe.svg"
             alt="globe" />
         </div>
       </div>
