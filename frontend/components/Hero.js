@@ -30,33 +30,56 @@ export default class Hero extends HTMLElement {
             </button>
           </div>
         </div>
-        <div class="flex items-center justify-center relative z-20">
-          <div
-            class="flex flex-col gap-3 bg-white shadow-md absolute top-1/2 right-1/2 rounded-lg px-4 py-2 z-20">
-            <div class="flex items-center gap-4">
-              <img
-                src="../assets/images/logo.svg"
-                class="w-8 h-8 flex-1"
-                alt="logo" />
-              <div class="flex flex-col items-start">
-                <span class="flex-3 font-bold text-sm"
-                  >{$this->name_provider}</span
-                >
-                <p class="text-xs text-slate-400">{$this->location}</p>
-              </div>
-            </div>
+        <div class="flex items-center justify-center relative z-20 min-h-[400px]">
+  
+  <!-- Card Random 1 (Kiri Atas) -->
+  <div class="flex flex-col gap-3 bg-white shadow-lg absolute top-[20%] left-[30%] rounded-xl px-4 py-3 z-30 hover:-translate-y-1 transition-all duration-300">
+    <div class="flex items-center gap-4">
+      <img src="../assets/images/logo.svg" class="w-8 h-8 flex-1" alt="logo" />
+      <div class="flex flex-col items-start">
+        <span class="font-bold text-sm text-gray-800">IndiHome</span>
+        <p class="text-xs text-slate-400">Yogyakarta, ID</p>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <span class="bg-primary/10 text-primary font-medium rounded-md px-2 py-1 text-xs">Fiber Optic</span>
+    </div>
+  </div>
 
-            <div class="flex gap-2">
-              <span class="bg-slate-200 rounded-md px-2 py-1 text-xs"
-                >{$tag}</span
-              >
-            </div>
-          </div>
-          <img
-            class="w-[75%] relative -bottom-24"
-            src="../assets/images/globe.svg"
-            alt="globe" />
-        </div>
+  <!-- Card Random 2 (Kanan Tengah) -->
+  <div class="flex flex-col gap-3 bg-white shadow-lg absolute top-[40%] right-[20%] rounded-xl px-4 py-3 z-30 hover:-translate-y-1 transition-all duration-300">
+    <div class="flex items-center gap-4">
+      <img src="../assets/images/logo.svg" class="w-8 h-8 flex-1" alt="logo" />
+      <div class="flex flex-col items-start">
+        <span class="font-bold text-sm text-gray-800">Biznet Home</span>
+        <p class="text-xs text-slate-400">Jakarta, ID</p>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <span class="bg-secondary/10 text-secondary font-medium rounded-md px-2 py-1 text-xs">Up to 1 Gbps</span>
+    </div>
+  </div>
+
+  <!-- Card Random 3 (Kiri Bawah) -->
+  <div class="flex flex-col gap-3 bg-white shadow-lg absolute bottom-[15%] left-[20%] rounded-xl px-4 py-3 z-30 hover:-translate-y-1 transition-all duration-300">
+    <div class="flex items-center gap-4">
+      <img src="../assets/images/logo.svg" class="w-8 h-8 flex-1" alt="logo" />
+      <div class="flex flex-col items-start">
+        <span class="font-bold text-sm text-gray-800">First Media</span>
+        <p class="text-xs text-slate-400">Bandung, ID</p>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <span class="bg-accent/10 text-accent font-medium rounded-md px-2 py-1 text-xs">Cable + TV</span>
+    </div>
+  </div>
+
+  <!-- Gambar Globe (Background) -->
+  <img
+    class="w-[75%] relative -bottom-16 opacity-90 drop-shadow-2xl"
+    src="../assets/images/globe.svg"
+    alt="globe" />
+</div>
       </div>
     </div>
     `;
