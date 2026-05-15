@@ -16,7 +16,8 @@ export default class Navbar extends HTMLElement {
             <li><a>About</a></li>
           </ul>
         </div>
-        <a class="btn btn-ghost text-xl lg:ml-10" href="#"><img src="../assets/images/logo.svg" alt="logo" class="w-8 h-8 shrink-0" > NetFlow</a>
+        <!-- <a class="btn btn-ghost text-xl lg:ml-10" href="#"><img src="../assets/images/logo.svg" alt="logo" class="w-8 h-8 shrink-0" > NetFlow</a> -->
+         <logo-navbar></logo-navbar>
       </div>
 
       <div class="navbar-center hidden lg:flex">
