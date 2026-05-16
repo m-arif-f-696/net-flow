@@ -1,11 +1,72 @@
 export default class SideBarProvider extends HTMLElement {
-  connectedCallback() {
-    this.render();
+  setMenu(menuItems) {
+    this._menuItems = menuItems;
+    this.render(menuItems);
   }
 
-  render() {
+  connectedCallback() {
+    if (this._menuItems) {
+      this.render(this._menuItems);
+      return;
+    }
+
+    const menuAttr = this.getAttribute("data-menu");
+
+    let menuItems = [
+      {
+        label: "Dashboard",
+        url: "dashboard.html",
+        svg: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+              </svg>`,
+        active: true,
+      },
+    ];
+
+    if (menuAttr) {
+      try {
+        const cleanData = menuAttr.replace(/\r?\n|\r/g, " ").trim();
+        menuItems = JSON.parse(cleanData);
+      } catch (error) {
+        console.error("Format JSON pada data-crumbs tidak valid!", error);
+      }
+    }
+
+    this.render(menuItems);
+  }
+
+  generateMenuItemHTML(menuItems) {
+    return menuItems
+      .map((menu) => {
+        // Cek apakah ini adalah elemen terakhir
+
+        // Jika ini elemen terakhir ATAU tidak punya URL, jadikan teks biasa (warna primary)
+        if (!menu.active) {
+          return /*html*/ `<li>
+            <a href="${menu.url}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right text-base-content/70 hover:text-primary hover:bg-primary/10" data-tip="${menu.label}">
+              ${menu.svg}
+
+              <span class="is-drawer-close:hidden transition-opacity duration-200">${menu.label}</span>
+            </a>
+          </li>`;
+        }
+        // Jika bukan terakhir dan punya URL, jadikan link
+        else {
+          return /*html*/ `<li>
+            <a href="${menu.url}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right text-primary bg-primary/10 border-r-2 border-primary/500" data-tip="${menu.label}">
+              ${menu.svg}
+
+              <span class="is-drawer-close:hidden transition-opacity duration-200">${menu.label}</span>
+            </a>
+          </li>`;
+        }
+      })
+      .join(""); // Gabungkan semua elemen array menjadi satu string HTML
+  }
+
+  render(menuItems) {
     this.innerHTML = /*html*/ `
-      <div class="flex min-h-full flex-col items-start bg-base-200 text-base-content is-drawer-close:w-14 is-drawer-open:w-64 border-r border-base-300 transition-all duration-300 ease-in-out">
+      <div class="flex min-h-full flex-col items-start bg-base-200 text-base-content is-drawer-close:w-15 is-drawer-open:w-64 border-r border-base-300 transition-all duration-300 ease-in-out">
         
         <div class="py-4 w-full flex items-center justify-center gap-3 border-b border-base-300 font-bold">
           <a href="#" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="NetFlow">
@@ -41,26 +102,57 @@ export default class SideBarProvider extends HTMLElement {
           <span class="is-drawer-close:hidden transition-opacity duration-200">NetFlow</span>
         </div>
 
-        <ul class="menu w-full grow p-2 gap-1">
+        <ul class="menu w-full grow gap-3">
+
+        ${this.generateMenuItemHTML(menuItems)}
           
-          <li>
-            <a href="#" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor" class="size-5"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-              <span class="is-drawer-close:hidden transition-opacity duration-200">Homepage</span>
+          <!-- <li>
+            <a href="#" class="is-drawer-close:tooltip is-drawer-close:tooltip-right text-primary bg-primary/10 border-r-2 border-primary/50" data-tip="Dashboard">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+              </svg>
+
+
+              <span class="is-drawer-close:hidden transition-opacity duration-200">Dashboard</span>
             </a>
           </li>
 
           <li>
-            <a href="#" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaksi">
-               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+            <a href="#" class="is-drawer-close:tooltip is-drawer-close:tooltip-right text-base-content/70 hover:text-primary hover:bg-primary/10" data-tip="Paket">
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m7.875 14.25 1.214 1.942a2.25 2.25 0 0 0 1.908 1.058h2.006c.776 0 1.497-.4 1.908-1.058l1.214-1.942M2.41 9h4.636a2.25 2.25 0 0 1 1.872 1.002l.164.246a2.25 2.25 0 0 0 1.872 1.002h2.092a2.25 2.25 0 0 0 1.872-1.002l.164-.246A2.25 2.25 0 0 1 16.954 9h4.636M2.41 9a2.25 2.25 0 0 0-.16.832V12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 12V9.832c0-.287-.055-.57-.16-.832M2.41 9a2.25 2.25 0 0 1 .382-.632l3.285-3.832a2.25 2.25 0 0 1 1.708-.786h8.43c.657 0 1.281.287 1.709.786l3.284 3.832c.163.19.291.404.382.632M4.5 20.25h15A2.25 2.25 0 0 0 21.75 18v-2.625c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125V18a2.25 2.25 0 0 0 2.25 2.25Z" />
+                </svg>
+
+              <span class="is-drawer-close:hidden transition-opacity duration-200">Paket</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="is-drawer-close:tooltip is-drawer-close:tooltip-right text-base-content/70 hover:text-primary hover:bg-primary/10" data-tip="Pelanggan">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+              </svg>
+
+              <span class="is-drawer-close:hidden transition-opacity duration-200">Pelanggan</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="is-drawer-close:tooltip is-drawer-close:tooltip-right text-base-content/70 hover:text-primary hover:bg-primary/10" data-tip="Transaksi">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+              </svg>
+
               <span class="is-drawer-close:hidden transition-opacity duration-200">Transaksi</span>
             </a>
-          </li>
+          </li> -->
 
           <li class="mt-auto pt-2 border-t border-base-300">
-            <a href="#" class="is-drawer-close:tooltip is-drawer-close:tooltip-right text-base-content/70 hover:text-primary" data-tip="Settings">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor" class="size-5"><path d="M20 7h-9"></path><path d="M14 17H5"></path><circle cx="17" cy="17" r="3"></circle><circle cx="7" cy="7" r="3"></circle></svg>
-              <span class="is-drawer-close:hidden transition-opacity duration-200">Settings</span>
+            <a href="#" class="is-drawer-close:tooltip is-drawer-close:tooltip-right text-base-content/70 hover:text-error hover:bg-error/10" data-tip="Logout">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+              </svg>
+
+              <span class="is-drawer-close:hidden transition-opacity duration-200">Logout</span>
             </a>
           </li>
         </ul>
