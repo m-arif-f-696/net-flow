@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@theme {
+  /* Mengganti font bawaan (sans) menjadi Poppins */
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+}
 @utility bg-mesh {
   background-image: 
     /* Glow warna Primary (Opacity 80%) */

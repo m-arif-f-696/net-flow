@@ -7,7 +7,7 @@ export default class Hero extends HTMLElement {
     this.innerHTML = /*html*/ `
     <div class="hero bg-transparent min-h-screen">
       <div class="hero-content text-center flex-col">
-        <div class="max-w-xl">
+        <div class="max-w-2xl">
           <div class=" flex justify-center gap-1.5 items-center py-1 px-2 mx-auto
            border-1 rounded-full border-slate-500 w-fit">
             <span class=" py-0.5 px-2 bg-primary rounded-full text-base-100">New</span>

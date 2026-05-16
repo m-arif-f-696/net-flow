@@ -2,8 +2,8 @@
   "name": "net_flow",
   "version": "1.0.0",
   "scripts": {
-    "dev": "tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css",
-    "watch": "tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch"
+    "dev": "tailwindcss -i ./css/input.css -o ./css/output.css",
+    "watch": "tailwindcss -i ./css/input.css -o ./css/output.css --watch"
   },
   "devDependencies": {
     "daisyui": "^5.5.19",
