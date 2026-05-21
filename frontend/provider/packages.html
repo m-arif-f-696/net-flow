@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Net Flow Provider</title>
+    <link href="../css/output.css" rel="stylesheet" />
+    <link
+      rel="shortcut icon"
+      href="../assets/images/logo.svg"
+      type="image/x-icon" />
+    <script type="module" src="js/index.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+  </head>
+  <body data-page="packages">
+    <div
+      id="page-loader"
+      class="fixed inset-0 z-100 bg-base-100 flex items-center justify-center">
+      <span class="loading loading-spinner loading-lg text-primary"></span>
+    </div>
+    <div class="drawer lg:drawer-open">
+      <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+
+      <div class="drawer-content flex flex-col">
+        <div>
+          <nav-bar-provider
+            data-crumbs='[
+      {"label": "NetFlow", "url": "../index.html"},  
+      {"label": "Paket", "url": null}
+    ]'></nav-bar-provider>
+
+          <main class="p-8 lg:p-12 flex-grow bg-base-100 flex flex-col gap-8">
+            <section>
+              <h1 class="font-bold text-2xl">Daftar Paket Internet</h1>
+              <p class="text-base-content/80">
+                Kelola produk dan layanan internet untuk pelanggan anda.
+              </p>
+            </section>
+            <!-- Bento Grid / Package Grid -->
+            <section
+              class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
+              id="content-packages">
+              <!-- Featured Package Card (Asymmetric Layout) -->
+              <div
+                class="skeleton lg:col-span-8 bg-surface-container-lowest p-8 rounded-xl shadow-sm flex flex-col h-100 md:flex-row gap-8 relative overflow-hidden group"></div>
+
+              <!-- Side Card Stats -->
+              <div
+                class="skeleton lg:col-span-4 bg-base-300 text-white p-8 rounded-xl flex flex-col justify-between h-100 hadow-xl shadow-primary/20"></div>
+
+              <!-- Standard Package Cards Grid -->
+              <div
+                class="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                <!-- Package Card List-->
+                <div
+                  class="skeleton h-100 bg-surface-container-lowest p-6 rounded-xl group"></div>
+                <div
+                  class="skeleton h-100 bg-surface-container-lowest p-6 rounded-xl group"></div>
+                <div
+                  class="skeleton h-100 bg-surface-container-lowest p-6 rounded-xl group"></div>
+              </div>
+            </section>
+          </main>
+        </div>
+      </div>
+
+      <div class="drawer-side is-drawer-close:overflow-visible z-50">
+        <label
+          for="my-drawer-4"
+          aria-label="close sidebar"
+          class="drawer-overlay"></label>
+
+        <side-bar-provider
+          class="h-full block"
+          id="sidebar"></side-bar-provider>
+      </div>
+    </div>
+
+    <script type="module" src="./js/pages/packages.js"></script>
+  </body>
+</html>

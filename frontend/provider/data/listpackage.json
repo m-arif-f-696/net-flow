@@ -1,0 +1,62 @@
+{
+  "package_summary": {
+    "total_packages": 3,
+    "most_popular": "Fiber Ultra",
+    "average_price": 172000,
+    "total_customers": 123
+  },
+  "packages": [
+    {
+      "id": 1,
+      "name": "Fiber Ultra",
+      "slug": "fiber-ultra",
+      "description": "Dioptimalkan untuk gaming dan streaming multi-perangkat.",
+      "icon": "rocket_launch",
+      "price": 890000,
+      "download_speed": 1,
+      "download_unit": "Gbps",
+      "upload_speed": 500,
+      "upload_unit": "Mbps",
+      "features": [
+        "Router WiFi 6E Gratis",
+        "Tanpa Batas Data",
+        "Dukungan Prioritas 24/7"
+      ],
+      "is_featured": true,
+      "is_bestseller": true,
+      "is_visible": true
+    },
+    {
+      "id": 2,
+      "name": "Home Starter",
+      "slug": "home-starter",
+      "description": "Koneksi dasar untuk browsing dan kerja dari rumah.",
+      "icon": "home",
+      "price": 449000,
+      "download_speed": 200,
+      "download_unit": "Mbps",
+      "upload_speed": 50,
+      "upload_unit": "Mbps",
+      "features": [],
+      "is_featured": false,
+      "is_bestseller": false,
+      "is_visible": true
+    },
+    {
+      "id": 3,
+      "name": "Family Plus",
+      "slug": "family-plus",
+      "description": "Kapasitas multi-streaming untuk rumah tangga modern.",
+      "icon": "family_restroom",
+      "price": 699000,
+      "download_speed": 500,
+      "download_unit": "Mbps",
+      "upload_speed": 200,
+      "upload_unit": "Mbps",
+      "features": [],
+      "is_featured": false,
+      "is_bestseller": false,
+      "is_visible": true
+    }
+  ]
+}
