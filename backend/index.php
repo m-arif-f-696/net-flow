@@ -36,9 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 header("Content-type: application/json; charset=UTF-8");
 
 
-$parts = explode("/" ,$_SERVER["REQUEST_URI"]);
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = trim($uri, '/');
+$parts = explode("/", $uri);
 
 $database = new Database();
+
+$endpointIndex = 0;
+if ($parts[0] === 'backend' && isset($parts[1])) {
+    $endpointIndex = 1; // Geser index jika ada kata 'backend'
+}
 
 // arah endpoint
 switch ($parts[1]) {
@@ -60,18 +67,4 @@ switch ($parts[1]) {
         exit;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
