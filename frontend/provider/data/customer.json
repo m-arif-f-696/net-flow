@@ -1,0 +1,244 @@
+{
+  "customer": [
+    {
+      "id": 1,
+      "name": "Sarah Jenkins",
+      "avatar": "https://i.pravatar.cc/150?img=1",
+      "customer_code": "NF-8829-XP",
+      "address": "742 Evergreen Terrace, Springfield",
+      "package": { "name": "Fiber Giga-Max", "speed": "1000 Mbps Symmetric" },
+      "usage": { "used_gb": 42.5, "percentage": 82 },
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "name": "Budi Santoso",
+      "avatar": "https://i.pravatar.cc/150?img=2",
+      "customer_code": "NF-1023-AB",
+      "address": "Jl. Merdeka No. 12, Yogyakarta",
+      "package": { "name": "Fiber Ultra", "speed": "500 Mbps Symmetric" },
+      "usage": { "used_gb": 28.0, "percentage": 56 },
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "name": "Dewi Rahayu",
+      "avatar": "https://i.pravatar.cc/150?img=3",
+      "customer_code": "NF-3341-CD",
+      "address": "Jl. Sudirman No. 45, Semarang",
+      "package": { "name": "Home Starter", "speed": "200 Mbps / 50 Mbps" },
+      "usage": { "used_gb": 5.2, "percentage": 20 },
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "name": "Ahmad Fauzi",
+      "avatar": "https://i.pravatar.cc/150?img=4",
+      "customer_code": "NF-5512-EF",
+      "address": "Jl. Diponegoro No. 8, Solo",
+      "package": { "name": "Family Plus", "speed": "500 Mbps / 200 Mbps" },
+      "usage": { "used_gb": 61.0, "percentage": 95 },
+      "status": "inactive"
+    },
+    {
+      "id": 5,
+      "name": "Rina Kusuma",
+      "avatar": "https://i.pravatar.cc/150?img=5",
+      "customer_code": "NF-7743-GH",
+      "address": "Jl. Ahmad Yani No. 3, Magelang",
+      "package": { "name": "Fiber Ultra", "speed": "500 Mbps Symmetric" },
+      "usage": { "used_gb": 33.7, "percentage": 67 },
+      "status": "active"
+    },
+    {
+      "id": 6,
+      "name": "Joko Widodo",
+      "avatar": "https://i.pravatar.cc/150?img=6",
+      "customer_code": "NF-9901-IJ",
+      "address": "Jl. Gajah Mada No. 17, Purwokerto",
+      "package": { "name": "Home Starter", "speed": "200 Mbps / 50 Mbps" },
+      "usage": { "used_gb": 12.1, "percentage": 40 },
+      "status": "active"
+    },
+    {
+      "id": 7,
+      "name": "Siti Aminah",
+      "avatar": "https://i.pravatar.cc/150?img=7",
+      "customer_code": "NF-2234-KL",
+      "address": "Jl. Pahlawan No. 22, Klaten",
+      "package": { "name": "Fiber Giga-Max", "speed": "1000 Mbps Symmetric" },
+      "usage": { "used_gb": 77.3, "percentage": 90 },
+      "status": "active"
+    },
+    {
+      "id": 8,
+      "name": "Hendra Gunawan",
+      "avatar": "https://i.pravatar.cc/150?img=8",
+      "customer_code": "NF-4456-MN",
+      "address": "Jl. Veteran No. 5, Cilacap",
+      "package": { "name": "Family Plus", "speed": "500 Mbps / 200 Mbps" },
+      "usage": { "used_gb": 19.8, "percentage": 35 },
+      "status": "inactive"
+    },
+    {
+      "id": 9,
+      "name": "Maya Putri",
+      "avatar": "https://i.pravatar.cc/150?img=9",
+      "customer_code": "NF-6678-OP",
+      "address": "Jl. Kenanga No. 11, Bantul",
+      "package": { "name": "Fiber Ultra", "speed": "500 Mbps Symmetric" },
+      "usage": { "used_gb": 48.5, "percentage": 75 },
+      "status": "active"
+    },
+    {
+      "id": 10,
+      "name": "Rizky Pratama",
+      "avatar": "https://i.pravatar.cc/150?img=10",
+      "customer_code": "NF-8890-QR",
+      "address": "Jl. Melati No. 9, Wonosari",
+      "package": { "name": "Home Starter", "speed": "200 Mbps / 50 Mbps" },
+      "usage": { "used_gb": 8.3, "percentage": 28 },
+      "status": "active"
+    },
+    {
+      "id": 11,
+      "name": "Fitri Handayani",
+      "avatar": "https://i.pravatar.cc/150?img=11",
+      "customer_code": "NF-1112-ST",
+      "address": "Jl. Anggrek No. 6, Wates",
+      "package": { "name": "Fiber Giga-Max", "speed": "1000 Mbps Symmetric" },
+      "usage": { "used_gb": 55.0, "percentage": 88 },
+      "status": "active"
+    },
+    {
+      "id": 12,
+      "name": "Doni Setiawan",
+      "avatar": "https://i.pravatar.cc/150?img=12",
+      "customer_code": "NF-3334-UV",
+      "address": "Jl. Mawar No. 14, Muntilan",
+      "package": { "name": "Family Plus", "speed": "500 Mbps / 200 Mbps" },
+      "usage": { "used_gb": 22.4, "percentage": 48 },
+      "status": "inactive"
+    },
+    {
+      "id": 13,
+      "name": "Lestari Wulandari",
+      "avatar": "https://i.pravatar.cc/150?img=13",
+      "customer_code": "NF-5556-WX",
+      "address": "Jl. Dahlia No. 3, Temanggung",
+      "package": { "name": "Fiber Ultra", "speed": "500 Mbps Symmetric" },
+      "usage": { "used_gb": 37.9, "percentage": 62 },
+      "status": "active"
+    },
+    {
+      "id": 14,
+      "name": "Agus Hermawan",
+      "avatar": "https://i.pravatar.cc/150?img=14",
+      "customer_code": "NF-7778-YZ",
+      "address": "Jl. Flamboyan No. 7, Kebumen",
+      "package": { "name": "Home Starter", "speed": "200 Mbps / 50 Mbps" },
+      "usage": { "used_gb": 15.6, "percentage": 45 },
+      "status": "active"
+    },
+    {
+      "id": 15,
+      "name": "Nurul Hidayah",
+      "avatar": "https://i.pravatar.cc/150?img=15",
+      "customer_code": "NF-9900-AA",
+      "address": "Jl. Cempaka No. 20, Purworejo",
+      "package": { "name": "Fiber Giga-Max", "speed": "1000 Mbps Symmetric" },
+      "usage": { "used_gb": 70.1, "percentage": 93 },
+      "status": "active"
+    },
+    {
+      "id": 16,
+      "name": "Bagas Prasetyo",
+      "avatar": "https://i.pravatar.cc/150?img=16",
+      "customer_code": "NF-2223-BB",
+      "address": "Jl. Tulip No. 1, Wonosobo",
+      "package": { "name": "Family Plus", "speed": "500 Mbps / 200 Mbps" },
+      "usage": { "used_gb": 29.3, "percentage": 58 },
+      "status": "inactive"
+    },
+    {
+      "id": 17,
+      "name": "Indah Permata",
+      "avatar": "https://i.pravatar.cc/150?img=17",
+      "customer_code": "NF-4445-CC",
+      "address": "Jl. Nusa Indah No. 4, Banjarnegara",
+      "package": { "name": "Fiber Ultra", "speed": "500 Mbps Symmetric" },
+      "usage": { "used_gb": 44.2, "percentage": 71 },
+      "status": "active"
+    },
+    {
+      "id": 18,
+      "name": "Teguh Santosa",
+      "avatar": "https://i.pravatar.cc/150?img=18",
+      "customer_code": "NF-6667-DD",
+      "address": "Jl. Kenari No. 16, Purbalingga",
+      "package": { "name": "Home Starter", "speed": "200 Mbps / 50 Mbps" },
+      "usage": { "used_gb": 6.8, "percentage": 22 },
+      "status": "active"
+    },
+    {
+      "id": 19,
+      "name": "Yuli Astuti",
+      "avatar": "https://i.pravatar.cc/150?img=19",
+      "customer_code": "NF-8889-EE",
+      "address": "Jl. Melur No. 10, Banyumas",
+      "package": { "name": "Fiber Giga-Max", "speed": "1000 Mbps Symmetric" },
+      "usage": { "used_gb": 60.5, "percentage": 85 },
+      "status": "active"
+    },
+    {
+      "id": 20,
+      "name": "Fajar Nugroho",
+      "avatar": "https://i.pravatar.cc/150?img=20",
+      "customer_code": "NF-1011-FF",
+      "address": "Jl. Seruni No. 2, Rembang",
+      "package": { "name": "Family Plus", "speed": "500 Mbps / 200 Mbps" },
+      "usage": { "used_gb": 25.7, "percentage": 52 },
+      "status": "active"
+    },
+    {
+      "id": 21,
+      "name": "Wati Rahmawati",
+      "avatar": "https://i.pravatar.cc/150?img=21",
+      "customer_code": "NF-3233-GG",
+      "address": "Jl. Kenanga No. 18, Blora",
+      "package": { "name": "Fiber Ultra", "speed": "500 Mbps Symmetric" },
+      "usage": { "used_gb": 39.4, "percentage": 69 },
+      "status": "inactive"
+    },
+    {
+      "id": 22,
+      "name": "Eko Prabowo",
+      "avatar": "https://i.pravatar.cc/150?img=22",
+      "customer_code": "NF-5455-HH",
+      "address": "Jl. Bougenville No. 13, Kudus",
+      "package": { "name": "Home Starter", "speed": "200 Mbps / 50 Mbps" },
+      "usage": { "used_gb": 10.9, "percentage": 33 },
+      "status": "active"
+    },
+    {
+      "id": 23,
+      "name": "Ani Sulistyowati",
+      "avatar": "https://i.pravatar.cc/150?img=23",
+      "customer_code": "NF-7677-II",
+      "address": "Jl. Wijayakusuma No. 8, Jepara",
+      "package": { "name": "Fiber Giga-Max", "speed": "1000 Mbps Symmetric" },
+      "usage": { "used_gb": 52.3, "percentage": 79 },
+      "status": "active"
+    },
+    {
+      "id": 24,
+      "name": "Rudi Hartono",
+      "avatar": "https://i.pravatar.cc/150?img=24",
+      "customer_code": "NF-9899-JJ",
+      "address": "Jl. Kamboja No. 5, Demak",
+      "package": { "name": "Family Plus", "speed": "500 Mbps / 200 Mbps" },
+      "usage": { "used_gb": 18.2, "percentage": 43 },
+      "status": "active"
+    }
+  ]
+}
