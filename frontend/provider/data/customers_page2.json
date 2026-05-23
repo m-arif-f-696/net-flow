@@ -1,0 +1,18 @@
+{
+  "pagination": {
+    "total": 24,
+    "per_page": 8,
+    "current_page": 2,
+    "total_pages": 3
+  },
+  "customers": [
+    { "id": 9, "name": "Maya Putri", "avatar": "https://i.pravatar.cc/150?img=9", "customer_code": "NF-6678-OP", "address": "Jl. Kenanga No. 11, Bantul", "package": { "name": "Fiber Ultra", "speed": "500 Mbps Symmetric" }, "usage": { "used_gb": 48.5, "percentage": 75 }, "status": "active" },
+    { "id": 10, "name": "Rizky Pratama", "avatar": "https://i.pravatar.cc/150?img=10", "customer_code": "NF-8890-QR", "address": "Jl. Melati No. 9, Wonosari", "package": { "name": "Home Starter", "speed": "200 Mbps / 50 Mbps" }, "usage": { "used_gb": 8.3, "percentage": 28 }, "status": "active" },
+    { "id": 11, "name": "Fitri Handayani", "avatar": "https://i.pravatar.cc/150?img=11", "customer_code": "NF-1112-ST", "address": "Jl. Anggrek No. 6, Wates", "package": { "name": "Fiber Giga-Max", "speed": "1000 Mbps Symmetric" }, "usage": { "used_gb": 55.0, "percentage": 88 }, "status": "active" },
+    { "id": 12, "name": "Doni Setiawan", "avatar": "https://i.pravatar.cc/150?img=12", "customer_code": "NF-3334-UV", "address": "Jl. Mawar No. 14, Muntilan", "package": { "name": "Family Plus", "speed": "500 Mbps / 200 Mbps" }, "usage": { "used_gb": 22.4, "percentage": 48 }, "status": "inactive" },
+    { "id": 13, "name": "Lestari Wulandari", "avatar": "https://i.pravatar.cc/150?img=13", "customer_code": "NF-5556-WX", "address": "Jl. Dahlia No. 3, Temanggung", "package": { "name": "Fiber Ultra", "speed": "500 Mbps Symmetric" }, "usage": { "used_gb": 37.9, "percentage": 62 }, "status": "active" },
+    { "id": 14, "name": "Agus Hermawan", "avatar": "https://i.pravatar.cc/150?img=14", "customer_code": "NF-7778-YZ", "address": "Jl. Flamboyan No. 7, Kebumen", "package": { "name": "Home Starter", "speed": "200 Mbps / 50 Mbps" }, "usage": { "used_gb": 15.6, "percentage": 45 }, "status": "active" },
+    { "id": 15, "name": "Nurul Hidayah", "avatar": "https://i.pravatar.cc/150?img=15", "customer_code": "NF-9900-AA", "address": "Jl. Cempaka No. 20, Purworejo", "package": { "name": "Fiber Giga-Max", "speed": "1000 Mbps Symmetric" }, "usage": { "used_gb": 70.1, "percentage": 93 }, "status": "active" },
+    { "id": 16, "name": "Bagas Prasetyo", "avatar": "https://i.pravatar.cc/150?img=16", "customer_code": "NF-2223-BB", "address": "Jl. Tulip No. 1, Wonosobo", "package": { "name": "Family Plus", "speed": "500 Mbps / 200 Mbps" }, "usage": { "used_gb": 29.3, "percentage": 58 }, "status": "inactive" }
+  ]
+}
