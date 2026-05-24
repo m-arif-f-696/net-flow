@@ -38,98 +38,105 @@
 
           <main class="p-8 lg:p-12 flex-grow bg-base-100 flex flex-col gap-8">
             <section>
-              <h1 class="font-bold text-2xl">Daftar Pelanggan</h1>
+              <h1 class="font-bold text-2xl text-base-content">
+                Daftar Pelanggan
+              </h1>
               <p class="text-base-content/80">
                 Cek kondisi pelanggan anda secara real-time.
               </p>
             </section>
-            <!-- Header & Stats Bento -->
+
             <div class="space-y-8">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div
-                  class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 flex items-center justify-between">
+                  class="bg-base-100 p-6 rounded-xl shadow-sm border border-neutral/10 flex items-center justify-between">
                   <div class="space-y-1">
                     <p
-                      class="text-xs text-on-surface-variant font-medium uppercase tracking-wider">
+                      class="text-xs text-base-content/60 font-medium uppercase tracking-wider">
                       Active Users
                     </p>
-                    <p class="text-3xl font-headline font-extrabold">12,482</p>
+                    <p class="text-3xl font-extrabold text-base-content">
+                      12,482
+                    </p>
                   </div>
                   <div class="flex flex-col items-end gap-2">
                     <span
-                      class="material-symbols-outlined text-primary bg-primary-container/10 p-2 rounded-lg"
+                      class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg"
                       >person_check</span
-                    ><span
-                      class="text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full"
+                    >
+                    <span
+                      class="text-xs font-bold text-success bg-success/10 px-2 py-0.5 rounded-full"
                       >+12%</span
                     >
                   </div>
                 </div>
+
                 <div
-                  class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 flex items-center justify-between">
+                  class="bg-base-100 p-6 rounded-xl shadow-sm border border-neutral/10 flex items-center justify-between">
                   <div class="space-y-1">
                     <p
-                      class="text-xs text-on-surface-variant font-medium uppercase tracking-wider">
+                      class="text-xs text-base-content/60 font-medium uppercase tracking-wider">
                       Pending Installs
                     </p>
-                    <p class="text-3xl font-headline font-extrabold">148</p>
+                    <p class="text-3xl font-extrabold text-base-content">148</p>
                   </div>
                   <div class="flex flex-col items-end">
                     <span
-                      class="material-symbols-outlined text-tertiary bg-tertiary-container/10 p-2 rounded-lg"
+                      class="material-symbols-outlined text-warning bg-warning/10 p-2 rounded-lg"
                       >hourglass_empty</span
                     >
                   </div>
                 </div>
+
                 <div
-                  class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 flex items-center justify-between">
+                  class="bg-base-100 p-6 rounded-xl shadow-sm border border-neutral/10 flex items-center justify-between">
                   <div class="space-y-1">
                     <p
-                      class="text-xs text-on-surface-variant font-medium uppercase tracking-wider">
+                      class="text-xs text-base-content/60 font-medium uppercase tracking-wider">
                       Down Nodes
                     </p>
-                    <p class="text-3xl font-headline font-extrabold">24</p>
+                    <p class="text-3xl font-extrabold text-base-content">24</p>
                   </div>
                   <div class="flex flex-col items-end">
                     <span
-                      class="material-symbols-outlined text-error bg-error-container/10 p-2 rounded-lg"
+                      class="material-symbols-outlined text-error bg-error/10 p-2 rounded-lg"
                       >signal_disconnected</span
                     >
                   </div>
                 </div>
               </div>
             </div>
-            <!-- Filter Bar -->
+
             <div
-              class="flex flex-wrap items-center justify-between gap-4 py-4 px-6 bg-surface-container-low rounded-2xl">
+              class="flex flex-wrap items-center justify-between gap-4 py-4 px-6 bg-base-200 rounded-2xl border border-neutral/10">
               <div class="flex items-center gap-2">
                 <button
-                  class="px-5 py-2 rounded-full bg-primary text-white font-semibold text-sm shadow-md transition-all active:scale-95">
+                  class="px-5 py-2 rounded-full bg-primary text-primary-content font-semibold text-sm shadow-md transition-all active:scale-95">
                   All Customers
                 </button>
                 <button
-                  class="px-5 py-2 rounded-full hover:bg-white text-on-surface-variant font-semibold text-sm transition-all active:scale-95">
+                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95">
                   Active
                 </button>
                 <button
-                  class="px-5 py-2 rounded-full hover:bg-white text-on-surface-variant font-semibold text-sm transition-all active:scale-95">
+                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95">
                   Suspended
                 </button>
                 <button
-                  class="px-5 py-2 rounded-full hover:bg-white text-on-surface-variant font-semibold text-sm transition-all active:scale-95">
+                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95">
                   Pending
                 </button>
               </div>
               <div class="flex items-center gap-3">
                 <button
-                  class="flex items-center gap-2 px-4 py-2 border border-outline-variant/20 rounded-lg text-sm font-medium hover:bg-white transition-colors">
+                  class="flex items-center gap-2 px-4 py-2 border border-neutral/10 bg-base-100 rounded-lg text-sm font-medium hover:bg-base-200 transition-colors">
                   <span class="material-symbols-outlined text-sm"
                     >filter_list</span
                   >
                   Advanced Filter
                 </button>
                 <button
-                  class="flex items-center gap-2 px-4 py-2 border border-outline-variant/20 rounded-lg text-sm font-medium hover:bg-white transition-colors">
+                  class="flex items-center gap-2 px-4 py-2 border border-neutral/10 bg-base-100 rounded-lg text-sm font-medium hover:bg-base-200 transition-colors">
                   <span class="material-symbols-outlined text-sm"
                     >download</span
                   >
@@ -137,416 +144,123 @@
                 </button>
               </div>
             </div>
-            <!-- Customer Table -->
+
             <div
-              class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50 border border-outline-variant/10">
+              class="bg-base-100 rounded-3xl overflow-hidden shadow-xl shadow-base-300/50 border border-neutral/10">
               <table class="w-full text-left border-collapse">
-                <thead class="bg-surface-container-low/50">
+                <thead class="bg-base-200/50">
                   <tr>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest">
                       Customer Profile
                     </th>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest">
                       Subscriber ID
                     </th>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest">
                       Address
                     </th>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
-                      Plan &amp; Tier
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest">
+                      Plan & Tier
                     </th>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest">
                       Usage (24h)
                     </th>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-slate-500 uppercase tracking-widest text-right">
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest text-right">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
-                  <!-- Row 1 -->
-                  <tr class="hover:bg-primary-fixed/5 transition-colors group">
-                    <td class="px-6 py-5">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-10 h-10 rounded-full bg-slate-100 overflow-hidden">
-                          <img
-                            alt="Customer"
-                            class="w-full h-full object-cover"
-                            data-alt="portrait of a confident woman in a casual white shirt against a neutral background"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5a6MG7DuHedzU3XJfS-jy8HUod07zc0-UxsdYAGgnXYWcGYmFJYy55u-LZxmCXf_1aH1ztIdQyvOTYm4nPoYR9jcsyW8h4qhWNcQbujZAFLhQiuYme7yWf66g3WMq1tDMHe7Cb0SuGuySLKqPk88gd5A3cwS59Q2tAddn5zjT1bb28CCWsCwgAImR4g2kmRslu49JxRCQq7uCWVk8xMT_7ZfuNh8M75TjGUNTrvw4QE94I57Px9f9y1b7zhuifX4iSqx98Cw2wn_q" />
-                        </div>
-                        <div>
-                          <p class="font-bold text-on-surface leading-tight">
-                            Sarah Jenkins
-                          </p>
-                          <div class="flex items-center gap-1.5 mt-1">
-                            <span
-                              class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                            <span
-                              class="text-[11px] font-semibold text-green-600 uppercase"
-                              >Active</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-6 py-5">
-                      <span
-                        class="font-mono text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded"
-                        >NF-8829-XP</span
-                      >
-                    </td>
-                    <td class="px-6 py-5">
-                      <p
-                        class="text-xs text-on-surface font-medium truncate max-w-[180px]">
-                        742 Evergreen Terrace, Springfield
-                      </p>
-                    </td>
-                    <td class="px-6 py-5">
-                      <div class="flex flex-col">
-                        <span class="text-sm font-bold text-sky-600"
-                          >Fiber Giga-Max</span
-                        >
-                        <span class="text-[10px] text-slate-400 font-medium"
-                          >1000 Mbps Symmetric</span
-                        >
-                      </div>
-                    </td>
-                    <td class="px-6 py-5">
-                      <div class="w-full max-w-[120px]">
-                        <div
-                          class="flex justify-between text-[10px] font-bold mb-1">
-                          <span>42.5 GB</span>
-                          <span class="text-primary">82%</span>
-                        </div>
-                        <div
-                          class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                          <div
-                            class="h-full bg-primary rounded-full"
-                            style="width: 82%"></div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-6 py-5 text-right">
-                      <div class="flex items-center justify-end gap-1">
-                        <button
-                          class="p-2 hover:bg-primary-container/10 text-primary rounded-lg transition-colors"
-                          title="View Details">
-                          <span class="material-symbols-outlined"
-                            >visibility</span
-                          >
-                        </button>
-                        <button
-                          class="p-2 hover:bg-slate-100 text-slate-500 rounded-lg transition-colors"
-                          title="Edit Customer">
-                          <span class="material-symbols-outlined">edit</span>
-                        </button>
-                        <button
-                          class="p-2 hover:bg-sky-500 hover:text-white text-slate-500 rounded-lg transition-colors"
-                          title="Manage Service">
-                          <span class="material-symbols-outlined"
-                            >settings_ethernet</span
-                          >
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- Row 2 -->
-                  <tr class="hover:bg-primary-fixed/5 transition-colors group">
-                    <td class="px-6 py-5">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
-                          <span
-                            class="material-symbols-outlined"
-                            style="font-variation-settings: &quot;FILL&quot; 1"
-                            >account_circle</span
-                          >
-                        </div>
-                        <div>
-                          <p class="font-bold text-on-surface leading-tight">
-                            Marcus Thorne
-                          </p>
-                          <div class="flex items-center gap-1.5 mt-1">
-                            <span
-                              class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                            <span
-                              class="text-[11px] font-semibold text-amber-600 uppercase"
-                              >Suspended</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-6 py-5">
-                      <span
-                        class="font-mono text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded"
-                        >NF-1102-LL</span
-                      >
-                    </td>
-                    <td class="px-6 py-5">
-                      <p
-                        class="text-xs text-on-surface font-medium truncate max-w-[180px]">
-                        12 Arkham Way, Gotham City
-                      </p>
-                    </td>
-                    <td class="px-6 py-5">
-                      <div class="flex flex-col">
-                        <span class="text-sm font-bold text-slate-600"
-                          >Standard Plus</span
-                        >
-                        <span class="text-[10px] text-slate-400 font-medium"
-                          >100 Mbps Down</span
-                        >
-                      </div>
-                    </td>
-                    <td class="px-6 py-5">
-                      <div class="w-full max-w-[120px]">
-                        <div
-                          class="flex justify-between text-[10px] font-bold mb-1">
-                          <span>0.2 GB</span>
-                          <span class="text-slate-400">1%</span>
-                        </div>
-                        <div
-                          class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                          <div
-                            class="h-full bg-slate-300 rounded-full"
-                            style="width: 1%"></div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-6 py-5 text-right">
-                      <div class="flex items-center justify-end gap-1">
-                        <button
-                          class="p-2 hover:bg-primary-container/10 text-primary rounded-lg transition-colors">
-                          <span class="material-symbols-outlined"
-                            >visibility</span
-                          >
-                        </button>
-                        <button
-                          class="p-2 hover:bg-slate-100 text-slate-500 rounded-lg transition-colors">
-                          <span class="material-symbols-outlined">edit</span>
-                        </button>
-                        <button
-                          class="p-2 hover:bg-sky-500 hover:text-white text-slate-500 rounded-lg transition-colors">
-                          <span class="material-symbols-outlined"
-                            >settings_ethernet</span
-                          >
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- Row 3 -->
-                  <tr class="hover:bg-primary-fixed/5 transition-colors group">
-                    <td class="px-6 py-5">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-10 h-10 rounded-full bg-slate-100 overflow-hidden">
-                          <img
-                            alt="Customer"
-                            class="w-full h-full object-cover"
-                            data-alt="portrait of a young man with a slight smile wearing a denim jacket in a bright outdoor setting"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI1Au_XaRP-cK3tf5PJ6Cj-qNuGZEyl1Zy1580k1LmSWvS92bgjajswZV2FqStKXG6jluUNNuv9_cK68bbebdJHzBAgoRRSEv5iNQnK__RqEDYwDSnVwZhxtJIHnw1N35lilFm3OwiGYItW0P3CJyxnf4h2z_77BHUn19wGuahvsMFb5BL39NHSMh0KWwntTzfDK4LD2aEZVHYOE4mbbZjMJC3nzyU5CYVl0eJAw49qC9m0j6brE2GUQZdNIlGMldnuor5j81cI5QL" />
-                        </div>
-                        <div>
-                          <p class="font-bold text-on-surface leading-tight">
-                            Elena Rodriguez
-                          </p>
-                          <div class="flex items-center gap-1.5 mt-1">
-                            <span
-                              class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
-                            <span
-                              class="text-[11px] font-semibold text-sky-600 uppercase"
-                              >Pending Install</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-6 py-5">
-                      <span
-                        class="font-mono text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded"
-                        >NF-5541-QA</span
-                      >
-                    </td>
-                    <td class="px-6 py-5">
-                      <p
-                        class="text-xs text-on-surface font-medium truncate max-w-[180px]">
-                        221B Baker St, London
-                      </p>
-                    </td>
-                    <td class="px-6 py-5">
-                      <div class="flex flex-col">
-                        <span class="text-sm font-bold text-sky-600"
-                          >Home Office Pro</span
-                        >
-                        <span class="text-[10px] text-slate-400 font-medium"
-                          >500 Mbps Up/Down</span
-                        >
-                      </div>
-                    </td>
-                    <td class="px-6 py-5">
-                      <div class="w-full max-w-[120px]">
-                        <div
-                          class="flex justify-between text-[10px] font-bold mb-1">
-                          <span>-- GB</span>
-                          <span class="text-slate-300">0%</span>
-                        </div>
-                        <div
-                          class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                          <div
-                            class="h-full bg-slate-200 rounded-full"
-                            style="width: 0%"></div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-6 py-5 text-right">
-                      <div class="flex items-center justify-end gap-1">
-                        <button
-                          class="p-2 hover:bg-primary-container/10 text-primary rounded-lg transition-colors">
-                          <span class="material-symbols-outlined"
-                            >visibility</span
-                          >
-                        </button>
-                        <button
-                          class="p-2 hover:bg-slate-100 text-slate-500 rounded-lg transition-colors">
-                          <span class="material-symbols-outlined">edit</span>
-                        </button>
-                        <button
-                          class="p-2 hover:bg-sky-500 hover:text-white text-slate-500 rounded-lg transition-colors">
-                          <span class="material-symbols-outlined"
-                            >settings_ethernet</span
-                          >
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <!-- Row 4 -->
-                  <tr class="hover:bg-primary-fixed/5 transition-colors group">
-                    <td class="px-6 py-5">
-                      <div class="flex items-center gap-3">
-                        <div
-                          class="w-10 h-10 rounded-full bg-slate-100 overflow-hidden">
-                          <img
-                            alt="Customer"
-                            class="w-full h-full object-cover"
-                            data-alt="middle-aged man with a short beard and professional appearance looking at the camera in a modern loft"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8887Q1qAh6MlBXchfUIdyuD0EzlRisaAWlEGcKt-_2aTHOml0cgIdoTGx25SPlhc3NvCL9HVe3LvH-ytEg0D7A0B2p5xSvxWpeN0GL6GDjxSsBxHT8D8X2yh2ur_mHu7R4XVzdMKEhuYDOKYUfTo7JLwPF9hb-Fj0aiKpswK_wuao5nxtlajMK5CNdLmUjIph93I58foEmemuinDlFvb7uhRbXgNwlj_u0ClZrvusC24Um5dgEG7hWcqXdXuATql-nzQdv0FKvu0p" />
-                        </div>
-                        <div>
-                          <p class="font-bold text-on-surface leading-tight">
-                            David Chen
-                          </p>
-                          <div class="flex items-center gap-1.5 mt-1">
-                            <span
-                              class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                            <span
-                              class="text-[11px] font-semibold text-green-600 uppercase"
-                              >Active</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-6 py-5">
-                      <span
-                        class="font-mono text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded"
-                        >NF-9901-ZZ</span
-                      >
-                    </td>
-                    <td class="px-6 py-5">
-                      <p
-                        class="text-xs text-on-surface font-medium truncate max-w-[180px]">
-                        101 Silicon Valley Blvd, Palo Alto
-                      </p>
-                    </td>
-                    <td class="px-6 py-5">
-                      <div class="flex flex-col">
-                        <span class="text-sm font-bold text-sky-600"
-                          >Enterprise Dedicated</span
-                        >
-                        <span class="text-[10px] text-slate-400 font-medium"
-                          >10 Gbps Managed</span
-                        >
-                      </div>
-                    </td>
-                    <td class="px-6 py-5">
-                      <div class="w-full max-w-[120px]">
-                        <div
-                          class="flex justify-between text-[10px] font-bold mb-1">
-                          <span>2,480 GB</span>
-                          <span class="text-primary">94%</span>
-                        </div>
-                        <div
-                          class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                          <div
-                            class="h-full bg-primary rounded-full"
-                            style="width: 94%"></div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-6 py-5 text-right">
-                      <div class="flex items-center justify-end gap-1">
-                        <button
-                          class="p-2 hover:bg-primary-container/10 text-primary rounded-lg transition-colors">
-                          <span class="material-symbols-outlined"
-                            >visibility</span
-                          >
-                        </button>
-                        <button
-                          class="p-2 hover:bg-slate-100 text-slate-500 rounded-lg transition-colors">
-                          <span class="material-symbols-outlined">edit</span>
-                        </button>
-                        <button
-                          class="p-2 hover:bg-sky-500 hover:text-white text-slate-500 rounded-lg transition-colors">
-                          <span class="material-symbols-outlined"
-                            >settings_ethernet</span
-                          >
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+
+                <tbody class="divide-y divide-neutral/10">
+                  <tr
+                    is="customer-row"
+                    name="Sarah Jenkins"
+                    status="Active"
+                    customer-id="NF-8829-XP"
+                    address="742 Evergreen Terrace, Springfield"
+                    plan="Fiber Giga-Max"
+                    speed="1000 Mbps Symmetric"
+                    usage="42.5 GB"
+                    usage-pct="82"
+                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuB5a6MG7DuHedzU3XJfS-jy8HUod07zc0-UxsdYAGgnXYWcGYmFJYy55u-LZxmCXf_1aH1ztIdQyvOTYm4nPoYR9jcsyW8h4qhWNcQbujZAFLhQiuYme7yWf66g3WMq1tDMHe7Cb0SuGuySLKqPk88gd5A3cwS59Q2tAddn5zjT1bb28CCWsCwgAImR4g2kmRslu49JxRCQq7uCWVk8xMT_7ZfuNh8M75TjGUNTrvw4QE94I57Px9f9y1b7zhuifX4iSqx98Cw2wn_q"></tr>
+
+                  <tr
+                    is="customer-row"
+                    name="Marcus Thorne"
+                    status="Suspended"
+                    customer-id="NF-1102-LL"
+                    address="12 Arkham Way, Gotham City"
+                    plan="Standard Plus"
+                    speed="100 Mbps Down"
+                    usage="0.2 GB"
+                    usage-pct="1"
+                    img=""></tr>
+
+                  <tr
+                    is="customer-row"
+                    name="Elena Rodriguez"
+                    status="Pending"
+                    customer-id="NF-5541-QA"
+                    address="221B Baker St, London"
+                    plan="Home Office Pro"
+                    speed="500 Mbps Up/Down"
+                    usage="-- GB"
+                    usage-pct="0"
+                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuCI1Au_XaRP-cK3tf5PJ6Cj-qNuGZEyl1Zy1580k1LmSWvS92bgjajswZV2FqStKXG6jluUNNuv9_cK68bbebdJHzBAgoRRSEv5iNQnK__RqEDYwDSnVwZhxtJIHnw1N35lilFm3OwiGYItW0P3CJyxnf4h2z_77BHUn19wGuahvsMFb5BL39NHSMh0KWwntTzfDK4LD2aEZVHYOE4mbbZjMJC3nzyU5CYVl0eJAw49qC9m0j6brE2GUQZdNIlGMldnuor5j81cI5QL"></tr>
+
+                  <tr
+                    is="customer-row"
+                    name="David Chen"
+                    status="Active"
+                    customer-id="NF-9901-ZZ"
+                    address="101 Silicon Valley Blvd, Palo Alto"
+                    plan="Enterprise Dedicated"
+                    speed="10 Gbps Managed"
+                    usage="2,480 GB"
+                    usage-pct="94"
+                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuC8887Q1qAh6MlBXchfUIdyuD0EzlRisaAWlEGcKt-_2aTHOml0cgIdoTGx25SPlhc3NvCL9HVe3LvH-ytEg0D7A0B2p5xSvxWpeN0GL6GDjxSsBxHT8D8X2yh2ur_mHu7R4XVzdMKEhuYDOKYUfTo7JLwPF9hb-Fj0aiKpswK_wuao5nxtlajMK5CNdLmUjIph93I58foEmemuinDlFvb7uhRbXgNwlj_u0ClZrvusC24Um5dgEG7hWcqXdXuATql-nzQdv0FKvu0p"></tr>
                 </tbody>
               </table>
-              <!-- Pagination -->
+
               <div
-                class="px-6 py-4 bg-surface-container-low/30 flex items-center justify-between border-t border-slate-100">
-                <p class="text-xs font-medium text-slate-500">
-                  Showing <span class="text-slate-900">1-4</span> of
-                  <span class="text-slate-900">12,482</span> customers
+                class="px-6 py-4 bg-base-200/30 flex items-center justify-between border-t border-neutral/10">
+                <p class="text-xs font-medium text-base-content/60">
+                  Showing
+                  <span class="text-base-content font-bold">1-4</span> of
+                  <span class="text-base-content font-bold">12,482</span>
+                  customers
                 </p>
                 <div class="flex items-center gap-2">
                   <button
-                    class="p-2 rounded-lg border border-outline-variant/20 bg-white hover:bg-slate-50 disabled:opacity-50"
-                    disabled="">
+                    class="p-2 rounded-lg border border-neutral/10 bg-base-100 hover:bg-base-200 disabled:opacity-50"
+                    disabled>
                     <span class="material-symbols-outlined">chevron_left</span>
                   </button>
                   <button
-                    class="w-8 h-8 rounded-lg bg-primary text-white text-xs font-bold">
+                    class="w-8 h-8 rounded-lg bg-primary text-primary-content text-xs font-bold">
                     1
                   </button>
                   <button
-                    class="w-8 h-8 rounded-lg hover:bg-slate-100 text-xs font-bold text-slate-600">
+                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70">
                     2
                   </button>
                   <button
-                    class="w-8 h-8 rounded-lg hover:bg-slate-100 text-xs font-bold text-slate-600">
+                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70">
                     3
                   </button>
-                  <span class="text-slate-400 px-1">...</span>
+                  <span class="text-base-content/40 px-1">...</span>
                   <button
-                    class="w-8 h-8 rounded-lg hover:bg-slate-100 text-xs font-bold text-slate-600">
+                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70">
                     42
                   </button>
                   <button
-                    class="p-2 rounded-lg border border-outline-variant/20 bg-white hover:bg-slate-50">
+                    class="p-2 rounded-lg border border-neutral/10 bg-base-100 hover:bg-base-200">
                     <span class="material-symbols-outlined">chevron_right</span>
                   </button>
                 </div>

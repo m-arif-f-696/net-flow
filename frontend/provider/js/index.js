@@ -7,6 +7,7 @@ import TableRowPackage from "./components/TableRowPackage.js";
 import CardPackage from "./components/CardPackage.js";
 import TableRowCustomer from "./components/TableRowCustomer.js";
 import WizardCreatePackage from "./components/WizardCreatePackage.js";
+import CustomerRow from "./components/CustomerRow.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await Promise.all([
