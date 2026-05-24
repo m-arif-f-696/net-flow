@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Net Flow Provider</title>
+    <link href="../css/output.css" rel="stylesheet" />
+    <link
+      rel="shortcut icon"
+      href="../assets/images/logo.svg"
+      type="image/x-icon" />
+    <script type="module" src="js/index.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+  </head>
+  <body data-page="transactions">
+    <div
+      id="page-loader"
+      class="fixed inset-0 z-100 bg-base-100 flex items-center justify-center">
+      <span class="loading loading-spinner loading-lg text-primary"></span>
+    </div>
+    <div class="drawer lg:drawer-open">
+      <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+
+      <div class="drawer-content flex flex-col">
+        <div>
+          <nav-bar-provider
+            data-crumbs='[
+      {"label": "NetFlow", "url": "../index.html"},  
+      {"label": "Transaksi", "url": null}
+    ]'></nav-bar-provider>
+
+          <main class="p-8 lg:p-12 flex-grow bg-base-100 flex flex-col gap-8">
+            <section>
+              <h1 class="font-bold text-2xl">Pusat Transaksi</h1>
+              <p class="text-base-content/80">
+                Informasi mengenai transaksi dan juga pengaturan keuangan
+                provider.
+              </p>
+            </section>
+            <!-- Bento Grid / Package Grid -->
+            <!-- Revenue Summary Grid -->
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <!-- Large Revenue Card -->
+              <div
+                class="lg:col-span-2 relative overflow-hidden bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/15 flex flex-col justify-between min-h-[280px]">
+                <div class="relative z-10">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <p class="text-sm font-medium text-on-surface-variant">
+                        Monthly Recurring Revenue
+                      </p>
+                      <h3
+                        class="text-5xl font-black font-headline text-on-background mt-2 tracking-tight">
+                        $142,850.00
+                      </h3>
+                    </div>
+                    <div
+                      class="bg-primary/10 px-3 py-1 rounded-full text-primary text-xs font-bold flex items-center gap-1">
+                      <span class="material-symbols-outlined text-xs"
+                        >trending_up</span
+                      >
+                      +12.4%
+                    </div>
+                  </div>
+                </div>
+                <!-- Decorative Mesh Background -->
+                <div class="absolute inset-0 opacity-10 pointer-events-none">
+                  <div
+                    class="absolute -right-20 -top-20 w-80 h-80 bg-primary blur-[100px] rounded-full"></div>
+                  <div
+                    class="absolute -left-20 -bottom-20 w-80 h-80 bg-sky-400 blur-[100px] rounded-full"></div>
+                </div>
+                <div
+                  class="relative z-10 flex flex-wrap gap-8 md:gap-12 mt-8 border-t border-outline-variant/10 pt-6">
+                  <div>
+                    <p
+                      class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-1">
+                      Active Subscriptions
+                    </p>
+                    <p class="text-xl font-bold text-on-background">4,821</p>
+                  </div>
+                  <div>
+                    <p
+                      class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-1">
+                      Average ARPU
+                    </p>
+                    <p class="text-xl font-bold text-on-background">$29.63</p>
+                  </div>
+                  <div>
+                    <p
+                      class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-1">
+                      Churn Rate
+                    </p>
+                    <p class="text-xl font-bold text-on-background">0.82%</p>
+                  </div>
+                </div>
+              </div>
+              <!-- Outstanding Invoices Card -->
+              <div
+                class="bg-surface-container-low rounded-xl p-8 flex flex-col justify-between border border-outline-variant/10">
+                <div>
+                  <p class="text-sm font-medium text-on-surface-variant">
+                    Outstanding Invoices
+                  </p>
+                  <h3
+                    class="text-4xl font-black font-headline text-on-background mt-2 tracking-tight">
+                    $8,210.40
+                  </h3>
+                  <div class="mt-4 flex items-center gap-2">
+                    <div
+                      class="h-2 flex-1 bg-white rounded-full overflow-hidden">
+                      <div class="bg-tertiary w-3/4 h-full"></div>
+                    </div>
+                    <span class="text-[10px] font-bold text-tertiary"
+                      >75% Collected</span
+                    >
+                  </div>
+                </div>
+                <div class="space-y-3 mt-8">
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-on-surface-variant"
+                      >Past Due (1-30d)</span
+                    >
+                    <span class="font-bold text-on-background">$5,420</span>
+                  </div>
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-on-surface-variant">Past Due (31d+)</span>
+                    <span class="font-bold text-error">$2,790</span>
+                  </div>
+                  <button
+                    class="w-full mt-2 py-2 text-primary font-bold text-xs uppercase tracking-widest border border-primary/20 rounded-lg hover:bg-primary/5 transition-colors">
+                    Send Reminders
+                  </button>
+                </div>
+              </div>
+            </section>
+            <!-- Relocated Grid: Payout Settings & Billing Assistant -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Payout Settings Card -->
+              <div
+                class="bg-surface-container-highest/30 rounded-xl p-6 border border-outline-variant/10">
+                <h4
+                  class="text-sm font-bold font-headline mb-4 flex items-center gap-2">
+                  <span class="material-symbols-outlined text-primary text-sm"
+                    >account_balance</span
+                  >
+                  Payout Settings
+                </h4>
+                <div
+                  class="p-4 bg-white rounded-lg mb-6 border border-outline-variant/10">
+                  <p
+                    class="text-[10px] text-on-surface-variant font-bold uppercase mb-2">
+                    Connected Bank
+                  </p>
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <div class="w-6 h-4 bg-blue-600 rounded-sm"></div>
+                      <span class="text-sm font-bold">Chase •••• 9921</span>
+                    </div>
+                    <span
+                      class="material-symbols-outlined text-sm text-green-500"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >check_circle</span
+                    >
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                  <div class="flex flex-col text-xs">
+                    <span class="text-on-surface-variant font-medium"
+                      >Payout Frequency</span
+                    >
+                    <span class="font-bold">Weekly (Mon)</span>
+                  </div>
+                  <div class="flex flex-col text-xs">
+                    <span class="text-on-surface-variant font-medium"
+                      >Next Payout</span
+                    >
+                    <span class="font-bold text-sky-600">Oct 16, 2023</span>
+                  </div>
+                </div>
+                <button
+                  class="w-full py-2 bg-primary text-base-100 text-xs font-bold rounded-lg hover:opacity-90 transition-opacity">
+                  Edit Payout Schedule
+                </button>
+              </div>
+              <!-- Billing Assistant Card -->
+              <div
+                class="relative overflow-hidden bg-primary text-white rounded-xl p-6 shadow-xl shadow-primary/20 flex flex-col justify-between">
+                <div class="relative z-10">
+                  <h4
+                    class="font-bold font-headline mb-2 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">book</span>
+                    Billing Guide
+                  </h4>
+                  <p class="text-xs opacity-80 leading-relaxed mb-6">
+                    Master your financial operations with our comprehensive
+                    billing and invoice management guide.
+                  </p>
+                </div>
+                <div class="relative z-10 flex gap-3">
+                  <a
+                    class="flex-1 py-2 bg-white/20 hover:bg-white/30 text-center text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-2"
+                    href="#"
+                    ><span class="material-symbols-outlined text-sm"
+                      >download</span
+                    >
+                    Download PDF Guide</a
+                  >
+                </div>
+                <!-- Abstract Mesh Decoration -->
+                <div
+                  class="absolute -right-10 -bottom-10 opacity-30 pointer-events-none">
+                  <span
+                    class="material-symbols-outlined text-[140px]"
+                    style="font-variation-settings: &quot;wght&quot; 100"
+                    >payments</span
+                  >
+                </div>
+              </div>
+            </section>
+            <!-- Recent Transactions Detailed Table -->
+            <section class="space-y-6">
+              <div class="flex items-center justify-between">
+                <h4 class="text-xl font-bold font-headline">
+                  Recent Transactions
+                </h4>
+                <div class="flex gap-2">
+                  <div class="flex bg-surface-container rounded-lg p-1">
+                    <button
+                      class="px-4 py-1.5 bg-white text-primary text-xs font-bold rounded-md shadow-sm">
+                      All Transactions
+                    </button>
+                    <button
+                      class="px-4 py-1.5 text-on-surface-variant text-xs font-medium hover:text-primary transition-colors">
+                      Pending
+                    </button>
+                    <button
+                      class="px-4 py-1.5 text-on-surface-variant text-xs font-medium hover:text-primary transition-colors">
+                      Overdue
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="bg-surface-container-lowest rounded-xl border border-outline-variant/15 overflow-hidden shadow-sm">
+                <div class="overflow-x-auto">
+                  <table class="w-full text-left text-sm whitespace-nowrap">
+                    <thead
+                      class="bg-surface font-medium text-on-surface-variant border-b border-outline-variant/15">
+                      <tr>
+                        <th
+                          class="px-6 py-4 font-semibold font-label text-xs uppercase tracking-wider">
+                          ID Transaksi
+                        </th>
+                        <th
+                          class="px-6 py-4 font-semibold font-label text-xs uppercase tracking-wider">
+                          Nama Pelanggan
+                        </th>
+                        <th
+                          class="px-6 py-4 font-semibold font-label text-xs uppercase tracking-wider">
+                          Nama Paket
+                        </th>
+                        <th
+                          class="px-6 py-4 font-semibold font-label text-xs uppercase tracking-wider">
+                          Tanggal
+                        </th>
+                        <th
+                          class="px-6 py-4 font-semibold font-label text-xs uppercase tracking-wider text-right">
+                          Total Bayar
+                        </th>
+                        <th
+                          class="px-6 py-4 font-semibold font-label text-xs uppercase tracking-wider text-center">
+                          Status Pembayaran
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="divide-y divide-outline-variant/10 bg-surface-container-lowest">
+                      <tr
+                        class="hover:bg-surface-container-low/50 transition-colors duration-150">
+                        <td class="px-6 py-4 font-medium text-on-surface">
+                          TR-001
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          Budi Wisesa
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          Maju Keluarga
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          2024-06-15
+                        </td>
+                        <td
+                          class="px-6 py-4 text-on-surface font-medium text-right">
+                          Rp 350.000
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                          <span
+                            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 uppercase tracking-tighter">
+                            Sukses
+                          </span>
+                        </td>
+                      </tr>
+                      <tr
+                        class="hover:bg-surface-container-low/50 transition-colors duration-150">
+                        <td class="px-6 py-4 font-medium text-on-surface">
+                          TR-002
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          Citra Dewi
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          Speedy Pro
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          2024-06-15
+                        </td>
+                        <td
+                          class="px-6 py-4 text-on-surface font-medium text-right">
+                          Rp 600.000
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                          <span
+                            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 uppercase tracking-tighter">
+                            Sukses
+                          </span>
+                        </td>
+                      </tr>
+                      <tr
+                        class="hover:bg-surface-container-low/50 transition-colors duration-150">
+                        <td class="px-6 py-4 font-medium text-on-surface">
+                          TR-003
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          Ahmad Dhani
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          Basic Home
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          2024-06-14
+                        </td>
+                        <td
+                          class="px-6 py-4 text-on-surface font-medium text-right">
+                          Rp 200.000
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                          <span
+                            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 uppercase tracking-tighter">
+                            Pending
+                          </span>
+                        </td>
+                      </tr>
+                      <tr
+                        class="hover:bg-surface-container-low/50 transition-colors duration-150">
+                        <td class="px-6 py-4 font-medium text-on-surface">
+                          TR-004
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          Siti Aminah
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          Ultra Gaming
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          2024-06-14
+                        </td>
+                        <td
+                          class="px-6 py-4 text-on-surface font-medium text-right">
+                          Rp 950.000
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                          <span
+                            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 uppercase tracking-tighter">
+                            Sukses
+                          </span>
+                        </td>
+                      </tr>
+                      <tr
+                        class="hover:bg-surface-container-low/50 transition-colors duration-150">
+                        <td class="px-6 py-4 font-medium text-on-surface">
+                          TR-005
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          Eko Prasetyo
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          Maju Keluarga
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant">
+                          2024-06-13
+                        </td>
+                        <td
+                          class="px-6 py-4 text-on-surface font-medium text-right">
+                          Rp 350.000
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                          <span
+                            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 uppercase tracking-tighter">
+                            Pending
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Pagination Footer -->
+                <div
+                  class="px-6 py-4 border-t border-outline-variant/15 flex items-center justify-between text-sm text-on-surface-variant font-medium">
+                  <span class="">Showing 1 to 5 of 24 transactions</span>
+                  <div class="flex gap-1">
+                    <button
+                      class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container transition-colors disabled:opacity-30"
+                      disabled="">
+                      <span class="material-symbols-outlined text-sm"
+                        >chevron_left</span
+                      >
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center rounded bg-primary text-white text-xs font-bold">
+                      1
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container text-xs transition-colors">
+                      2
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container text-xs transition-colors">
+                      3
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container transition-colors">
+                      <span class="material-symbols-outlined text-sm"
+                        >chevron_right</span
+                      >
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </main>
+        </div>
+      </div>
+
+      <div class="drawer-side is-drawer-close:overflow-visible z-50">
+        <label
+          for="my-drawer-4"
+          aria-label="close sidebar"
+          class="drawer-overlay"></label>
+
+        <side-bar-provider
+          class="h-full block"
+          id="sidebar"></side-bar-provider>
+      </div>
+    </div>
+
+    <script type="module" src="./js/pages/packages.js"></script>
+  </body>
+</html>

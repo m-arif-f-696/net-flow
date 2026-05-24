@@ -1,8 +1,7 @@
-const contentPackage = document.querySelector("#content-packages");
-
 export const loadDataPackage = async () => {
-  console.log("click");
-  renderLoadingSkeleton();
+  const contentPackage = document?.querySelector("#content-packages");
+  if (!contentPackage) return;
+  renderLoadingSkeleton(contentPackage);
   let data;
   try {
     const res = await fetch("/provider/data/listpackage.json");
@@ -39,7 +38,7 @@ export const loadDataPackage = async () => {
   ${sideCardStats}
   <div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
     ${packageCardList}
-    <a href='create-package.html'
+    <a href='add-package.html'
       class="border-2 border-dashed border-neutral/30 rounded-xl p-6 flex flex-col items-center justify-center gap-4 hover:border-primary hover:bg-primary/5 transition-all group min-h-[300px]">
       <div
         class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-primary group-hover:text-white transition-colors">
@@ -62,8 +61,8 @@ export const loadDataPackage = async () => {
     `;
 };
 
-function renderLoadingSkeleton() {
-  contentPackage.innerHTML = /*html*/ `
+function renderLoadingSkeleton(content) {
+  content.innerHTML = /*html*/ `
     <div class="skeleton lg:col-span-8 rounded-xl h-96"></div>
     <div class="skeleton lg:col-span-4 rounded-xl h-96"></div>
     <div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
@@ -256,3 +255,22 @@ function renderPackageCardList(dataPackages) {
 }
 
 window.loadDataPackage = loadDataPackage;
+
+export const formCreatePackage = () => {
+  const wizardCreatePackage = document?.querySelector("wizard-create-package");
+  if (!wizardCreatePackage) {
+    return;
+  }
+
+  wizardCreatePackage.addEventListener("wizard-submit", async (e) => {
+    const payload = e.detail;
+    console.log(payload); // semua data dari 3 step
+
+    // kirim ke API
+    // const res = await fetch("/api/packages", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(payload),
+    // });
+  });
+};
