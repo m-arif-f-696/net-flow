@@ -8,6 +8,11 @@ import CardPackage from "./components/CardPackage.js";
 import TableRowCustomer from "./components/TableRowCustomer.js";
 import WizardCreatePackage from "./components/WizardCreatePackage.js";
 import CustomerRow from "./components/CustomerRow.js";
+import BillingGuideCard from "./components/BillingGuideCard.js";
+import InvoiceOutstandingCard from "./components/InvoiceOutstandingCard.js";
+import PayoutSettingsCard from "./components/PayoutSettingsCard.js";
+import TransactionSummaryCard from "./components/TransactionSummaryCard.js";
+import TransactionTable from "./components/TransactionTable.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await Promise.all([
