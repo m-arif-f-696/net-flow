@@ -26,3 +26,35 @@
         transparent 40%
       );
 }
+
+@layer utilities {
+  .step-slide {
+    animation: slideIn 0.3s ease forwards;
+  }
+
+  .step-slide-back {
+    animation: slideInBack 0.3s ease forwards;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInBack {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
