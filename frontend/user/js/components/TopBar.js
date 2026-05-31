@@ -1,74 +1,12 @@
-export default class SideBarProvider extends HTMLElement {
-  setMenu(menuItems) {
-    this._menuItems = menuItems;
-    this.render(menuItems);
-  }
-
+export default class TopBar extends HTMLElement {
   connectedCallback() {
-    if (this._menuItems) {
-      this.render(this._menuItems);
-      return;
-    }
-
-    const menuAttr = this.getAttribute("data-menu");
-
-    let menuItems = [
-      {
-        label: "Dashboard",
-        url: "dashboard.html",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-              </svg>`,
-        active: true,
-      },
-    ];
-
-    if (menuAttr) {
-      try {
-        const cleanData = menuAttr.replace(/\r?\n|\r/g, " ").trim();
-        menuItems = JSON.parse(cleanData);
-      } catch (error) {
-        console.error("Format JSON pada data-crumbs tidak valid!", error);
-      }
-    }
-
-    this.render(menuItems);
+    this.render();
   }
 
-  generateMenuItemHTML(menuItems) {
-    return menuItems
-      .map((menu) => {
-        // Cek apakah ini adalah elemen terakhir
-
-        // Jika ini elemen terakhir ATAU tidak punya URL, jadikan teks biasa (warna primary)
-        if (!menu.active) {
-          return /*html*/ `<li>
-            <a href="${menu.url}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right text-base-content/70 hover:text-primary hover:bg-primary/10" data-tip="${menu.label}">
-              ${menu.svg}
-
-              <span class="is-drawer-close:hidden transition-opacity duration-200">${menu.label}</span>
-            </a>
-          </li>`;
-        }
-        // Jika bukan terakhir dan punya URL, jadikan link
-        else {
-          return /*html*/ `<li>
-            <a href="${menu.url}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right text-primary bg-primary/10 border-r-2 border-primary/500" data-tip="${menu.label}">
-              ${menu.svg}
-
-              <span class="is-drawer-close:hidden transition-opacity duration-200">${menu.label}</span>
-            </a>
-          </li>`;
-        }
-      })
-      .join(""); // Gabungkan semua elemen array menjadi satu string HTML
-  }
-
-  render(menuItems) {
+  render() {
     this.innerHTML = /*html*/ `
-      <div class="flex min-h-full flex-col items-start bg-base-200 text-base-content is-drawer-close:w-15 is-drawer-open:w-64 border-r border-base-300 transition-all duration-300 ease-in-out">
-        
-        <div class="py-4 w-full flex items-center justify-center gap-3 border-b border-base-300 font-bold">
+      <header class="fixed top-0 w-full z-50 bg-base-100 backdrop-blur-xl border-b border-sky-100 shadow-sm flex items-center justify-between px-6 h-16">
+        <div class="py-4 flex items-center justify-center gap-3 font-bold">
           <a href="#" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="NetFlow">
             <svg
               viewBox="0 0 500 500"
@@ -98,27 +36,27 @@ export default class SideBarProvider extends HTMLElement {
                 d="M313.233 99.5677C321.233 69.7113 335.9 66.682 346.233 73.0989C356.567 79.5158 388.149 91.8661 362.631 106.599C330.733 125.015 322.233 133.599 313.233 153.599C309.493 161.912 305.68 175.354 302.482 188.526C309.557 196.592 315.234 206.016 319.033 216.645C330.051 210.075 343.015 199.668 349.733 185.963C359.733 165.564 376.798 173.848 380.233 182.963C384.567 194.463 388.333 218.663 368.733 223.463C354.996 226.827 336.69 229.731 322.837 231.627C323.97 239.099 323.99 246.55 323.042 253.866C325.772 254.563 328.586 255.319 331.455 256.139C355.451 262.995 383.451 274.276 399.108 291.978C406.136 299.924 412.023 307.815 416.152 313.718C418.217 316.67 419.844 319.126 420.954 320.845C421.509 321.704 421.935 322.38 422.223 322.841C422.366 323.071 422.476 323.248 422.55 323.367C422.586 323.427 422.614 323.473 422.633 323.503C422.642 323.518 422.649 323.53 422.653 323.537C422.656 323.541 422.658 323.544 422.659 323.546C422.66 323.547 422.66 323.549 422.66 323.549H422.661V323.55L422.755 323.704L422.728 323.883L418.228 353.883L418.141 354.464L417.581 354.285L405.081 350.285L404.881 350.221L404.787 350.033C404.787 350.033 404.786 350.032 404.785 350.031C404.784 350.029 404.783 350.025 404.781 350.022C404.777 350.014 404.771 350.002 404.763 349.987C404.747 349.955 404.724 349.908 404.692 349.847C404.63 349.724 404.537 349.541 404.416 349.306C404.174 348.835 403.821 348.152 403.375 347.302C402.482 345.603 401.217 343.239 399.729 340.582C396.751 335.262 392.889 328.788 389.335 324.112C375.207 305.525 362.742 295.639 343.505 285.753C335.727 281.756 325.086 279.861 315.89 278.982C308.101 296.542 295.042 312.291 279.167 324.249C277.511 325.496 275.825 326.69 274.113 327.832C278.513 340.534 285.123 353.689 296.233 358.809C316.867 368.317 319.264 397.656 310.233 401.309C298.841 405.916 281.002 410.788 275.733 391.309C272.567 379.6 266.775 355.014 262.305 334.664C249.079 341.216 234.795 344.803 220.612 344.934C210.902 362.816 193.43 380.937 170.233 387.153C132.634 397.227 108.567 397.121 101.233 395.809V360.809C101.336 360.825 140.233 366.809 161.233 360.809C174.597 356.991 186.548 350.829 195.869 341.458C187.781 339.02 179.968 335.267 172.674 330.098C139.608 306.665 126.174 263.525 137.932 224.158C141.815 211.157 148.171 199.436 156.389 189.52C149.874 185.015 143.023 181.828 135.233 177.809C124.58 172.312 117.221 171.318 105.233 171.309C90.7197 171.297 72.3003 171.309 72.2334 171.309L69.2334 158.809L76.7334 146.309C76.8129 146.296 106.921 141.592 131.233 146.309C147.993 149.561 164.378 160.822 176.567 171.265C190.582 161.875 207.108 156.326 224.717 155.846C243.25 155.341 261.475 159.741 277.169 168.342C291.598 147.083 307.799 119.847 313.233 99.5677Z"
                 fill="currentColor" />
             </svg>
+            <span class="ml-1">NetFlow</span>
           </a>
-          <span class="is-drawer-close:hidden transition-opacity duration-200">NetFlow</span>
         </div>
-
-        <ul class="menu w-full grow gap-3">
-
-        ${this.generateMenuItemHTML(menuItems)}
-
-          <li class="mt-auto pt-2 border-t border-base-300">
-            <a href="#" class="is-drawer-close:tooltip is-drawer-close:tooltip-right text-base-content/70 hover:text-error hover:bg-error/10" data-tip="Logout">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-              </svg>
-
-              <span class="is-drawer-close:hidden transition-opacity duration-200">Logout</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="w-10 h-10 rounded-full overflow-hidden border-2 border-sky-200">
+            <img
+              alt="User profile avatar"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaTsDIPojInvUPGZXJBM07oQvn2mx6JdJR9oDijWX221Vd6eT9_gSU_zn6271QkRcJ3LvQfrkg8az8nKJQgwvr7ob8Idun3y_DVSzF-f2nMQ2gnpwvV95bugItRjJJPKnCgQpCPUBgaepszcbxROdOPyn1otwARHYplyo5iElHansbrt7CELWiXRcBrdah6vGe-ESBp_jl_9_ExV-TRXe7wzAaPMAaunRU9M0gw-4cqwb_0YayYBkSqAOzdtaNmsJOI6Jsso-jriMF"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+            <li><a href="#" class="text-neutral-500">Profile</a></li>
+            <li><a href="#" class="text-neutral-500">Settings</a></li>
+            <li><a href="#" class="text-neutral-500">Logout</a></li>
+          </ul>
+        </div>
+          
+      </header>
     `;
   }
 }
 
-customElements.define("side-bar-provider", SideBarProvider);
+customElements.define("top-bar", TopBar);
