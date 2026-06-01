@@ -41,14 +41,8 @@ async function getProfile() {
       credentials: "include",
     });
     const data = await response.json();
-    if (data.code === 401) {
-      window.location.href = "../auth/login.html";
-    }
     return data;
   } catch (error) {
-    if (error.code === 401) {
-      window.location.href = "../auth/login.html";
-    }
     return error;
   }
 }

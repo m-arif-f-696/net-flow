@@ -22,6 +22,10 @@ class AuthController {
                 $this->processRegister();
                 break;
 
+            case "logout" : 
+                $this->processLogout();
+                break;
+
             default :
                 http_response_code(404);
                 echo json_encode(["message" => "Endpoint not found or invalid action"]);
@@ -151,6 +155,16 @@ class AuthController {
             http_response_code(500); // Internal Server Error
             echo json_encode(["message" => "Gagal menyimpan data user."]);
         }
+  }
+
+  private function processLogout() : void {
+    setcookie("access_token", "", time() - 3600, "/");
+
+    http_response_code(200);
+    echo json_encode([
+      "success" => true,
+      "message" => "Logout Successful"
+    ]);
   }
 
 

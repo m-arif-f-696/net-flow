@@ -8,22 +8,26 @@
     <link
       rel="shortcut icon"
       href="../assets/images/logo.svg"
-      type="image/x-icon" />
+      type="image/x-icon"
+    />
     <script type="module" src="js/index.js"></script>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
   </head>
   <body data-page="dashboard">
     <div
       id="page-loader"
-      class="fixed inset-0 z-50 bg-base-100 flex items-center justify-center">
+      class="fixed inset-0 z-50 bg-base-100 flex items-center justify-center"
+    >
       <span class="loading loading-spinner loading-lg text-primary"></span>
     </div>
     <div class="drawer lg:drawer-open">
@@ -35,9 +39,11 @@
             data-crumbs='[
       {"label": "NetFlow", "url": "../index.html"},  
       {"label": "Dashboard", "url": null}
-    ]'></nav-bar-provider>
+    ]'
+          ></nav-bar-provider>
 
           <main class="p-8 lg:p-12 flex-grow bg-base-100 flex flex-col gap-8">
+            <notification-confirm></notification-confirm>
             <section>
               <h1 class="font-bold text-2xl">Dashboard</h1>
               <p class="text-base-content/80">
@@ -49,10 +55,12 @@
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- card-1 -->
                 <div
-                  class="bg-primary/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group">
+                  class="bg-primary/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group"
+                >
                   <div class="flex justify-between items-start mb-4">
                     <div
-                      class="w-10 h-10 flex justify-center items-center bg-primary/40 rounded-xl group-hover:bg-primary group-hover:text-base-100 transition-colors">
+                      class="w-10 h-10 flex justify-center items-center bg-primary/40 rounded-xl group-hover:bg-primary group-hover:text-base-100 transition-colors"
+                    >
                       <span class="material-symbols-outlined">group</span>
                     </div>
                   </div>
@@ -61,10 +69,12 @@
                 </div>
                 <!-- card-2 -->
                 <div
-                  class="bg-accent/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group">
+                  class="bg-accent/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group"
+                >
                   <div class="flex justify-between items-start mb-4">
                     <div
-                      class="w-10 h-10 flex justify-center items-center bg-accent/40 rounded-xl group-hover:bg-accent group-hover:text-base-100 transition-colors">
+                      class="w-10 h-10 flex justify-center items-center bg-accent/40 rounded-xl group-hover:bg-accent group-hover:text-base-100 transition-colors"
+                    >
                       <span class="material-symbols-outlined">payments</span>
                     </div>
                   </div>
@@ -73,10 +83,12 @@
                 </div>
                 <!-- card-3 -->
                 <div
-                  class="bg-info/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group">
+                  class="bg-info/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group"
+                >
                   <div class="flex justify-between items-start mb-4">
                     <div
-                      class="w-10 h-10 flex justify-center items-center bg-info/40 rounded-xl group-hover:bg-info group-hover:text-base-100 transition-colors">
+                      class="w-10 h-10 flex justify-center items-center bg-info/40 rounded-xl group-hover:bg-info group-hover:text-base-100 transition-colors"
+                    >
                       <span class="material-symbols-outlined">inventory_2</span>
                     </div>
                   </div>
@@ -85,10 +97,12 @@
                 </div>
                 <!-- card-4 -->
                 <div
-                  class="bg-error/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group">
+                  class="bg-error/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group"
+                >
                   <div class="flex justify-between items-start mb-4">
                     <div
-                      class="w-10 h-10 flex justify-center items-center bg-error/40 rounded-xl group-hover:bg-error group-hover:text-base-100 transition-colors">
+                      class="w-10 h-10 flex justify-center items-center bg-error/40 rounded-xl group-hover:bg-error group-hover:text-base-100 transition-colors"
+                    >
                       <span class="material-symbols-outlined"
                         >confirmation_number</span
                       >
@@ -104,14 +118,17 @@
                 <!-- Left: Aktivitas Terbaru Panel (Col 8) -->
                 <div class="col-span-12 lg:col-span-8">
                   <div
-                    class="bg-base-200 rounded-2xl border border-neutral/10 overflow-hidden shadow-sm col-span-6">
+                    class="bg-base-200 rounded-2xl border border-neutral/10 overflow-hidden shadow-sm col-span-6"
+                  >
                     <div
-                      class="bg-base-300 p-6 border-b border-neutral/10 flex justify-between items-center">
+                      class="bg-base-300 p-6 border-b border-neutral/10 flex justify-between items-center"
+                    >
                       <h3 class="text-lg font-bold text-on-surface">
                         Aktivitas Terbaru
                       </h3>
                       <button
-                        class="text-xs font-semibold text-primary hover:underline">
+                        class="text-xs font-semibold text-primary hover:underline"
+                      >
                         Refresh
                       </button>
                     </div>
@@ -122,7 +139,8 @@
                         icon-color="text-green-600"
                         time="10:15"
                         badge-text="Success"
-                        badge-class="bg-green-100 text-green-700">
+                        badge-class="bg-green-100 text-green-700"
+                      >
                         Pembayaran dari Pelanggan
                         <span class="font-bold">Budi Wisesa</span> (ID: CUST001)
                         untuk Paket
@@ -136,7 +154,8 @@
                         icon-color="text-red-600"
                         time="09:45"
                         badge-text="Important"
-                        badge-class="bg-error text-on-error">
+                        badge-class="bg-error text-on-error"
+                      >
                         Tiket gangguan baru
                         <span class="font-bold">#TKT012</span> dilaporkan oleh
                         Pelanggan <span class="font-bold">Citra Dewi</span>
@@ -146,7 +165,8 @@
                         icon="inventory_2"
                         icon-bg="bg-blue-100"
                         icon-color="text-blue-600"
-                        time="09:00">
+                        time="09:00"
+                      >
                         Paket internet baru
                         <span class="font-bold">'Speedy Pro'</span> (100 Mbps)
                         telah ditambahkan ke katalog.
@@ -156,7 +176,8 @@
                         icon="person"
                         icon-bg="bg-primary/20"
                         icon-color="text-primary"
-                        time="08:30">
+                        time="08:30"
+                      >
                         Login Provider X dari IP:
                         <span class="font-medium text-primary">192.168.1.1</span
                         >.
@@ -166,7 +187,8 @@
                         icon="description"
                         icon-bg="bg-neutral/20"
                         icon-color="text-tertiary"
-                        time="07:15">
+                        time="07:15"
+                      >
                         Laporan pendapatan
                         <span class="font-bold">Juni 2024</span> telah
                         di-generate.
@@ -178,13 +200,15 @@
                         icon-color="text-blue-600"
                         time="06:45"
                         badge-text="Solved"
-                        badge-class="bg-blue-500 text-on-primary">
+                        badge-class="bg-blue-500 text-on-primary"
+                      >
                         Tiket <span class="font-bold">#TKT011</span> ditutup
                         oleh admin
                       </notification-item>
                     </div>
                     <div
-                      class="p-4 bg-base-300 text-center hover:bg-base-content/30 transition-colors">
+                      class="p-4 bg-base-300 text-center hover:bg-base-content/30 transition-colors"
+                    >
                       <a
                         class="text-sm font-bold text-primary hover:text-primary/80 transition-colors"
                         href="#"
@@ -194,7 +218,8 @@
                   </div>
                   <!-- Bottom Panel: Paket Terlaris -->
                   <div
-                    class="bg-base-200 rounded-2xl border border-neutral/10 overflow-hidden mt-8">
+                    class="bg-base-200 rounded-2xl border border-neutral/10 overflow-hidden mt-8"
+                  >
                     <div class="bg-base-300 p-6 border-b border-neutral/10">
                       <h3 class="text-lg font-extrabold">Paket Terlaris</h3>
                     </div>
@@ -216,7 +241,8 @@
                             speed="100Mbps"
                             type="Unlimited"
                             sales="482"
-                            revenue="Rp 34.000.000"></tr>
+                            revenue="Rp 34.000.000"
+                          ></tr>
 
                           <tr
                             is="table-row-package"
@@ -224,7 +250,8 @@
                             speed="200Mbps"
                             type="Unlimited"
                             sales="150"
-                            revenue="Rp 75.000.000"></tr>
+                            revenue="Rp 75.000.000"
+                          ></tr>
 
                           <tr
                             is="table-row-package"
@@ -232,7 +259,8 @@
                             speed="20Mbps"
                             type="Quota"
                             sales="1.200"
-                            revenue="Rp 120.000.000"></tr>
+                            revenue="Rp 120.000.000"
+                          ></tr>
                         </tbody>
                       </table>
                     </div>
@@ -304,20 +332,24 @@
                   </div> -->
                   <!-- Additional Support Info -->
                   <div
-                    class="bg-primary rounded-2xl p-6 text-base-100 overflow-hidden relative">
+                    class="bg-primary rounded-2xl p-6 text-base-100 overflow-hidden relative"
+                  >
                     <div class="relative z-10">
                       <h3 class="text-lg font-bold mb-2">Bantuan Teknis</h3>
                       <p
-                        class="text-sm text-on-primary/80 mb-6 leading-relaxed">
+                        class="text-sm text-on-primary/80 mb-6 leading-relaxed"
+                      >
                         Hubungi tim pusat untuk bantuan infrastruktur kritis.
                       </p>
                       <button
-                        class="w-full py-3 bg-base-100 text-primary rounded-xl font-bold text-sm shadow-xl shadow-black/10 hover:opacity-90 transition-opacity">
+                        class="w-full py-3 bg-base-100 text-primary rounded-xl font-bold text-sm shadow-xl shadow-black/10 hover:opacity-90 transition-opacity"
+                      >
                         Hubungi Support Center
                       </button>
                     </div>
                     <div
-                      class="absolute -right-12 -bottom-12 w-40 h-40 bg-on-primary/10 rounded-full blur-3xl"></div>
+                      class="absolute -right-12 -bottom-12 w-40 h-40 bg-on-primary/10 rounded-full blur-3xl"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -330,11 +362,13 @@
         <label
           for="my-drawer-4"
           aria-label="close sidebar"
-          class="drawer-overlay"></label>
+          class="drawer-overlay"
+        ></label>
 
         <side-bar-provider
           class="h-full block"
-          id="sidebar"></side-bar-provider>
+          id="sidebar"
+        ></side-bar-provider>
       </div>
     </div>
   </body>

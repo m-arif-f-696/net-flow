@@ -14,6 +14,7 @@ import InvoiceOutstandingCard from "./components/InvoiceOutstandingCard.js";
 import PayoutSettingsCard from "./components/PayoutSettingsCard.js";
 import TransactionSummaryCard from "./components/TransactionSummaryCard.js";
 import TransactionTable from "./components/TransactionTable.js";
+import NotificationConfirm from "./components/NotificationConfirm.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await Promise.all([
@@ -51,19 +52,50 @@ document.addEventListener("DOMContentLoaded", async () => {
   ]);
 
   document.getElementById("page-loader").remove();
+  try {
+    const user = await getProfile();
+    if (user.code === 401) {
+      window.location.href = "../login.html";
+    } else if (user.user.role !== "provider") {
+      switchRole(user.user.role);
+    }
 
-  const user = await getProfile();
-  if (user.code === 401) {
-    window.location.href = "../login.html";
-  } else if (user.user.role !== "provider") {
-    switchRole(user.user.role);
-  }
-
-  document.getElementById("provider-text").innerHTML = `
+    document.getElementById("provider-text").innerHTML = `
   <p class="font-semibold ">Selamat Datang Kembali</p>
   <p class="text-xs font-bold text-primary" id='provider-name'>${user.user.name}</p>
   `;
-  document.getElementById("provider-image").innerHTML = `
+
+    document.getElementById("provider-image").innerHTML = `
   <img src="http://net_flow.test/uploads/photo_profile/provider/default.png" alt="" />
   `;
+  } catch (error) {
+    window.location.href = "../login.html";
+  }
+
+  document.getElementById("btn-logout").addEventListener("click", async () => {
+    const modal = document.querySelector("notification-confirm");
+
+    modal.setAttribute("title", "Logout");
+    modal.setAttribute("message", "Apakah Anda yakin ingin logout?");
+    modal.setAttribute("confirmText", "Logout");
+    modal.setAttribute("color", "error");
+
+    modal.render();
+    modal.connectedCallback();
+
+    modal.show();
+  });
+
+  document
+    .querySelector("notification-confirm")
+    .addEventListener("onConfirm", async () => {
+      // Jalankan fetch logout di sini
+      const response = await fetch("http://net_flow.test/api/auth/logout", {
+        method: "POST",
+      });
+      const data = await response.json();
+      if (data.success) {
+        window.location.href = "../login.html";
+      }
+    });
 });
