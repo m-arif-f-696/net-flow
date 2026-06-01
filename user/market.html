@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Net Flow</title>
+    <link href="../css/output.css" rel="stylesheet" />
+    <link
+      rel="shortcut icon"
+      href="../assets/images/logo.svg"
+      type="image/x-icon"
+    />
+    <script type="module" src="js/index.js"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-page="market">
+    <!-- Loading Screen -->
+    <section id="page-loader">
+      <div
+        class="fixed inset-0 z-[999] bg-white flex flex-col items-center justify-center gap-4"
+      >
+        <span class="loading loading-ring loading-xl text-primary"></span>
+        <p
+          class="text-sm font-semibold text-primary tracking-widest uppercase animate-pulse"
+        >
+          Loading...
+        </p>
+      </div>
+    </section>
+
+    <top-bar></top-bar>
+    <market-page></market-page>
+    <nav-bar></nav-bar>
+  </body>
+</html>

@@ -7,14 +7,9 @@ class AuthMiddleware {
     public static function checkToken() {
         $key = $_ENV["KEY_JWT"];
 
-        $headers = getallheaders();
-        $authHeader = $headers['Authorization'] ?? $_SERVER['HTTP_AUTHORIZATION'] ?? null;
+        $jwt = $_COOKIE['access_token'] ?? null;
 
-        if ($authHeader) {
-            $token_parts = explode(" ", $authHeader);
-            if (count($token_parts) == 2 && $token_parts[0] == "Bearer") {
-                $jwt = $token_parts[1];
-
+        if ($jwt) {
                 try {
                     // Bongkar Token
                     $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
@@ -24,17 +19,45 @@ class AuthMiddleware {
 
                 } catch (Exception $e) {
                     http_response_code(401);
-                    echo json_encode(["message" => "Token has expire or token not valid"]);
+                    echo json_encode([
+                        "message" => "Token has expire or token not valid",
+                        "code" => 401
+                    ]);
                     exit; // Hentikan script, jangan lanjut ke controller!
                 }
-            }
         }
+
 
         // Jika tidak ada header Authorization sama sekali
         http_response_code(401);
-        echo json_encode(["message" => "Akses ditolak. Anda belum login (Token tidak ditemukan)."]);
+        echo json_encode([
+            "message" => "Akses ditolak. Anda belum login (Token tidak ditemukan).",
+            "code" => 401
+        ]);
         exit; 
     }
+
+    public static function requireRole(string $role)
+    {
+
+        $user = self::checkToken(); // Panggil checkToken di sini
+
+        // 3. Cek Role
+        if ($user->role !== $role) {
+            http_response_code(403);
+            echo json_encode([
+                "message" => "Akses ditolak. Role Anda bukan '$role'.",
+                "error" => "Forbidden"
+            ]);
+            exit();
+        }
+
+        // Jika lolos, kembalikan data user (opsional, tapi sering dipakai)
+        return $user;
+    
+    }
+
 }
+
 
 ?>
