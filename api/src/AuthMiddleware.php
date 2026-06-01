@@ -19,7 +19,10 @@ class AuthMiddleware {
 
                 } catch (Exception $e) {
                     http_response_code(401);
-                    echo json_encode(["message" => "Token has expire or token not valid"]);
+                    echo json_encode([
+                        "message" => "Token has expire or token not valid",
+                        "code" => 401
+                    ]);
                     exit; // Hentikan script, jangan lanjut ke controller!
                 }
         }

@@ -35,10 +35,10 @@ class AuthController {
             
             if ($data) {
                 http_response_code(200);
-                echo json_encode(["message" => "Authorized", "user" => $data]);
+                echo json_encode(["code" => 200, "message" => "Authorized", "user" => $data]);
             } else {
                 http_response_code(401);
-                echo json_encode(["message" => "Unauthorized"]);
+                echo json_encode(["code" => 401, "message" => "Unauthorized"]);
             }
         } else {
             http_response_code(404);

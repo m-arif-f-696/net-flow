@@ -1,6 +1,7 @@
 import SideBarProvider from "../../components/SideBarProvider.js";
 import NavBarProvider from "../../components/NavbarProvider.js";
 import LogoNavbar from "../../components/LogoNavbar.js";
+import { getProfile, switchRole } from "../../js/AuthController.js";
 
 import NotificationItem from "./components/NotificationItem.js";
 import TableRowPackage from "./components/TableRowPackage.js";
@@ -50,4 +51,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   ]);
 
   document.getElementById("page-loader").remove();
+
+  const user = await getProfile();
+  if (user.code === 401) {
+    window.location.href = "../login.html";
+  } else if (user.user.role !== "provider") {
+    switchRole(user.user.role);
+  }
+
+  document.getElementById("provider-text").innerHTML = `
+  <p class="font-semibold ">Selamat Datang Kembali</p>
+  <p class="text-xs font-bold text-primary" id='provider-name'>${user.user.name}</p>
+  `;
+  document.getElementById("provider-image").innerHTML = `
+  <img src="http://net_flow.test/uploads/photo_profile/provider/default.png" alt="" />
+  `;
 });

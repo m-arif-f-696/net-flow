@@ -2,7 +2,7 @@
 api/vendor/
 
 # Dependency Frontend (Node.js)
-frontend/node_modules/
+node_modules/
 
 # File Konfigurasi Sensitif (Sangat Penting!)
 api/.env
@@ -10,8 +10,8 @@ api/.env
 
 # Build Artifacts / Log
 *.log
-frontend/dist/
-frontend/.parcel-cache/
+dist/
+.parcel-cache/
 
 # System Files
 .DS_Store

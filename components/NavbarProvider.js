@@ -67,13 +67,13 @@ export default class NavBarProvider extends HTMLElement {
           </button>
 
           <div class="flex items-center gap-3">
-            <div class="text-right">
-              <p class="font-semibold ">Selamat Datang Kembali</p>
-              <p class="text-xs font-bold text-primary">Provider X</p>
+            <div class="text-right" id="provider-text">
+              <div class="skeleton h-5 w-40 bg-primary/10 mb-0.5"></div>
+              <div class="skeleton h-5 w-28 bg-primary/10"></div>
             </div>
             <div class="avatar">
-              <div class="w-10 rounded-full">
-                  <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+              <div class="w-10 rounded-full" id="provider-image">
+                  <div class="skeleton h-10 w-10 shrink-0 rounded-full bg-primary/10"></div>
               </div>
             </div>
           </div>
