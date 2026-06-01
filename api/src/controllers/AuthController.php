@@ -11,26 +11,45 @@ class AuthController {
 
   public function processRequest(string $method, ?string $action): void 
   {
-    if ($method == "POST") {
-      switch($action) {
-        case "login" :
-          $this->processLogin();
-          break;
+    // Tangani metode POST untuk Login dan Register
+    if ($method === "POST") {
+        switch($action) {
+            case "login" :
+                $this->processLogin(); // <- Di sini, pastikan kamu men-set HttpOnly Cookie saat login sukses
+                break;
 
-        case "register" :
-          $this->processRegister();
-          break;
+            case "register" :
+                $this->processRegister();
+                break;
 
-        default :
-          http_response_code(404);
-          echo json_encode(["message" => "Endpoint not found"]);
-          break;
-      }
-      
-
-    } else {
-      http_response_code(405);
-      header("Allow: 'POST'");
+            default :
+                http_response_code(404);
+                echo json_encode(["message" => "Endpoint not found or invalid action"]);
+                break;
+        }
+    } 
+    // Tangani metode GET khusus untuk cek token / ambil profil
+    elseif ($method === "GET") {
+        if ($action === "me") { // endpoint: /auth?action=me
+            $data = AuthMiddleware::checkToken();
+            
+            if ($data) {
+                http_response_code(200);
+                echo json_encode(["message" => "Authorized", "user" => $data]);
+            } else {
+                http_response_code(401);
+                echo json_encode(["message" => "Unauthorized"]);
+            }
+        } else {
+            http_response_code(404);
+            echo json_encode(["message" => "Endpoint not found"]);
+        }
+    } 
+    // Method selain POST dan GET
+    else {
+        http_response_code(405);
+        header("Allow: POST, GET");
+        echo json_encode(["message" => "Method not allowed"]);
     }
   }
 
@@ -69,17 +88,36 @@ class AuthController {
         "data" => [
             "id_user" => $user['id_user'],
             "email" => $user['email'],
-            "role" => $user['role']
+            "role" => $user['role'],
+            "name" => $user['nama_user'],
+            "img" => $user['link_gambar']
         ]
     ];
 
     $jwt = JWT::encode($payload, $key, 'HS256'); // encode jadi token (JWT)
 
+    setcookie(
+      "access_token", 
+      $jwt, 
+    [
+        "expires" => time() + (3600 * 24), // Kedaluwarsa dalam 1 hari
+        "path" => "/",                     // Berlaku di semua path subdomain/folder
+        "domain" => "",                    // Kosongkan untuk localhost, sesuaikan saat hosting
+        "secure" => false,                 // Ubah jadi TRUE saat sudah production (HTTPS) di Hostinger
+        "httponly" => true,                // WAJIB TRUE! Mencegah JavaScript mencuri token (Anti-XSS)
+        "samesite" => "Lax"                // Melindungi dari serangan CSRF
+    ]);
+
+
     http_response_code(200);
     echo json_encode([
+      "success" => true,
       "message" => "Login Successful",
-      "token" => $jwt,
-      "role" => $user['role']
+      "user" => [
+        "nama" => $user['nama_user'] ?? "User",
+        "avatar" => $user['link_gambar'] ?? "default-avatar.png",
+        "role" => $user['role']
+      ]
     ]);
           
   }

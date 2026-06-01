@@ -1,6 +1,5 @@
-<?php
-
-class AuthGateway {
+<?php 
+class ProviderGateway {
 
   private PDO $db;
 
@@ -9,20 +8,13 @@ class AuthGateway {
     $this->db = $database->connect();
   }
 
-  public function getUserByEmail ( string $email ) : array | false 
+  public function  getProfileByIdUser ( string $id_user ) : array | false 
 
   {
-    $sql = "SELECT 
-                u.id_user, u.email, u.password, u.role,
-                COALESCE(p.name_company, c.full_name) AS nama_user,
-                COALESCE(p.logo_provider, c.photo_profile) AS link_gambar
-            FROM users u
-            LEFT JOIN providers p ON u.id_user = p.id_user
-            LEFT JOIN customers c ON u.id_user = c.id_user
-            WHERE u.email = :email LIMIT 1";
+    $sql = "SELECT * FROM provider WHERE id_user = :id_user LIMIT 1";
     $stmt = $this->db->prepare($sql);
 
-    $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+    $stmt->bindValue(":id_user", $id_user, PDO::PARAM_STR);
 
     $stmt->execute();
 

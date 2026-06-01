@@ -1,11 +1,11 @@
 # Dependency Backend (PHP/Composer)
-backend/vendor/
+api/vendor/
 
 # Dependency Frontend (Node.js)
 frontend/node_modules/
 
 # File Konfigurasi Sensitif (Sangat Penting!)
-backend/.env
+api/.env
 .env
 
 # Build Artifacts / Log
