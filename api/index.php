@@ -52,13 +52,13 @@ if ($apiIndex === false) {
 // Segmen setelah "api"
 $group    = $parts[$apiIndex + 1] ?? null;  // auth | provider | customer | admin
 $resource = $parts[$apiIndex + 2] ?? null;  // packages | users | dashboard | ...
-$id       = $parts[$apiIndex + 3] ?? null;  // {id} opsional
+$params       = $parts[$apiIndex + 3] ?? null;  // {id} opsional
 
 $method   = $_SERVER["REQUEST_METHOD"];
 $database = new Database();
 
 // Refaktorisasi: Buat objek AuthMiddleware di luar switch agar tidak duplikasi kode
-$auth = new AuthMiddleware();
+
 
 switch ($group) {
 
@@ -77,7 +77,7 @@ switch ($group) {
     // ──────────────────────────────────────────
     case "provider":
         // Menggunakan objek $auth yang sudah diinstansiasi di atas
-        $auth::requireRole("provider"); 
+        $userActive = AuthMiddleware::requireRole("provider"); 
 
         switch ($resource) {
             case "dashboard":
@@ -88,8 +88,8 @@ switch ($group) {
 
             case "packages":
                 $gateway    = new PackageGateway($database);
-                $controller = new PackageController($gateway);
-                $controller->processRequest($method, $id);
+                $controller = new PackageController($gateway, $userActive);
+                $controller->processRequest($method, $params);
                 break;
 
             default:
@@ -103,7 +103,7 @@ switch ($group) {
     // CUSTOMER  →  /api/customer/{resource}/{id}
     // ──────────────────────────────────────────
     case "customer":
-        $auth::requireRole("customer");
+        $userActive = AuthMiddleware::requireRole("customer");
 
         switch ($resource) {
             case "search":
@@ -141,7 +141,7 @@ switch ($group) {
     // ADMIN  →  /api/admin/{resource}/{id}
     // ──────────────────────────────────────────
     case "admin":
-        $auth::requireRole("superadmin");
+        AuthMiddleware::requireRole("superadmin");
 
         switch ($resource) {
             case "users":
