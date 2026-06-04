@@ -157,10 +157,10 @@ export default class WizardCreatePackage extends HTMLElement {
             <label class="block text-xs font-bold text-primary mb-6 uppercase tracking-wide">
               Kategori Layanan
             </label>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="category-group">
-              ${["Fiber", "Broadband", "Satellite"]
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="category-group">
+              ${["Unlimited", "Kuota"]
                 .map((cat, i) => {
-                  const icons = ["flare", "router", "satellite_alt"];
+                  const icons = ["all_inclusive", "data_usage"];
                   const checked = this.formData.category === cat;
                   return /*html*/ `
                   <label class="relative cursor-pointer group">
@@ -329,53 +329,38 @@ export default class WizardCreatePackage extends HTMLElement {
             <p class="text-sm text-base-content/50 italic">Kecepatan simetris direkomendasikan untuk paket "Enterprise" dan "Pro".</p>
           </section>
 
+        
           <!-- Router Hardware -->
-          <section class="space-y-6">
-            <div class="flex items-center gap-4">
-              <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                <span class="material-symbols-outlined">router</span>
-              </div>
-              <h2 class="font-bold text-xl">Hardware Router Default</h2>
-            </div>
-            <div class="grid grid-cols-1 gap-4" id="router-group">
-              ${[
-                {
-                  value: "gigamesh",
-                  name: "EtherFlow GigaMesh v4",
-                  desc: "WiFi 6 standar, 4 antena, maks 1.2Gbps.",
-                  badge: "Included",
-                  badgeClass: "bg-primary/10 text-primary",
-                },
-                {
-                  value: "velocitymesh",
-                  name: "Velocity Mesh X-Pro",
-                  desc: "WiFi 6E Tri-band, AI Traffic, maks 5Gbps.",
-                  badge: "+Rp 75.000/bln",
-                  badgeClass: "bg-neutral/10 text-neutral",
-                },
-                {
-                  value: "byo",
-                  name: "BYO Device (Tanpa Router)",
-                  desc: "Pelanggan menggunakan perangkat sendiri. Hanya perlu ONT.",
-                  badge: null,
-                },
-              ]
-                .map(
-                  (r) => /*html*/ `
-                <label class="group relative flex items-center gap-6 p-6 rounded-2xl bg-base-200 border border-transparent hover:border-primary/20 hover:bg-base-100 transition-all cursor-pointer">
-                  <input class="radio radio-primary" name="router" type="radio" value="${r.value}" ${this.formData.router === r.value ? "checked" : ""} required />
-                  <div class="flex-1">
-                    <h3 class="font-bold">${r.name}</h3>
-                    <p class="text-sm text-base-content/60">${r.desc}</p>
-                  </div>
-                  ${r.badge ? `<span class="hidden sm:inline px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${r.badgeClass}">${r.badge}</span>` : ""}
-                </label>
-              `,
-                )
-                .join("")}
-            </div>
-            <p class="text-error text-xs mt-1 hidden" id="err-router">Pilih hardware router.</p>
-          </section>
+<section class="space-y-6 opacity-50 pointer-events-none select-none">
+  <div class="flex items-center gap-4">
+    <div class="w-10 h-10 rounded-xl bg-base-200 flex items-center justify-center text-base-content/40">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0Z" />
+      </svg>
+    </div>
+    <div>
+      <h2 class="font-bold text-xl">Hardware Router Default</h2>
+      <span class="text-[10px] font-bold uppercase tracking-widest text-base-content/40">Coming Soon</span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4">
+    ${[
+      "EtherFlow GigaMesh v4",
+      "Velocity Mesh X-Pro",
+      "BYO Device (Tanpa Router)",
+    ]
+      .map(
+        (name) => /*html*/ `
+        <div class="flex items-center gap-6 p-6 rounded-2xl bg-base-200 border border-base-300 cursor-not-allowed">
+          <div class="w-4 h-4 rounded-full border-2 border-base-300 flex-shrink-0"></div>
+          <p class="font-bold text-base-content/40">${name}</p>
+        </div>
+      `,
+      )
+      .join("")}
+  </div>
+</section>
 
           <!-- Navigation -->
           <div class="flex justify-between pt-6 border-t border-neutral/10">
@@ -479,16 +464,6 @@ export default class WizardCreatePackage extends HTMLElement {
             <div class="space-y-4">
               <div class="flex items-center justify-between p-6 rounded-2xl bg-base-200 hover:bg-base-300 transition-colors group">
                 <div class="flex gap-4">
-                  <span class="material-symbols-outlined text-primary">public</span>
-                  <div>
-                    <h4 class="font-bold">Tampilkan di Marketplace</h4>
-                    <p class="text-sm text-base-content/60">Paket dapat ditemukan oleh semua pelanggan baru dan lama.</p>
-                  </div>
-                </div>
-                <input type="checkbox" name="is_visible" class="toggle toggle-primary" ${this.formData.is_visible !== false ? "checked" : ""} />
-              </div>
-              <div class="flex items-center justify-between p-6 rounded-2xl bg-base-200 hover:bg-base-300 transition-colors group">
-                <div class="flex gap-4">
                   <span class="material-symbols-outlined text-primary">military_tech</span>
                   <div>
                     <h4 class="font-bold">Badge Terlaris</h4>
@@ -544,8 +519,8 @@ export default class WizardCreatePackage extends HTMLElement {
               <div class="bg-primary p-6 rounded-3xl text-white">
                 <p class="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-2">Total Bulanan</p>
                 <div class="flex items-baseline gap-1">
-                  <span class="text-lg font-bold">Rp</span>
-                  <span class="text-4xl font-extrabold" id="summary-price">${this.formData.price ? Number(this.formData.price).toLocaleString("id-ID") : "0"}</span>
+                  <span class="text-2xl font-bold">Rp</span>
+                  <span class="text-2xl font-extrabold" id="summary-price">${this.formData.price ? Number(this.formData.price).toLocaleString("id-ID") : "0"}</span>
                 </div>
                 <div class="mt-4 pt-4 border-t border-white/10 flex justify-between">
                   <span class="text-xs opacity-80">Biaya Pasang</span>
@@ -605,17 +580,17 @@ export default class WizardCreatePackage extends HTMLElement {
     if (step === 2) {
       const download = this.querySelector("[name='download_speed']").value;
       const upload = this.querySelector("[name='upload_speed']").value;
-      const router = this.querySelector("[name='router']:checked");
+      // const router = this.querySelector("[name='router']:checked");
 
       this.toggleError("err-download", !download);
       this.toggleError("err-upload", !upload);
-      this.toggleError("err-router", !router);
+      // this.toggleError("err-router", !router);
 
-      if (!download || !upload || !router) valid = false;
+      if (!download || !upload) valid = false;
       else {
         this.formData.download_speed = download;
         this.formData.upload_speed = upload;
-        this.formData.router = router.value;
+        // this.formData.router = router.value;
       }
     }
 
@@ -630,7 +605,6 @@ export default class WizardCreatePackage extends HTMLElement {
   collectStep3() {
     const price = this.querySelector("[name='price']").value;
     const setup_fee = this.querySelector("[name='setup_fee']").value;
-    const is_visible = this.querySelector("[name='is_visible']").checked;
     const is_bestseller = this.querySelector("[name='is_bestseller']").checked;
 
     this.toggleError("err-price", !price);
@@ -638,7 +612,6 @@ export default class WizardCreatePackage extends HTMLElement {
 
     this.formData.price = price;
     this.formData.setup_fee = setup_fee || 0;
-    this.formData.is_visible = is_visible;
     this.formData.is_bestseller = is_bestseller;
     return true;
   }
@@ -786,10 +759,39 @@ export default class WizardCreatePackage extends HTMLElement {
   }
 
   dispatchSubmit() {
+    const dlSpeed = Number(this.formData.download_speed);
+    const ulSpeed = Number(this.formData.upload_speed);
+
+    // Tentukan unit berdasarkan nilai speed (Mbps)
+    const downloadUnit = dlSpeed >= 1000 ? "Gbps" : "Mbps";
+    const uploadUnit = ulSpeed >= 1000 ? "Gbps" : "Mbps";
+
+    // Konversi nilai angka jika unitnya Gbps
+    const downloadSpeedVal = downloadUnit === "Gbps" ? dlSpeed / 1000 : dlSpeed;
+    const uploadSpeedVal = uploadUnit === "Gbps" ? ulSpeed / 1000 : ulSpeed;
+
+    const payload = {
+      name_package: this.formData.name,
+      type_package: this.formData.category?.toLowerCase(), // "unlimited" | "kuota"
+      speed_mbps: dlSpeed, // download sebagai acuan kecepatan utama (dalam Mbps)
+      download_speed: downloadSpeedVal,
+      download_unit: downloadUnit,
+      upload_speed: uploadSpeedVal,
+      upload_unit: uploadUnit,
+      price_per_month: Number(this.formData.price),
+      installation_cost: Number(this.formData.setup_fee) || 0,
+      package_description: this.formData.description,
+      icon_package: this.formData.icon,
+      package_features: this.formData.features || [], // array of string
+      is_recommended: this.formData.is_bestseller ? 1 : 0, // 1 | 0
+      package_status:
+        this.formData.status === "published" ? "active" : "inactive",
+    };
+
     this.dispatchEvent(
       new CustomEvent("wizard-submit", {
         bubbles: true,
-        detail: this.formData,
+        detail: payload,
       }),
     );
   }

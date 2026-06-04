@@ -6,6 +6,7 @@
     "watch": "tailwindcss -i ./css/input.css -o ./css/output.css --watch"
   },
   "devDependencies": {
+    "@prettier/plugin-php": "^0.25.0",
     "daisyui": "^5.5.19",
     "tailwindcss": "^4.2.2"
   },

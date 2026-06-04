@@ -8,21 +8,25 @@
     <link
       rel="shortcut icon"
       href="../assets/images/logo.svg"
-      type="image/x-icon" />
+      type="image/x-icon"
+    />
     <script type="module" src="js/index.js"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
   </head>
   <body data-page="customers">
     <div
       id="page-loader"
-      class="fixed inset-0 z-100 bg-base-100 flex items-center justify-center">
+      class="fixed inset-0 z-100 bg-base-100 flex items-center justify-center"
+    >
       <span class="loading loading-spinner loading-lg text-primary"></span>
     </div>
     <div class="drawer lg:drawer-open">
@@ -34,9 +38,12 @@
             data-crumbs='[
       {"label": "NetFlow", "url": "../index.html"},  
       {"label": "Pelanggan", "url": null}
-    ]'></nav-bar-provider>
+    ]'
+          ></nav-bar-provider>
 
           <main class="p-8 lg:p-12 flex-grow bg-base-100 flex flex-col gap-8">
+            <notification-confirm></notification-confirm>
+
             <section>
               <h1 class="font-bold text-2xl text-base-content">
                 Daftar Pelanggan
@@ -49,10 +56,12 @@
             <div class="space-y-8">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div
-                  class="bg-base-100 p-6 rounded-xl shadow-sm border border-neutral/10 flex items-center justify-between">
+                  class="bg-base-100 p-6 rounded-xl shadow-sm border border-neutral/10 flex items-center justify-between"
+                >
                   <div class="space-y-1">
                     <p
-                      class="text-xs text-base-content/60 font-medium uppercase tracking-wider">
+                      class="text-xs text-base-content/60 font-medium uppercase tracking-wider"
+                    >
                       Active Users
                     </p>
                     <p class="text-3xl font-extrabold text-base-content">
@@ -72,10 +81,12 @@
                 </div>
 
                 <div
-                  class="bg-base-100 p-6 rounded-xl shadow-sm border border-neutral/10 flex items-center justify-between">
+                  class="bg-base-100 p-6 rounded-xl shadow-sm border border-neutral/10 flex items-center justify-between"
+                >
                   <div class="space-y-1">
                     <p
-                      class="text-xs text-base-content/60 font-medium uppercase tracking-wider">
+                      class="text-xs text-base-content/60 font-medium uppercase tracking-wider"
+                    >
                       Pending Installs
                     </p>
                     <p class="text-3xl font-extrabold text-base-content">148</p>
@@ -89,10 +100,12 @@
                 </div>
 
                 <div
-                  class="bg-base-100 p-6 rounded-xl shadow-sm border border-neutral/10 flex items-center justify-between">
+                  class="bg-base-100 p-6 rounded-xl shadow-sm border border-neutral/10 flex items-center justify-between"
+                >
                   <div class="space-y-1">
                     <p
-                      class="text-xs text-base-content/60 font-medium uppercase tracking-wider">
+                      class="text-xs text-base-content/60 font-medium uppercase tracking-wider"
+                    >
                       Down Nodes
                     </p>
                     <p class="text-3xl font-extrabold text-base-content">24</p>
@@ -108,35 +121,42 @@
             </div>
 
             <div
-              class="flex flex-wrap items-center justify-between gap-4 py-4 px-6 bg-base-200 rounded-2xl border border-neutral/10">
+              class="flex flex-wrap items-center justify-between gap-4 py-4 px-6 bg-base-200 rounded-2xl border border-neutral/10"
+            >
               <div class="flex items-center gap-2">
                 <button
-                  class="px-5 py-2 rounded-full bg-primary text-primary-content font-semibold text-sm shadow-md transition-all active:scale-95">
+                  class="px-5 py-2 rounded-full bg-primary text-primary-content font-semibold text-sm shadow-md transition-all active:scale-95"
+                >
                   All Customers
                 </button>
                 <button
-                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95">
+                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95"
+                >
                   Active
                 </button>
                 <button
-                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95">
+                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95"
+                >
                   Suspended
                 </button>
                 <button
-                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95">
+                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95"
+                >
                   Pending
                 </button>
               </div>
               <div class="flex items-center gap-3">
                 <button
-                  class="flex items-center gap-2 px-4 py-2 border border-neutral/10 bg-base-100 rounded-lg text-sm font-medium hover:bg-base-200 transition-colors">
+                  class="flex items-center gap-2 px-4 py-2 border border-neutral/10 bg-base-100 rounded-lg text-sm font-medium hover:bg-base-200 transition-colors"
+                >
                   <span class="material-symbols-outlined text-sm"
                     >filter_list</span
                   >
                   Advanced Filter
                 </button>
                 <button
-                  class="flex items-center gap-2 px-4 py-2 border border-neutral/10 bg-base-100 rounded-lg text-sm font-medium hover:bg-base-200 transition-colors">
+                  class="flex items-center gap-2 px-4 py-2 border border-neutral/10 bg-base-100 rounded-lg text-sm font-medium hover:bg-base-200 transition-colors"
+                >
                   <span class="material-symbols-outlined text-sm"
                     >download</span
                   >
@@ -146,32 +166,39 @@
             </div>
 
             <div
-              class="bg-base-100 rounded-3xl overflow-hidden shadow-xl shadow-base-300/50 border border-neutral/10">
+              class="bg-base-100 rounded-3xl overflow-hidden shadow-xl shadow-base-300/50 border border-neutral/10"
+            >
               <table class="w-full text-left border-collapse">
                 <thead class="bg-base-200/50">
                   <tr>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest">
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
+                    >
                       Customer Profile
                     </th>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest">
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
+                    >
                       Subscriber ID
                     </th>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest">
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
+                    >
                       Address
                     </th>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest">
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
+                    >
                       Plan & Tier
                     </th>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest">
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
+                    >
                       Usage (24h)
                     </th>
                     <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest text-right">
+                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest text-right"
+                    >
                       Actions
                     </th>
                   </tr>
@@ -188,7 +215,8 @@
                     speed="1000 Mbps Symmetric"
                     usage="42.5 GB"
                     usage-pct="82"
-                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuB5a6MG7DuHedzU3XJfS-jy8HUod07zc0-UxsdYAGgnXYWcGYmFJYy55u-LZxmCXf_1aH1ztIdQyvOTYm4nPoYR9jcsyW8h4qhWNcQbujZAFLhQiuYme7yWf66g3WMq1tDMHe7Cb0SuGuySLKqPk88gd5A3cwS59Q2tAddn5zjT1bb28CCWsCwgAImR4g2kmRslu49JxRCQq7uCWVk8xMT_7ZfuNh8M75TjGUNTrvw4QE94I57Px9f9y1b7zhuifX4iSqx98Cw2wn_q"></tr>
+                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuB5a6MG7DuHedzU3XJfS-jy8HUod07zc0-UxsdYAGgnXYWcGYmFJYy55u-LZxmCXf_1aH1ztIdQyvOTYm4nPoYR9jcsyW8h4qhWNcQbujZAFLhQiuYme7yWf66g3WMq1tDMHe7Cb0SuGuySLKqPk88gd5A3cwS59Q2tAddn5zjT1bb28CCWsCwgAImR4g2kmRslu49JxRCQq7uCWVk8xMT_7ZfuNh8M75TjGUNTrvw4QE94I57Px9f9y1b7zhuifX4iSqx98Cw2wn_q"
+                  ></tr>
 
                   <tr
                     is="customer-row"
@@ -200,7 +228,8 @@
                     speed="100 Mbps Down"
                     usage="0.2 GB"
                     usage-pct="1"
-                    img=""></tr>
+                    img=""
+                  ></tr>
 
                   <tr
                     is="customer-row"
@@ -212,7 +241,8 @@
                     speed="500 Mbps Up/Down"
                     usage="-- GB"
                     usage-pct="0"
-                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuCI1Au_XaRP-cK3tf5PJ6Cj-qNuGZEyl1Zy1580k1LmSWvS92bgjajswZV2FqStKXG6jluUNNuv9_cK68bbebdJHzBAgoRRSEv5iNQnK__RqEDYwDSnVwZhxtJIHnw1N35lilFm3OwiGYItW0P3CJyxnf4h2z_77BHUn19wGuahvsMFb5BL39NHSMh0KWwntTzfDK4LD2aEZVHYOE4mbbZjMJC3nzyU5CYVl0eJAw49qC9m0j6brE2GUQZdNIlGMldnuor5j81cI5QL"></tr>
+                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuCI1Au_XaRP-cK3tf5PJ6Cj-qNuGZEyl1Zy1580k1LmSWvS92bgjajswZV2FqStKXG6jluUNNuv9_cK68bbebdJHzBAgoRRSEv5iNQnK__RqEDYwDSnVwZhxtJIHnw1N35lilFm3OwiGYItW0P3CJyxnf4h2z_77BHUn19wGuahvsMFb5BL39NHSMh0KWwntTzfDK4LD2aEZVHYOE4mbbZjMJC3nzyU5CYVl0eJAw49qC9m0j6brE2GUQZdNIlGMldnuor5j81cI5QL"
+                  ></tr>
 
                   <tr
                     is="customer-row"
@@ -224,12 +254,14 @@
                     speed="10 Gbps Managed"
                     usage="2,480 GB"
                     usage-pct="94"
-                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuC8887Q1qAh6MlBXchfUIdyuD0EzlRisaAWlEGcKt-_2aTHOml0cgIdoTGx25SPlhc3NvCL9HVe3LvH-ytEg0D7A0B2p5xSvxWpeN0GL6GDjxSsBxHT8D8X2yh2ur_mHu7R4XVzdMKEhuYDOKYUfTo7JLwPF9hb-Fj0aiKpswK_wuao5nxtlajMK5CNdLmUjIph93I58foEmemuinDlFvb7uhRbXgNwlj_u0ClZrvusC24Um5dgEG7hWcqXdXuATql-nzQdv0FKvu0p"></tr>
+                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuC8887Q1qAh6MlBXchfUIdyuD0EzlRisaAWlEGcKt-_2aTHOml0cgIdoTGx25SPlhc3NvCL9HVe3LvH-ytEg0D7A0B2p5xSvxWpeN0GL6GDjxSsBxHT8D8X2yh2ur_mHu7R4XVzdMKEhuYDOKYUfTo7JLwPF9hb-Fj0aiKpswK_wuao5nxtlajMK5CNdLmUjIph93I58foEmemuinDlFvb7uhRbXgNwlj_u0ClZrvusC24Um5dgEG7hWcqXdXuATql-nzQdv0FKvu0p"
+                  ></tr>
                 </tbody>
               </table>
 
               <div
-                class="px-6 py-4 bg-base-200/30 flex items-center justify-between border-t border-neutral/10">
+                class="px-6 py-4 bg-base-200/30 flex items-center justify-between border-t border-neutral/10"
+              >
                 <p class="text-xs font-medium text-base-content/60">
                   Showing
                   <span class="text-base-content font-bold">1-4</span> of
@@ -239,28 +271,34 @@
                 <div class="flex items-center gap-2">
                   <button
                     class="p-2 rounded-lg border border-neutral/10 bg-base-100 hover:bg-base-200 disabled:opacity-50"
-                    disabled>
+                    disabled
+                  >
                     <span class="material-symbols-outlined">chevron_left</span>
                   </button>
                   <button
-                    class="w-8 h-8 rounded-lg bg-primary text-primary-content text-xs font-bold">
+                    class="w-8 h-8 rounded-lg bg-primary text-primary-content text-xs font-bold"
+                  >
                     1
                   </button>
                   <button
-                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70">
+                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70"
+                  >
                     2
                   </button>
                   <button
-                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70">
+                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70"
+                  >
                     3
                   </button>
                   <span class="text-base-content/40 px-1">...</span>
                   <button
-                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70">
+                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70"
+                  >
                     42
                   </button>
                   <button
-                    class="p-2 rounded-lg border border-neutral/10 bg-base-100 hover:bg-base-200">
+                    class="p-2 rounded-lg border border-neutral/10 bg-base-100 hover:bg-base-200"
+                  >
                     <span class="material-symbols-outlined">chevron_right</span>
                   </button>
                 </div>
@@ -274,11 +312,13 @@
         <label
           for="my-drawer-4"
           aria-label="close sidebar"
-          class="drawer-overlay"></label>
+          class="drawer-overlay"
+        ></label>
 
         <side-bar-provider
           class="h-full block"
-          id="sidebar"></side-bar-provider>
+          id="sidebar"
+        ></side-bar-provider>
       </div>
     </div>
 

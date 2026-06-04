@@ -7,19 +7,23 @@ export default class CardPackage extends HTMLElement {
     this.price = Number(this.getAttribute("price")) || 0;
     this.icon = this.getAttribute("icon") || "home";
     this.statusPackage = this.getAttribute("active-package");
-    this.idPackage = this.getAttribute("id-package");
+    this.slug = this.getAttribute("slug");
+    this.id_package = this.getAttribute("id_package");
     this.render();
   }
 
   render() {
     this.innerHTML = /*html*/ `
-    <div class="bg-base-200 p-6 rounded-xl border border-neutral/10 hover:shadow-lg transition-all duration-300 group">
+    <div class="bg-base-200 p-6 rounded-xl border border-neutral/10 hover:shadow-lg transition-all duration-300 group card-package-item">
       <div class="flex justify-between items-start mb-6">
         <div class="w-12 h-12 bg-neutral/20 rounded-xl flex items-center justify-center ">
           <span class="material-symbols-outlined">${this.icon}</span>
         </div>
-        <label class="flex items-center gap-3">
-          <input type="checkbox" ${this.statusPackage === "active" ? "checked" : ""} class="toggle toggle-primary" />
+        <label class="flex items-center gap-3 cursor-pointer">
+          <input type="checkbox" data-id_package=${this.id_package} ${this.statusPackage === "active" ? "checked" : ""} class="toggle toggle-primary" />
+          <span class="text-[10px] font-bold text-base-content/50 uppercase tracking-wide">
+            ${this.statusPackage === "active" ? "Paket Aktif" : "Paket Tidak Aktif"}
+          </span>
         </label>
       </div>
       <h3 class="text-xl font-headline font-bold text-on-surface mb-1">${this.namePackage}</h3>
@@ -40,7 +44,7 @@ export default class CardPackage extends HTMLElement {
           Rp. ${this.price.toLocaleString("id-ID")}
         </span>
         <a class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-low  hover:bg-primary hover:text-white transition-colors"
-          href="edit-package?id=${this.idPackage}">
+          href="edit-package/${this.slug}">
           <span class="material-symbols-outlined text-sm">edit</span>
         </a>
       </div>

@@ -113,9 +113,9 @@ switch ($group) {
                 break;
 
             case "packages":
-                // $gateway    = new PackageGateway($database);
-                // $controller = new CustomerPackageController($gateway);
-                // $controller->processRequest($method, $id); // $id = provider_id
+                $gateway    = new PackageGateway($database);
+                $controller = new CustomerPackageController($gateway, $userActive);
+                $controller->processRequest($method, $params); // $params = provider_id
                 break;
 
             case "subscribe":

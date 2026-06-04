@@ -8,21 +8,25 @@
     <link
       rel="shortcut icon"
       href="../assets/images/logo.svg"
-      type="image/x-icon" />
+      type="image/x-icon"
+    />
     <script type="module" src="js/index.js"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
   </head>
   <body data-page="transactions">
     <div
       id="page-loader"
-      class="fixed inset-0 z-100 bg-base-100 flex items-center justify-center">
+      class="fixed inset-0 z-100 bg-base-100 flex items-center justify-center"
+    >
       <span class="loading loading-spinner loading-lg text-primary"></span>
     </div>
     <div class="drawer lg:drawer-open">
@@ -34,9 +38,11 @@
             data-crumbs='[
       {"label": "NetFlow", "url": "../index.html"},  
       {"label": "Transaksi", "url": null}
-    ]'></nav-bar-provider>
+    ]'
+          ></nav-bar-provider>
 
           <main class="p-8 lg:p-12 flex-grow bg-base-100 flex flex-col gap-8">
+            <notification-confirm></notification-confirm>
             <!-- Header -->
             <section>
               <h1 class="font-bold text-2xl">Pusat Transaksi</h1>
@@ -53,14 +59,16 @@
                   growth="+12.4"
                   subscriptions="4821"
                   arpu="29630"
-                  churn="0.82">
+                  churn="0.82"
+                >
                 </transaction-summary-card>
               </div>
               <invoice-outstanding-card
                 total="8210400"
                 collected="75"
                 past-due-30="5420000"
-                past-due-31="2790000">
+                past-due-31="2790000"
+              >
               </invoice-outstanding-card>
             </section>
 
@@ -69,7 +77,8 @@
               <payout-settings-card
                 bank="BCA •••• 9921"
                 frequency="Mingguan (Senin)"
-                next-payout="16 Oktober 2024">
+                next-payout="16 Oktober 2024"
+              >
               </payout-settings-card>
               <billing-guide-card pdf-url="/assets/docs/billing-guide.pdf">
               </billing-guide-card>
@@ -87,11 +96,13 @@
         <label
           for="my-drawer-4"
           aria-label="close sidebar"
-          class="drawer-overlay"></label>
+          class="drawer-overlay"
+        ></label>
 
         <side-bar-provider
           class="h-full block"
-          id="sidebar"></side-bar-provider>
+          id="sidebar"
+        ></side-bar-provider>
       </div>
     </div>
 

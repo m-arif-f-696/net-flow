@@ -16,6 +16,7 @@ export default class NotificationConfirm extends HTMLElement {
 
     // Event listener untuk tombol batal
     this.querySelector("#btn-cancel").addEventListener("click", () => {
+      this.dispatchEvent(new CustomEvent("onCancel"));
       this.hide();
     });
   }
