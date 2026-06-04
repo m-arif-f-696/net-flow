@@ -2,6 +2,7 @@ import SideBarProvider from "../../components/SideBarProvider.js";
 import NavBarProvider from "../../components/NavbarProvider.js";
 import LogoNavbar from "../../components/LogoNavbar.js";
 import { getProfile, switchRole } from "../../js/AuthController.js";
+import config from "../../js/config.js";
 
 import NotificationItem from "./components/NotificationItem.js";
 import TableRowPackage from "./components/TableRowPackage.js";
@@ -14,8 +15,8 @@ import InvoiceOutstandingCard from "./components/InvoiceOutstandingCard.js";
 import PayoutSettingsCard from "./components/PayoutSettingsCard.js";
 import TransactionSummaryCard from "./components/TransactionSummaryCard.js";
 import TransactionTable from "./components/TransactionTable.js";
-import NotificationConfirm from "./components/NotificationConfirm.js";
-import NotificationAlert from "./components/NotificationAlert.js";
+import NotificationConfirm from "../../components/NotificationConfirm.js";
+import NotificationAlert from "../../components/NotificationAlert.js";
 import WizardEditPackage from "./components/WizardEditPackage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -67,8 +68,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   <p class="text-xs font-bold text-primary" id='provider-name'>${user.user.name}</p>
   `;
 
+    console.log(user.user.photo_profile);
     document.getElementById("provider-image").innerHTML = `
-  <img src="http://net_flow.test/uploads/photo_profile/provider/default.png" alt="" />
+  <img src="${config.BASE_URL}/${user.user.img}" alt="" />
   `;
   } catch (error) {
     window.location.href = "../login.html";
@@ -92,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     .querySelector("notification-confirm")
     .addEventListener("onConfirm", async () => {
       // Jalankan fetch logout di sini
-      const response = await fetch("http://net_flow.test/api/auth/logout", {
+      const response = await fetch(`${config.API_BASE_URL}/auth/logout`, {
         method: "POST",
       });
       const data = await response.json();

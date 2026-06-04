@@ -1,3 +1,5 @@
+import config from "../../../js/config.js";
+
 export const loadDataPackage = async () => {
   const contentPackage = document?.querySelector("#content-packages");
   if (!contentPackage) return;
@@ -5,7 +7,7 @@ export const loadDataPackage = async () => {
 
   let data;
   try {
-    const res = await fetch("http://net_flow.test/api/provider/packages", {
+    const res = await fetch(`${config.API_BASE_URL}/provider/packages`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -297,7 +299,7 @@ export const formCreatePackage = () => {
 
     // 1️⃣ Kirim data ke API
     try {
-      const res = await fetch("http://net_flow.test/api/provider/packages", {
+      const res = await fetch(`${config.API_BASE_URL}/provider/packages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -369,14 +371,19 @@ export const formEditPackage = () => {
     const { id, payload, hasChanges } = e.detail;
 
     if (!hasChanges) {
-      // Pakai DaisyUI toast/alert kalau ada, fallback ke native
-      alert("Tidak ada perubahan yang disimpan.");
+      const toast = document?.querySelector("#alert-massage-package");
+      if (toast) {
+        toast.setAttribute("title", "Gagal!");
+        toast.setAttribute("message", "Tidak ada perubahan yang disimpan.");
+        toast.setAttribute("color", "error");
+        toast.show();
+      }
       return;
     }
 
     try {
       const res = await fetch(
-        `http://net_flow.test/api/provider/packages/${id}`,
+        `${config.API_BASE_URL}/provider/packages/${id}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -388,7 +395,13 @@ export const formEditPackage = () => {
       window.location.href = "/provider/packages.html";
     } catch (err) {
       console.error("Network error:", err);
-      alert("Koneksi bermasalah. Coba lagi.");
+      const toast = document?.querySelector("#alert-massage-package");
+      if (toast) {
+        toast.setAttribute("title", "Gagal!");
+        toast.setAttribute("message", err.message);
+        toast.setAttribute("color", "error");
+        toast.show();
+      }
     }
   });
 };
@@ -503,7 +516,7 @@ export const toggleActivePackage = () => {
     const onOkHandler = async () => {
       try {
         const res = await fetch(
-          `http://net_flow.test/api/provider/packages/${id_package}`,
+          `${config.API_BASE_URL}/provider/packages/${id_package}`,
           {
             method: "PATCH",
             headers: {

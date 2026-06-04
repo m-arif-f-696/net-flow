@@ -41,16 +41,12 @@ export default class TopBar extends HTMLElement {
         </div>
         <div class="dropdown dropdown-end">
           <div tabindex="0" role="button" class="w-10 h-10 rounded-full overflow-hidden border-2 border-sky-200">
-            <img
-              alt="User profile avatar"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaTsDIPojInvUPGZXJBM07oQvn2mx6JdJR9oDijWX221Vd6eT9_gSU_zn6271QkRcJ3LvQfrkg8az8nKJQgwvr7ob8Idun3y_DVSzF-f2nMQ2gnpwvV95bugItRjJJPKnCgQpCPUBgaepszcbxROdOPyn1otwARHYplyo5iElHansbrt7CELWiXRcBrdah6vGe-ESBp_jl_9_ExV-TRXe7wzAaPMAaunRU9M0gw-4cqwb_0YayYBkSqAOzdtaNmsJOI6Jsso-jriMF"
-              class="w-full h-full object-cover"
-            />
+            <div id="user-image" class="w-full h-full object-cover">
+            <div class="skeleton h-10 w-10 shrink-0 rounded-full bg-primary/10"></div>
+            </div>
           </div>
           <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-            <li><a href="#" class="text-neutral-500">Profile</a></li>
-            <li><a href="#" class="text-neutral-500">Settings</a></li>
-            <li><a href="#" class="text-neutral-500">Logout</a></li>
+            <li><button id="btn-logout" class="text-neutral-500">Logout</button></li>
           </ul>
         </div>
           

@@ -1,3 +1,5 @@
+import config from "./config.js";
+
 const loginForm = document.querySelector("#login-form");
 
 loginForm?.addEventListener("submit", async (e) => {
@@ -7,7 +9,7 @@ loginForm?.addEventListener("submit", async (e) => {
   const email = formData.get("email");
   const password = formData.get("password");
   try {
-    const res = await fetch("http://net_flow.test/api/auth/login", {
+    const res = await fetch(`${config.API_BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,10 +39,11 @@ loginForm?.addEventListener("submit", async (e) => {
 
 async function getProfile() {
   try {
-    const response = await fetch("http:///net_flow.test/api/auth/me", {
+    const response = await fetch(`${config.API_BASE_URL}/auth/me`, {
       credentials: "include",
     });
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     return error;
@@ -49,7 +52,7 @@ async function getProfile() {
 
 function switchRole(role) {
   switch (role) {
-    case "user":
+    case "customer":
       window.location.href = "/user/home.html";
       break;
     case "provider":

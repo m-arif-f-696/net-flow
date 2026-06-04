@@ -4,63 +4,12 @@ import "./PaginationControl.js";
 export default class MarketPage extends HTMLElement {
   constructor() {
     super();
-    // Simulasi data dari Database/API
-    this.ispData = [
-      {
-        id: 1,
-        name: "Velocity Fiber",
-        provider: "Velocity Networks",
-        price: 45,
-        speed: "1.5 Gbps",
-        distance: "0.8 km",
-        logo: "https://lh3.googleusercontent.com/aida-public/AB6AXuAUcACvBbEmYDI1PsqBWEYYV5E7mFwRF7f2w6D8tJco1z1Se5MbCgKLQYbdPoUmqXao0Z_0k4OdPXxVIsrnHOFdARM07I_Diyhxkfdxwb1Adf_Fktww24vVGt5PQGTRutwzrjAnWjuN_cHyuKPk7EetixKt3dScK3yhS0XHtqwkxxAiAp0zc1jlvsAkyRxRb5BB6I_deJ5F9IeAIk-RB_w55ujMWRdDCmG8zLP7hlu_H13KqlAPIPjY_Znc4tkjSo4by3RD2TFg0yN7",
-      },
-      {
-        id: 2,
-        name: "SkyLink Mesh",
-        provider: "SkyLink ISP",
-        price: 39,
-        speed: "800 Mbps",
-        distance: "1.2 km",
-        logo: "https://lh3.googleusercontent.com/aida-public/AB6AXuBeAk28oaJg92xUdVN4xsR9PvrSK4eSRjAPYIqaaVXkjb6TuM1853fZ-KOrHCe3YKkELSy89EyI94wtEUApGxh7vxgMrWvWsHIwFX7MG7l_2d2djKWgartMKKDYbu85qj2FL4P_-G1N8NpIcl88MQfQiU6nI4COODHuLfrIkGhI415n9EEjg-gaLgLxOs-ylGhAyDmMWL9syihmJ1Z-bbn55mKadhaZ1thL_p3sE5mvmK5YgbNezYReT_9N_A9YTzVynWnaYCZA3hD5",
-      },
-      {
-        id: 3,
-        name: "OmniNet Pro",
-        provider: "OmniNet Global",
-        price: 55,
-        speed: "2.0 Gbps",
-        distance: "2.5 km",
-        logo: "https://lh3.googleusercontent.com/aida-public/AB6AXuDxOkqkn7swOa2DIwGMtxAm5t8NtkIJvRIKW53H5l92J0UzRN0NErSmj7kgmhYTp8wqPdO1_WW-zjQ9uTgAe9MJT3MeS5FbCzd3BUO4IPGJnWEWQgiXPTMWLh49n8hg3QuV5i-19YAY-11Cj7FMSxHrCWA5c3B9wPdFFjUjqkFvYYXW-tgNYW_0YMYag96yj0I1P1Wyw3s9eVYMoPKFXeUnryXwGUQzMdrEPbgVNiQpXO7YT0rfu52uIhMazLQmLNFH8PMaaazjLh3l",
-      },
-      {
-        id: 4,
-        name: "NetFlow Basic",
-        provider: "NetFlow ISP",
-        price: 25,
-        speed: "100 Mbps",
-        distance: "0.5 km",
-        logo: "http://googleusercontent.com/profile/picture/6",
-      },
-      {
-        id: 5,
-        name: "GigaSpeed Max",
-        provider: "Giga Networks",
-        price: 75,
-        speed: "3.0 Gbps",
-        distance: "4.1 km",
-        logo: "http://googleusercontent.com/profile/picture/7",
-      },
-    ];
-
-    // Setup Pagination
-    this.currentPage = 1;
-    this.itemsPerPage = 2; // Tampilkan 2 ISP per halaman agar pagination langsung terlihat
+    this._debounceTimer = null;
   }
 
   connectedCallback() {
     this.render();
-    this.renderList();
+    this._setupSearchListener();
   }
 
   render() {
@@ -76,14 +25,13 @@ export default class MarketPage extends HTMLElement {
                 <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
               </svg>
             </div>
-            <input class="w-full pl-12 pr-4 py-4 bg-base-200 border-b-2 border-base-300 focus:border-primary focus:outline-none transition-all text-base-content placeholder:text-base-content/40 font-medium" placeholder="Search by zip or area..." type="text" />
+            <input 
+              id="search-package" 
+              class="w-full pl-12 pr-4 py-4 bg-base-200 border-b-2 border-base-300 focus:border-primary focus:outline-none transition-all text-base-content placeholder:text-base-content/40 font-medium" 
+              placeholder="Search by package name..." 
+              type="text" 
+            />
           </div>
-        </section>
-
-        <section class="flex gap-3 overflow-x-auto pb-6" style="scrollbar-width: none">
-          <button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-content font-semibold text-sm whitespace-nowrap shadow-lg shadow-primary/20 transition-transform active:scale-95">All ISPs</button>
-          <button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-base-200 text-base-content/60 font-medium text-sm whitespace-nowrap transition-transform active:scale-95">Price</button>
-          <button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-base-200 text-base-content/60 font-medium text-sm whitespace-nowrap transition-transform active:scale-95">Speed (Gbps)</button>
         </section>
 
         <section id="isp-grid" class="grid grid-cols-1 gap-8"></section>
@@ -91,40 +39,146 @@ export default class MarketPage extends HTMLElement {
         <pagination-control></pagination-control>
       </main>
     `;
-
-    // Tangkap event saat user klik tombol Prev/Next
-    this.querySelector("pagination-control").addEventListener(
-      "page-change",
-      (e) => {
-        this.currentPage = e.detail;
-        this.renderList(); // Render ulang data dengan halaman baru
-      },
-    );
   }
 
-  // Fungsi untuk menyuntikkan <isp-card> ke dalam grid
-  renderList() {
+  // ─── Setup Search Input dengan Debounce ───
+
+  _setupSearchListener() {
+    const searchInput = this.querySelector("#search-package");
+    if (!searchInput) return;
+
+    searchInput.addEventListener("input", (e) => {
+      clearTimeout(this._debounceTimer);
+
+      // Debounce 400ms: agar tidak spam API setiap keystroke
+      this._debounceTimer = setTimeout(() => {
+        this.dispatchEvent(
+          new CustomEvent("search-change", { detail: e.target.value.trim() })
+        );
+      }, 400);
+    });
+  }
+
+  // ─── Public Methods (dipanggil oleh Controller) ───
+
+  /**
+   * Tampilkan loading skeleton di grid.
+   */
+  setLoading(isLoading) {
     const grid = this.querySelector("#isp-grid");
-    const pagination = this.querySelector("pagination-control");
-    grid.innerHTML = ""; // Bersihkan list sebelumnya
+    if (!grid) return;
 
-    // Logika Pemotongan Array (Pagination)
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    const paginatedItems = this.ispData.slice(startIndex, endIndex);
+    if (isLoading) {
+      grid.innerHTML = /*html*/ `
+        <div class="flex flex-col gap-4 p-4 rounded-3xl bg-base-200 border border-base-300 animate-pulse">
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-2xl bg-base-300"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-4 bg-base-300 rounded w-3/4"></div>
+              <div class="h-3 bg-base-300 rounded w-1/2"></div>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <div class="flex-1 h-10 bg-base-300 rounded-xl"></div>
+            <div class="flex-1 h-10 bg-base-300 rounded-xl"></div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-4 p-4 rounded-3xl bg-base-200 border border-base-300 animate-pulse">
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-2xl bg-base-300"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-4 bg-base-300 rounded w-2/3"></div>
+              <div class="h-3 bg-base-300 rounded w-1/3"></div>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <div class="flex-1 h-10 bg-base-300 rounded-xl"></div>
+            <div class="flex-1 h-10 bg-base-300 rounded-xl"></div>
+          </div>
+        </div>
+      `;
+    }
+  }
 
-    // Looping data dan buat elemen <isp-card>
-    paginatedItems.forEach((isp) => {
+  /**
+   * Render daftar paket dan update pagination.
+   * @param {Array} packages - Array data paket dari API.
+   * @param {Object} pagination - Object pagination dari API { total_data, total_pages, current_page, limit }.
+   */
+  setPackages(packages, pagination) {
+    const grid = this.querySelector("#isp-grid");
+    const paginationEl = this.querySelector("pagination-control");
+    if (!grid) return;
+
+    grid.innerHTML = ""; // Bersihkan grid
+
+    // Kondisi: tidak ada data
+    if (!packages || packages.length === 0) {
+      grid.innerHTML = /*html*/ `
+        <div class="flex flex-col items-center justify-center py-16 gap-4 text-center">
+          <div class="w-16 h-16 rounded-full bg-base-200 flex items-center justify-center text-base-content/40">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+            </svg>
+          </div>
+          <h3 class="font-bold text-base-content text-lg">Paket Tidak Ditemukan</h3>
+          <p class="text-base-content/60 text-sm max-w-sm">
+            Tidak ada paket yang cocok dengan pencarian Anda.
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    // Render setiap paket sebagai <isp-card>
+    packages.forEach((pkg) => {
       const card = document.createElement("isp-card");
-      card.data = isp; // Lempar object ke setter di dalam IspCard.js
+      card.data = pkg; // Lempar object ke setter di IspCard.js
       grid.appendChild(card);
     });
 
-    // Update state tombol Pagination
-    pagination.data = {
-      currentPage: this.currentPage,
-      totalPages: Math.ceil(this.ispData.length / this.itemsPerPage),
-    };
+    // Update Pagination
+    if (paginationEl && pagination) {
+      paginationEl.data = {
+        currentPage: pagination.current_page,
+        totalPages: pagination.total_pages,
+        limit: pagination.limit,
+      };
+    }
+
+    // Tangkap event page-change dari PaginationControl, lalu bubble up
+    paginationEl?.addEventListener("page-change", (e) => {
+      const newPage = e.detail;
+      const limit = pagination.limit || 10;
+      const offset = (newPage - 1) * limit;
+
+      this.dispatchEvent(
+        new CustomEvent("page-change", { detail: { page: newPage, offset, limit } })
+      );
+    });
+  }
+
+  /**
+   * Tampilkan pesan error di grid.
+   * @param {string} message - Pesan error.
+   */
+  setError(message) {
+    const grid = this.querySelector("#isp-grid");
+    if (!grid) return;
+
+    grid.innerHTML = /*html*/ `
+      <div class="flex flex-col items-center justify-center py-16 gap-4 text-center">
+        <div class="w-16 h-16 rounded-full bg-error/10 flex items-center justify-center text-error">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+        </div>
+        <h3 class="font-bold text-base-content text-lg">Gagal Memuat Data</h3>
+        <p class="text-base-content/60 text-sm max-w-sm">
+          ${message || "Tidak dapat mengambil data paket. Periksa koneksi atau coba beberapa saat lagi."}
+        </p>
+      </div>
+    `;
   }
 }
 
