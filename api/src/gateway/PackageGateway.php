@@ -336,7 +336,15 @@ class PackageGateway {
        
         $sql = "UPDATE packages SET {$fieldsString} WHERE id_package = :id_package";
 
-        $stmt = $this->db->prepare($sql);
+        if ($id_user !== null) {
+            $sql .= " JOIN providers pr ON p.id_provider = pr.id_provider";
+        }
+
+        $sql .= " WHERE p.id_package = :id";
+
+        if ($id_user !== null) {
+            $sql .= " AND pr.id_user = :id_user"; 
+        }
 
         // 6. Bind data yang dinamis secara otomatis
         foreach ($binds as $key => $value) {
