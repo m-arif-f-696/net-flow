@@ -115,7 +115,7 @@ class PackageController
         echo json_encode([ 
           "message" => "Success",
           "code"=>200, 
-          "summary" => $summary,
+          "package_summary" =>$summary,
           "data" => $this->gateway->getAll((int)$this->userActive->id_user) 
         ]);
         break;

@@ -1,6 +1,8 @@
 import {
   loadDataPackage,
   formCreatePackage,
+  formEditPackage,
+  toggleActivePackage,
 } from "../controllers/packageController.js";
 
 // 1. Jalankan fungsi untuk memuat daftar paket
@@ -9,3 +11,7 @@ loadDataPackage();
 
 // 2. JANGAN LUPA: Jalankan juga fungsi untuk menangani form Wizard!
 formCreatePackage();
+
+formEditPackage();
+
+toggleActivePackage();

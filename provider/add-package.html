@@ -8,21 +8,25 @@
     <link
       rel="shortcut icon"
       href="../assets/images/logo.svg"
-      type="image/x-icon" />
+      type="image/x-icon"
+    />
     <script type="module" src="js/index.js"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
   </head>
   <body data-page="packages">
     <div
       id="page-loader"
-      class="fixed inset-0 z-100 bg-base-100 flex items-center justify-center">
+      class="fixed inset-0 z-100 bg-base-100 flex items-center justify-center"
+    >
       <span class="loading loading-spinner loading-lg text-primary"></span>
     </div>
     <div class="drawer lg:drawer-open">
@@ -35,9 +39,12 @@
       {"label": "NetFlow", "url": "../index.html"},  
       {"label": "Paket", "url": "packages.html"},
       {"label": "Tambah Paket", "url": null}
-    ]'></nav-bar-provider>
+    ]'
+          ></nav-bar-provider>
 
           <main class="p-8 lg:p-12 flex-grow bg-base-100 flex flex-col gap-8">
+            <notification-confirm></notification-confirm>
+            <notification-alert id="confirm-add-package"></notification-alert>
             <section>
               <h1 class="font-bold text-2xl">Daftar Paket Internet</h1>
               <p class="text-base-content/80">
@@ -53,11 +60,13 @@
         <label
           for="my-drawer-4"
           aria-label="close sidebar"
-          class="drawer-overlay"></label>
+          class="drawer-overlay"
+        ></label>
 
         <side-bar-provider
           class="h-full block"
-          id="sidebar"></side-bar-provider>
+          id="sidebar"
+        ></side-bar-provider>
       </div>
     </div>
     <script type="module" src="./js/pages/packages.js"></script>
