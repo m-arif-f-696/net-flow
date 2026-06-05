@@ -15,7 +15,8 @@ class PackageGateway {
                     pr.logo_provider,
                     pr.contact_cs,
                     w_area.nama         AS area_name,
-                    w_coverage.nama     AS coverage_area_name
+                    w_coverage.nama     AS coverage_area_name,
+                    w_coverage.kode     AS coverage_area_code
                 FROM packages p
                 INNER JOIN providers pr 
                     ON p.id_provider = pr.id_provider
@@ -420,6 +421,15 @@ class PackageGateway {
     private function getProviderByIdUser(int $id_user): array
     {
         $sql = "SELECT id_provider FROM providers WHERE id_user = :id_user";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getCustomerByIdUser(int $id_user): array | false
+    {
+        $sql = "SELECT id_customer, area_code FROM customers WHERE id_user = :id_user";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
         $stmt->execute();

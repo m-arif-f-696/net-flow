@@ -73,6 +73,16 @@ switch ($group) {
         break;
 
     // ──────────────────────────────────────────
+    // LOCATION  →  /api/location?type={type}&code={code}
+    // ──────────────────────────────────────────
+    case "location":
+        $gateway    = new LocationGateway($database);
+        $controller = new LocationController($gateway);
+        $controller->processRequest($method, $resource);
+        break;
+
+        
+    // ──────────────────────────────────────────
     // PROVIDER  →  /api/provider/{resource}/{id}
     // ──────────────────────────────────────────
     case "provider":

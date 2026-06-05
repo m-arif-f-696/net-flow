@@ -40,6 +40,15 @@ class CustomerPackageController
             return;
         }
 
+        $id_user = (int) $this->userActive->id_user;
+
+        $customer = $this->gateway->getCustomerByIdUser($id_user);
+
+        $package['coverage_status'] = $this->isInCoverage(
+            $package['coverage_area_code'], 
+            $customer['area_code']
+        );
+
         http_response_code(200);
         echo json_encode(["code"=>200, "message" => "Success", "data" => $package]);
     }
@@ -68,4 +77,18 @@ class CustomerPackageController
         http_response_code(200);
         echo json_encode(["code"=>200, "message" => "Success", "data" => $packages, "pagination" => $pagination]);
     }
+    private function isInCoverage(string $coverageCode, string $customerCode): bool
+{
+    // Normalisasi: trim spasi
+    $coverageCode = trim($coverageCode);
+    $customerCode = trim($customerCode);
+
+    // Exact match
+    if ($customerCode === $coverageCode) {
+        return true;
+    }
+
+    // Customer harus diawali coverage + "." (agar "32.07" tidak cocok dengan "32.070")
+    return str_starts_with($customerCode, $coverageCode . '.');
+}
 }
