@@ -7,51 +7,72 @@ class PackageGateway {
         $this->db = $database->connect();
     }
 
-    // Tambahkan parameter $status, $limit, dan $offset (semuanya opsional / boleh null)
-    public function getAll(?int $id_user = null, ?string $status = null, ?int $limit = null, ?int $offset = null, ?string $search = null) {
-        
-        $sql = "SELECT p.* FROM packages p";
-        
-        // 1. Jika untuk Provider: Lakukan JOIN
-        if ($id_user !== null) {
-            $sql .= " JOIN providers pr ON p.id_provider = pr.id_provider";
-        }
+    private function getBaseQuery(): string
+    {
+        return "SELECT 
+                    p.*,
+                    pr.name_company     AS provider_name,
+                    pr.logo_provider,
+                    pr.contact_cs,
+                    w_area.nama         AS area_name,
+                    w_coverage.nama     AS coverage_area_name
+                FROM packages p
+                INNER JOIN providers pr 
+                    ON p.id_provider = pr.id_provider
+                INNER JOIN wilayah w_area 
+                    ON pr.area_code = w_area.kode
+                INNER JOIN wilayah w_coverage 
+                    ON pr.coverage_area = w_coverage.kode";
+    }
 
+    public function getAll(
+        ?int $id_user = null, 
+        ?string $status = null, 
+        ?int $limit = 10, 
+        ?int $offset = 0, 
+        ?string $search = null
+    ): array {
+        // 1. Ambil query dasar
+        $sql = $this->getBaseQuery();
+        
+        // Gunakan trik WHERE 1=1 agar penambahan kondisi selanjutnya lebih mudah
         $sql .= " WHERE 1=1";
 
-        // 2. Jika untuk Provider: Filter berdasarkan pemilik
-        if ($id_user !== null) {
-            $sql .= " AND pr.id_user = :id_user"; 
-        }
+        $id_provider = null;
 
-        if ($search !== null) {
-            // Menggunakan LIKE agar bisa mencari kata yang mirip/sebagian
-            $sql .= " AND p.name_package LIKE :search";
-        }
-
-        // 3. Jika untuk Customer: Filter hanya paket yang 'active'
+        // 2. Susun Kondisi SQL
         if ($status !== null) {
             $sql .= " AND p.package_status = :status";
         }
 
-        // 4. Tambahkan Pagination jika parameternya dikirim
+        if ($id_user !== null) {
+            $id_provider = $this->getProviderByIdUser($id_user);
+            $sql .= " AND p.id_provider = :id_provider";
+        }
+
+        if ($search !== null) {
+            $sql .= " AND (p.name_package LIKE :search OR pr.name_company LIKE :search)";
+        }
+
+        // 3. Tambahkan Order dan Pagination
+        $sql .= " ORDER BY p.created_at DESC";
+        
         if ($limit !== null && $offset !== null) {
             $sql .= " LIMIT :limit OFFSET :offset";
         }
 
         $stmt = $this->db->prepare($sql);
 
-        // 5. BINDING SECARA DINAMIS (Wajib di dalam IF)
-        if ($id_user !== null) {
-            $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
-        }
-
+        // 4. Lakukan Binding Data (PDO)
         if ($status !== null) {
             $stmt->bindValue(":status", $status, PDO::PARAM_STR);
         }
+        
+        if ($id_provider !== null) {
+            $stmt->bindValue(":id_provider", $id_provider, PDO::PARAM_INT);
+        }
 
         if ($search !== null) {
-            // % di depan dan belakang artinya 'cari string ini di mana saja'
             $stmt->bindValue(":search", "%" . $search . "%", PDO::PARAM_STR);
         }
 
@@ -59,10 +80,61 @@ class PackageGateway {
             $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
             $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
         }
-        
+
         $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getPackageById(int $id, ?int $id_user = null) 
+    {
+        // 1. Panggil query dasar (Otomatis sudah nge-JOIN ke providers dan wilayah)
+        $sql = $this->getBaseQuery();
+
+        // 2. Filter berdasarkan ID Paket
+        $sql .= " WHERE p.id_package = :id";
+
+        // 3. Proteksi jika Provider yang melihat (Hanya bisa melihat paket miliknya)
+        if ($id_user !== null) {
+            $sql .= " AND pr.id_user = :id_user"; 
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+        if ($id_user !== null) {
+            $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
+        }
+
+        $stmt->execute();
+        
+        // Tetap gunakan fetch() karena hasilnya pasti hanya 1 (Detail)
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getPackageBySlug(string $slug, ?int $id_user = null) 
+    {
+        // 1. Panggil query dasar
+        $sql = $this->getBaseQuery();
+
+        // 2. Filter berdasarkan Slug
+        $sql .= " WHERE p.slug = :slug";
+
+        // 3. Proteksi jika Provider yang memanggil
+        if ($id_user !== null) {
+            $sql .= " AND pr.id_user = :id_user"; 
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":slug", $slug, PDO::PARAM_STR);
+
+        if ($id_user !== null) {
+            $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
+        }
+
+        $stmt->execute();
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function createPackage(array $data, int $id_user): string
@@ -136,7 +208,7 @@ class PackageGateway {
 
     public function getSummary(int $id_user): array 
     {   
-        $provider = $this->getProviderById($id_user);
+        $provider = $this->getProviderByIdUser($id_user);
         $id_provider = $provider['id_provider'];
 
         // 1. Hitung total paket & rata-rata harga untuk provider ini
@@ -193,55 +265,6 @@ class PackageGateway {
             ];
     }
 
-    public function getPackageById(int $id, ?int $id_user = null) 
-    {
-        $sql = "SELECT p.* FROM packages p";
-
-        if ($id_user !== null) {
-            $sql .= " JOIN providers pr ON p.id_provider = pr.id_provider";
-        }
-
-        $sql .= " WHERE p.id_package = :id";
-
-        if ($id_user !== null) {
-            $sql .= " AND pr.id_user = :id_user"; 
-        }
-
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-
-        if ($id_user !== null) {
-            $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
-        }
-
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function getPackageBySlug(string $slug, ?int $id_user = null) 
-    {
-        $sql = "SELECT p.* FROM packages p";
-
-        if ($id_user !== null) {
-            $sql .= " JOIN providers pr ON p.id_provider = pr.id_provider";
-        }
-
-        $sql .= " WHERE p.slug = :slug";
-
-        if ($id_user !== null) {
-            $sql .= " AND pr.id_user = :id_user"; 
-        }
-
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":slug", $slug, PDO::PARAM_STR);
-
-        if ($id_user !== null) {
-            $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
-        }
-
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
 
     public function deletePackage(string $id, int $id_provider): int
     {   
@@ -394,7 +417,7 @@ class PackageGateway {
         ];
     }
 
-    private function getProviderById(int $id_user): array
+    private function getProviderByIdUser(int $id_user): array
     {
         $sql = "SELECT id_provider FROM providers WHERE id_user = :id_user";
         $stmt = $this->db->prepare($sql);

@@ -13,19 +13,19 @@ import config from "../../../js/config.js";
  * @param {number} [params.offset=0] - Offset data (skip).
  * @returns {Promise<{data: Array, pagination: Object}>}
  */
-export const fetchPackages = async ({ search, limit = 10, offset = 0 } = {}) => {
-  // 1️⃣ Susun query string dengan URLSearchParams
-  //    Hanya parameter yang memiliki nilai yang akan masuk ke URL
+export const fetchPackages = async ({
+  search,
+  limit = 10,
+  offset = 0,
+} = {}) => {
   const params = new URLSearchParams();
 
   if (search) params.append("search", search);
   if (limit) params.append("limit", limit);
   if (offset !== undefined && offset !== null) params.append("offset", offset);
 
-  // 2️⃣ Bangun full URL: base + endpoint + query
   const url = `${config.API_BASE_URL}/customer/packages/?${params.toString()}`;
 
-  // 3️⃣ Panggil API dengan fetch() bawaan browser
   const response = await fetch(url, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
@@ -49,10 +49,6 @@ export const fetchPackages = async ({ search, limit = 10, offset = 0 } = {}) => 
 // INIT MARKET PAGE
 // ─────────────────────────────────────────────
 
-/**
- * Inisialisasi halaman Market.
- * Menghubungkan komponen MarketPage dengan fetchPackages.
- */
 export const initMarket = () => {
   const marketPage = document.querySelector("market-page");
   if (!marketPage) return;
@@ -62,9 +58,6 @@ export const initMarket = () => {
   let currentLimit = 10;
   let currentOffset = 0;
 
-  /**
-   * Fungsi utama: fetch data lalu serahkan ke komponen.
-   */
   const loadPackages = async () => {
     // Tampilkan loading state di komponen
     marketPage.setLoading(true);
