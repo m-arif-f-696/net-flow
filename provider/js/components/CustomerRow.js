@@ -1,14 +1,11 @@
 export default class CustomerRow extends HTMLTableRowElement {
   connectedCallback() {
-    const name = this.getAttribute("name");
-    const status = this.getAttribute("status");
-    const id = this.getAttribute("customer-id");
-    const address = this.getAttribute("address");
-    const plan = this.getAttribute("plan");
-    const speed = this.getAttribute("speed");
-    const usage = this.getAttribute("usage");
-    const usagePct = this.getAttribute("usage-pct");
-    const img = this.getAttribute("img") || "https://via.placeholder.com/150";
+    const name = this.getAttribute("name") || "—";
+    const status = this.getAttribute("status") || "Active"; // Fallback ke Active jika kosong
+    const id = this.getAttribute("customer-id") || "—";
+    const address = this.getAttribute("address") || "—";
+    const plan = this.getAttribute("plan") || "—";
+    const speed = this.getAttribute("speed") || "—";
 
     // Logika warna status
     let statusColor = "bg-success";
@@ -16,18 +13,15 @@ export default class CustomerRow extends HTMLTableRowElement {
     if (status.toLowerCase() === "suspended") {
       statusColor = "bg-warning";
       statusTextClass = "text-warning-content";
-    } else if (status.toLowerCase() === "pending") {
-      statusColor = "bg-info";
-      statusTextClass = "text-info";
+    } else if (status.toLowerCase() === "terminated") {
+      statusColor = "bg-error";
+      statusTextClass = "text-error-content";
     }
 
     this.className = "hover:bg-base-200 transition-colors group";
     this.innerHTML = /*html*/ `
       <td class="px-6 py-5">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-base-300 overflow-hidden flex items-center justify-center">
-            ${this.getAttribute("img") ? `<img alt="Customer" class="w-full h-full object-cover" src="${img}" />` : `<span class="material-symbols-outlined text-base-content/40">account_circle</span>`}
-          </div>
           <div>
             <p class="font-bold text-base-content leading-tight">${name}</p>
             <div class="flex items-center gap-1.5 mt-1">
@@ -49,27 +43,13 @@ export default class CustomerRow extends HTMLTableRowElement {
           <span class="text-[10px] text-base-content/50 font-medium">${speed}</span>
         </div>
       </td>
-      <td class="px-6 py-5">
-        <div class="w-full max-w-[120px]">
-          <div class="flex justify-between text-[10px] font-bold mb-1">
-            <span>${usage}</span>
-            <span class="text-primary">${usagePct}%</span>
-          </div>
-          <div class="h-1.5 w-full bg-base-200 rounded-full overflow-hidden">
-            <div class="h-full bg-primary rounded-full" style="width: ${usagePct}%"></div>
-          </div>
-        </div>
-      </td>
       <td class="px-6 py-5 text-right">
         <div class="flex items-center justify-end gap-1">
-          <button class="p-2 hover:bg-primary/10 text-primary rounded-lg transition-colors" title="View Details">
+          <button data-action="view" class="p-2 hover:bg-primary/10 text-primary rounded-lg transition-colors" title="View Details">
             <span class="material-symbols-outlined">visibility</span>
           </button>
-          <button class="p-2 hover:bg-base-200 text-base-content/60 rounded-lg transition-colors" title="Edit Customer">
+          <button data-action="edit" class="p-2 hover:bg-base-200 text-base-content/60 rounded-lg transition-colors" title="Edit Customer">
             <span class="material-symbols-outlined">edit</span>
-          </button>
-          <button class="p-2 hover:bg-info hover:text-white text-base-content/60 rounded-lg transition-colors" title="Manage Service">
-            <span class="material-symbols-outlined">settings_ethernet</span>
           </button>
         </div>
       </td>

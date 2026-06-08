@@ -10,3 +10,4 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # Menangkap URL untuk halaman edit paket
 RewriteRule ^provider/edit-package/([a-zA-Z0-9_-]+)$ provider/edit-package.html?slug=$1 [L,QSA]
 RewriteRule ^user/detailpackage/([a-zA-Z0-9_-]+)$ user/detailpackage.html?slug=$1 [L,QSA]
+RewriteRule ^user/checkout/([a-zA-Z0-9_-]+)$ user/checkout.html?slug=$1 [L,QSA]

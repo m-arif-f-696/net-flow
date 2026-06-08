@@ -22,6 +22,12 @@ class LocationController
         $type = $_GET['type'] ?? 'province';
         $code = $_GET['code'] ?? null;
 
+        // GET /location?resource=area&code=... → untuk mendapatkan semua area di bawah code tersebut
+        if ($resource === 'area') {
+          $this->handleArea($code);
+          return;
+        }
+
         match ($type) {
             'province' => $this->handleProvince(),
             'regency'  => $this->handleRegency($code),
@@ -29,6 +35,16 @@ class LocationController
             'village'  => $this->handleVillage($code),
             default    => $this->sendError(400, "Parameter 'type' tidak valid. Gunakan: province, regency, district, village.")
         };
+    }
+
+    private function handleArea(?string $code): void
+    {
+        if(empty($code)) {
+            $this->sendError(400, "Parameter 'code' wajib diisi. Contoh: ?code=32");
+            return;
+        }
+        $data = $this->gateway->getArea($code);
+        $this->sendSuccess($data);
     }
 
     private function handleProvince(): void

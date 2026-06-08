@@ -42,8 +42,8 @@
     ]'
           ></nav-bar-provider>
 
+          <notification-confirm></notification-confirm>
           <main class="p-8 lg:p-12 flex-grow bg-base-100 flex flex-col gap-8">
-            <notification-confirm></notification-confirm>
             <section>
               <h1 class="font-bold text-2xl">Dashboard</h1>
               <p class="text-base-content/80">
@@ -53,7 +53,6 @@
             <!-- Hero Stats: Business Overview -->
             <section>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- card-1 -->
                 <div
                   class="bg-primary/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group"
                 >
@@ -63,11 +62,21 @@
                     >
                       <span class="material-symbols-outlined">group</span>
                     </div>
+                    <!-- <span
+                      class="text-sm font-bold bg-success/10 text-success/90 p-1 rounded-lg flex items-center gap-1 border border-success/20"
+                    >
+                      +12%
+                      <span class="material-symbols-outlined text-sm"
+                        >trending_up</span
+                      >
+                    </span> -->
                   </div>
                   <p class="font-semibold">Total Pelanggan</p>
-                  <h3 class="text-2xl font-extrabold mt-1">1,234</h3>
+                  <h3 id="stat-customers" class="text-2xl font-extrabold mt-1">
+                    Loading...
+                  </h3>
                 </div>
-                <!-- card-2 -->
+
                 <div
                   class="bg-accent/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group"
                 >
@@ -77,11 +86,21 @@
                     >
                       <span class="material-symbols-outlined">payments</span>
                     </div>
+                    <!-- <span
+                      class="text-sm font-bold bg-error/10 text-error/90 p-1 rounded-lg flex items-center gap-1 border border-error/20"
+                    >
+                      -8%
+                      <span class="material-symbols-outlined text-sm"
+                        >trending_down</span
+                      >
+                    </span> -->
                   </div>
                   <p class="font-semibold">Pendapatan Bulan Ini</p>
-                  <h3 class="text-2xl font-extrabold mt-1">Rp 78.500.000</h3>
+                  <h3 id="stat-revenue" class="text-2xl font-extrabold mt-1">
+                    Loading...
+                  </h3>
                 </div>
-                <!-- card-3 -->
+
                 <div
                   class="bg-info/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group"
                 >
@@ -93,9 +112,11 @@
                     </div>
                   </div>
                   <p class="font-semibold">Total Paket</p>
-                  <h3 class="text-2xl font-extrabold mt-1">56</h3>
+                  <h3 id="stat-packages" class="text-2xl font-extrabold mt-1">
+                    Loading...
+                  </h3>
                 </div>
-                <!-- card-4 -->
+
                 <div
                   class="bg-error/10 p-6 rounded-2xl border border-neutral/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all group"
                 >
@@ -109,7 +130,9 @@
                     </div>
                   </div>
                   <p class="font-semibold">Tiket Gangguan</p>
-                  <h3 class="text-2xl font-extrabold mt-1">12</h3>
+                  <h3 id="stat-issues" class="text-2xl font-extrabold mt-1">
+                    Loading...
+                  </h3>
                 </div>
               </div>
             </section>
@@ -117,103 +140,57 @@
               <div class="grid grid-cols-12 gap-8 items-start">
                 <!-- Left: Aktivitas Terbaru Panel (Col 8) -->
                 <div class="col-span-12 lg:col-span-8">
+                  <!-- Notification Section — taruh di dashboard.html -->
                   <div
                     class="bg-base-200 rounded-2xl border border-neutral/10 overflow-hidden shadow-sm col-span-6"
                   >
+                    <!-- Header -->
                     <div
                       class="bg-base-300 p-6 border-b border-neutral/10 flex justify-between items-center"
                     >
-                      <h3 class="text-lg font-bold text-on-surface">
-                        Aktivitas Terbaru
-                      </h3>
+                      <div class="flex items-center gap-3">
+                        <h3 class="text-lg font-bold text-base-content">
+                          Aktivitas Terbaru
+                        </h3>
+                        <!-- Badge unread count -->
+                        <span
+                          id="notif-unread-badge"
+                          class="hidden badge badge-primary badge-sm font-bold"
+                          >0</span
+                        >
+                      </div>
                       <button
-                        class="text-xs font-semibold text-primary hover:underline"
+                        id="btn-notif-refresh"
+                        class="text-xs font-semibold text-primary hover:underline flex items-center gap-1"
                       >
+                        <span class="material-symbols-outlined text-sm"
+                          >refresh</span
+                        >
                         Refresh
                       </button>
                     </div>
-                    <div class="divide-y divide-neutral/10 col-span-12">
-                      <notification-item
-                        icon="payments"
-                        icon-bg="bg-green-100"
-                        icon-color="text-green-600"
-                        time="10:15"
-                        badge-text="Success"
-                        badge-class="bg-green-100 text-green-700"
-                      >
-                        Pembayaran dari Pelanggan
-                        <span class="font-bold">Budi Wisesa</span> (ID: CUST001)
-                        untuk Paket
-                        <span class="font-bold">'Maju Keluarga'</span>
-                        dikonfirmasi
-                      </notification-item>
 
-                      <notification-item
-                        icon="confirmation_number"
-                        icon-bg="bg-red-100"
-                        icon-color="text-red-600"
-                        time="09:45"
-                        badge-text="Important"
-                        badge-class="bg-error text-on-error"
-                      >
-                        Tiket gangguan baru
-                        <span class="font-bold">#TKT012</span> dilaporkan oleh
-                        Pelanggan <span class="font-bold">Citra Dewi</span>
-                      </notification-item>
-
-                      <notification-item
-                        icon="inventory_2"
-                        icon-bg="bg-blue-100"
-                        icon-color="text-blue-600"
-                        time="09:00"
-                      >
-                        Paket internet baru
-                        <span class="font-bold">'Speedy Pro'</span> (100 Mbps)
-                        telah ditambahkan ke katalog.
-                      </notification-item>
-
-                      <notification-item
-                        icon="person"
-                        icon-bg="bg-primary/20"
-                        icon-color="text-primary"
-                        time="08:30"
-                      >
-                        Login Provider X dari IP:
-                        <span class="font-medium text-primary">192.168.1.1</span
-                        >.
-                      </notification-item>
-
-                      <notification-item
-                        icon="description"
-                        icon-bg="bg-neutral/20"
-                        icon-color="text-tertiary"
-                        time="07:15"
-                      >
-                        Laporan pendapatan
-                        <span class="font-bold">Juni 2024</span> telah
-                        di-generate.
-                      </notification-item>
-
-                      <notification-item
-                        icon="confirmation_number"
-                        icon-bg="bg-blue-100"
-                        icon-color="text-blue-600"
-                        time="06:45"
-                        badge-text="Solved"
-                        badge-class="bg-blue-500 text-on-primary"
-                      >
-                        Tiket <span class="font-bold">#TKT011</span> ditutup
-                        oleh admin
-                      </notification-item>
-                    </div>
+                    <!-- Accordion list -->
                     <div
-                      class="p-4 bg-base-300 text-center hover:bg-base-content/30 transition-colors"
+                      class="join join-vertical w-full"
+                      id="notification-list"
                     >
-                      <a
-                        class="text-sm font-bold text-primary hover:text-primary/80 transition-colors"
-                        href="#"
-                        >Lihat Semua Aktivitas</a
+                      <!-- Diisi oleh notificationController.js -->
+                      <div class="p-8 flex justify-center">
+                        <span
+                          class="loading loading-spinner loading-md text-primary"
+                        ></span>
+                      </div>
+                    </div>
+
+                    <!-- Show More -->
+                    <div class="p-4 text-center border-t border-neutral/10">
+                      <button
+                        id="btn-notif-more"
+                        class="btn btn-soft hover:bg-base-content/30 btn-sm"
                       >
+                        Show More
+                      </button>
                     </div>
                   </div>
                   <!-- Bottom Panel: Paket Terlaris -->
@@ -228,14 +205,18 @@
                         <thead class="bg-base-300">
                           <tr>
                             <th class="px-6 py-4">Nama Paket</th>
-                            <th class="px-6 py-4">Kecepatan</th>
-                            <th class="px-6 py-4">Tipe</th>
+                            <th class="px-6 py-4">Kecepatan Download</th>
+                            <th class="px-6 py-4">Kecepatan Upload</th>
                             <th class="px-6 py-4">Total Penjualan</th>
+                            <th class="px-6 py-4">Tipe</th>
                             <th class="px-6 py-4">Pendapatan</th>
                           </tr>
                         </thead>
-                        <tbody class="divide-y divide-neutral/10">
-                          <tr
+                        <tbody
+                          class="divide-y divide-neutral/10"
+                          id="top-package-table"
+                        >
+                          <!-- <tr
                             is="table-row-package"
                             name="Maju Keluarga"
                             speed="100Mbps"
@@ -260,9 +241,17 @@
                             type="Quota"
                             sales="1.200"
                             revenue="Rp 120.000.000"
-                          ></tr>
+                          ></tr> -->
                         </tbody>
                       </table>
+                      <div
+                        class="p-8 flex justify-center"
+                        id="top-package-loading"
+                      >
+                        <span
+                          class="loading loading-spinner loading-md text-primary"
+                        ></span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -371,5 +360,6 @@
         ></side-bar-provider>
       </div>
     </div>
+    <script type="module" src="js/pages/dashboard.js"></script>
   </body>
 </html>

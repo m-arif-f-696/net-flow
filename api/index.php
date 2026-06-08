@@ -80,8 +80,23 @@ switch ($group) {
         $controller = new LocationController($gateway);
         $controller->processRequest($method, $resource);
         break;
-
-        
+    
+    case "notifications":
+        $userActive = AuthMiddleware::checkToken();
+      
+        $gateway    = new NotificationGateway($database);
+        $controller = new NotificationController($gateway, $userActive);
+        $controller->processRequest($method, $resource);
+        break;
+    
+    case "issues":
+        $userActive = AuthMiddleware::checkToken();
+       
+        $gateway    = new IssueGateway($database);
+        $controller = new IssueController($gateway, $userActive);
+        $controller->processRequest($method, $resource);
+        break;
+    
     // ──────────────────────────────────────────
     // PROVIDER  →  /api/provider/{resource}/{id}
     // ──────────────────────────────────────────
@@ -90,15 +105,21 @@ switch ($group) {
         $userActive = AuthMiddleware::requireRole("provider"); 
 
         switch ($resource) {
-            case "dashboard":
-                // $gateway    = new ProviderDashboardGateway($database);
-                // $controller = new ProviderDashboardController($gateway);
-                // $controller->processRequest($method);
+            case "report":
+                $gateway    = new ProviderReportGateway($database);
+                $controller = new ProviderReportController($gateway, $userActive);
+                $controller->processRequest($method);
                 break;
 
             case "packages":
                 $gateway    = new PackageGateway($database);
                 $controller = new PackageController($gateway, $userActive);
+                $controller->processRequest($method, $params);
+                break;
+
+            case "customers":
+                $gateway    = new CustomerGateway($database);
+                $controller = new CustomerController($gateway, $userActive);
                 $controller->processRequest($method, $params);
                 break;
 

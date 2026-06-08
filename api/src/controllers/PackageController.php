@@ -109,6 +109,21 @@ class PackageController
   {
     switch ($method) {
       case "GET":
+        
+        if(isset($_GET['revenue'])) {
+          $revenue = isset($_GET['revenue']) ? (int) $_GET['revenue'] : 3;
+
+          $revenueData = $this->gateway->getPackageWithRevenue((int)$this->userActive->id_user, $revenue);
+
+          http_response_code(200);
+          echo json_encode([ 
+            "message" => "Success",
+            "code"=>200, 
+            "data" => $revenueData 
+          ]);
+          return;
+        }
+
         $summary = $this->gateway->getSummary((int)$this->userActive->id_user);
 
         http_response_code(200);

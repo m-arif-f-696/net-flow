@@ -41,9 +41,8 @@
     ]'
           ></nav-bar-provider>
 
+          <notification-confirm></notification-confirm>
           <main class="p-8 lg:p-12 flex-grow bg-base-100 flex flex-col gap-8">
-            <notification-confirm></notification-confirm>
-
             <section>
               <h1 class="font-bold text-2xl text-base-content">
                 Daftar Pelanggan
@@ -53,7 +52,11 @@
               </p>
             </section>
 
+            <!-- CUSTOMER PAGE HTML -->
+            <!-- Pastikan CustomerRow sudah diimport di pages/customer.js -->
+
             <div class="space-y-8">
+              <!-- Stat Cards -->
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div
                   class="bg-base-100 p-6 rounded-xl shadow-sm border border-neutral/10 flex items-center justify-between"
@@ -64,20 +67,17 @@
                     >
                       Active Users
                     </p>
-                    <p class="text-3xl font-extrabold text-base-content">
-                      12,482
+                    <p
+                      id="stat-active"
+                      class="text-3xl font-extrabold text-base-content"
+                    >
+                      —
                     </p>
                   </div>
-                  <div class="flex flex-col items-end gap-2">
-                    <span
-                      class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg"
-                      >person_check</span
-                    >
-                    <span
-                      class="text-xs font-bold text-success bg-success/10 px-2 py-0.5 rounded-full"
-                      >+12%</span
-                    >
-                  </div>
+                  <span
+                    class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg"
+                    >person_check</span
+                  >
                 </div>
 
                 <div
@@ -87,16 +87,19 @@
                     <p
                       class="text-xs text-base-content/60 font-medium uppercase tracking-wider"
                     >
-                      Pending Installs
+                      Suspended
                     </p>
-                    <p class="text-3xl font-extrabold text-base-content">148</p>
-                  </div>
-                  <div class="flex flex-col items-end">
-                    <span
-                      class="material-symbols-outlined text-warning bg-warning/10 p-2 rounded-lg"
-                      >hourglass_empty</span
+                    <p
+                      id="stat-suspended"
+                      class="text-3xl font-extrabold text-base-content"
                     >
+                      —
+                    </p>
                   </div>
+                  <span
+                    class="material-symbols-outlined text-warning bg-warning/10 p-2 rounded-lg"
+                    >hourglass_empty</span
+                  >
                 </div>
 
                 <div
@@ -106,201 +109,106 @@
                     <p
                       class="text-xs text-base-content/60 font-medium uppercase tracking-wider"
                     >
-                      Down Nodes
+                      Terminated
                     </p>
-                    <p class="text-3xl font-extrabold text-base-content">24</p>
-                  </div>
-                  <div class="flex flex-col items-end">
-                    <span
-                      class="material-symbols-outlined text-error bg-error/10 p-2 rounded-lg"
-                      >signal_disconnected</span
+                    <p
+                      id="stat-terminated"
+                      class="text-3xl font-extrabold text-base-content"
                     >
+                      —
+                    </p>
                   </div>
+                  <span
+                    class="material-symbols-outlined text-error bg-error/10 p-2 rounded-lg"
+                    >dangerous</span
+                  >
                 </div>
               </div>
-            </div>
 
-            <div
-              class="flex flex-wrap items-center justify-between gap-4 py-4 px-6 bg-base-200 rounded-2xl border border-neutral/10"
-            >
-              <div class="flex items-center gap-2">
-                <button
-                  class="px-5 py-2 rounded-full bg-primary text-primary-content font-semibold text-sm shadow-md transition-all active:scale-95"
-                >
-                  All Customers
-                </button>
-                <button
-                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95"
-                >
-                  Active
-                </button>
-                <button
-                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95"
-                >
-                  Suspended
-                </button>
-                <button
-                  class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95"
-                >
-                  Pending
-                </button>
-              </div>
-              <div class="flex items-center gap-3">
-                <button
-                  class="flex items-center gap-2 px-4 py-2 border border-neutral/10 bg-base-100 rounded-lg text-sm font-medium hover:bg-base-200 transition-colors"
-                >
-                  <span class="material-symbols-outlined text-sm"
-                    >filter_list</span
-                  >
-                  Advanced Filter
-                </button>
-                <button
-                  class="flex items-center gap-2 px-4 py-2 border border-neutral/10 bg-base-100 rounded-lg text-sm font-medium hover:bg-base-200 transition-colors"
-                >
-                  <span class="material-symbols-outlined text-sm"
-                    >download</span
-                  >
-                  Export CSV
-                </button>
-              </div>
-            </div>
-
-            <div
-              class="bg-base-100 rounded-3xl overflow-hidden shadow-xl shadow-base-300/50 border border-neutral/10"
-            >
-              <table class="w-full text-left border-collapse">
-                <thead class="bg-base-200/50">
-                  <tr>
-                    <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
-                    >
-                      Customer Profile
-                    </th>
-                    <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
-                    >
-                      Subscriber ID
-                    </th>
-                    <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
-                    >
-                      Address
-                    </th>
-                    <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
-                    >
-                      Plan & Tier
-                    </th>
-                    <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
-                    >
-                      Usage (24h)
-                    </th>
-                    <th
-                      class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest text-right"
-                    >
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody class="divide-y divide-neutral/10">
-                  <tr
-                    is="customer-row"
-                    name="Sarah Jenkins"
-                    status="Active"
-                    customer-id="NF-8829-XP"
-                    address="742 Evergreen Terrace, Springfield"
-                    plan="Fiber Giga-Max"
-                    speed="1000 Mbps Symmetric"
-                    usage="42.5 GB"
-                    usage-pct="82"
-                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuB5a6MG7DuHedzU3XJfS-jy8HUod07zc0-UxsdYAGgnXYWcGYmFJYy55u-LZxmCXf_1aH1ztIdQyvOTYm4nPoYR9jcsyW8h4qhWNcQbujZAFLhQiuYme7yWf66g3WMq1tDMHe7Cb0SuGuySLKqPk88gd5A3cwS59Q2tAddn5zjT1bb28CCWsCwgAImR4g2kmRslu49JxRCQq7uCWVk8xMT_7ZfuNh8M75TjGUNTrvw4QE94I57Px9f9y1b7zhuifX4iSqx98Cw2wn_q"
-                  ></tr>
-
-                  <tr
-                    is="customer-row"
-                    name="Marcus Thorne"
-                    status="Suspended"
-                    customer-id="NF-1102-LL"
-                    address="12 Arkham Way, Gotham City"
-                    plan="Standard Plus"
-                    speed="100 Mbps Down"
-                    usage="0.2 GB"
-                    usage-pct="1"
-                    img=""
-                  ></tr>
-
-                  <tr
-                    is="customer-row"
-                    name="Elena Rodriguez"
-                    status="Pending"
-                    customer-id="NF-5541-QA"
-                    address="221B Baker St, London"
-                    plan="Home Office Pro"
-                    speed="500 Mbps Up/Down"
-                    usage="-- GB"
-                    usage-pct="0"
-                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuCI1Au_XaRP-cK3tf5PJ6Cj-qNuGZEyl1Zy1580k1LmSWvS92bgjajswZV2FqStKXG6jluUNNuv9_cK68bbebdJHzBAgoRRSEv5iNQnK__RqEDYwDSnVwZhxtJIHnw1N35lilFm3OwiGYItW0P3CJyxnf4h2z_77BHUn19wGuahvsMFb5BL39NHSMh0KWwntTzfDK4LD2aEZVHYOE4mbbZjMJC3nzyU5CYVl0eJAw49qC9m0j6brE2GUQZdNIlGMldnuor5j81cI5QL"
-                  ></tr>
-
-                  <tr
-                    is="customer-row"
-                    name="David Chen"
-                    status="Active"
-                    customer-id="NF-9901-ZZ"
-                    address="101 Silicon Valley Blvd, Palo Alto"
-                    plan="Enterprise Dedicated"
-                    speed="10 Gbps Managed"
-                    usage="2,480 GB"
-                    usage-pct="94"
-                    img="https://lh3.googleusercontent.com/aida-public/AB6AXuC8887Q1qAh6MlBXchfUIdyuD0EzlRisaAWlEGcKt-_2aTHOml0cgIdoTGx25SPlhc3NvCL9HVe3LvH-ytEg0D7A0B2p5xSvxWpeN0GL6GDjxSsBxHT8D8X2yh2ur_mHu7R4XVzdMKEhuYDOKYUfTo7JLwPF9hb-Fj0aiKpswK_wuao5nxtlajMK5CNdLmUjIph93I58foEmemuinDlFvb7uhRbXgNwlj_u0ClZrvusC24Um5dgEG7hWcqXdXuATql-nzQdv0FKvu0p"
-                  ></tr>
-                </tbody>
-              </table>
-
+              <!-- Filter Tabs -->
               <div
-                class="px-6 py-4 bg-base-200/30 flex items-center justify-between border-t border-neutral/10"
+                class="flex flex-wrap items-center justify-between gap-4 py-4 px-6 bg-base-200 rounded-2xl border border-neutral/10"
               >
-                <p class="text-xs font-medium text-base-content/60">
-                  Showing
-                  <span class="text-base-content font-bold">1-4</span> of
-                  <span class="text-base-content font-bold">12,482</span>
-                  customers
-                </p>
                 <div class="flex items-center gap-2">
                   <button
-                    class="p-2 rounded-lg border border-neutral/10 bg-base-100 hover:bg-base-200 disabled:opacity-50"
-                    disabled
+                    data-customer-filter="all"
+                    class="px-5 py-2 rounded-full bg-primary text-primary-content font-semibold text-sm shadow-md transition-all active:scale-95"
                   >
-                    <span class="material-symbols-outlined">chevron_left</span>
+                    All Customers
                   </button>
                   <button
-                    class="w-8 h-8 rounded-lg bg-primary text-primary-content text-xs font-bold"
+                    data-customer-filter="active"
+                    class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95"
                   >
-                    1
+                    Active
                   </button>
                   <button
-                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70"
+                    data-customer-filter="suspended"
+                    class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95"
                   >
-                    2
+                    Suspended
                   </button>
                   <button
-                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70"
+                    data-customer-filter="terminated"
+                    class="px-5 py-2 rounded-full hover:bg-base-100 text-base-content/70 font-semibold text-sm transition-all active:scale-95"
                   >
-                    3
+                    Terminated
                   </button>
-                  <span class="text-base-content/40 px-1">...</span>
-                  <button
-                    class="w-8 h-8 rounded-lg hover:bg-base-200 text-xs font-bold text-base-content/70"
+                </div>
+              </div>
+
+              <!-- Table -->
+              <div
+                class="bg-base-100 rounded-3xl overflow-hidden shadow-xl shadow-base-300/50 border border-neutral/10"
+              >
+                <table class="w-full text-left border-collapse">
+                  <thead class="bg-base-200/50">
+                    <tr>
+                      <th
+                        class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
+                      >
+                        Customer Profile
+                      </th>
+                      <th
+                        class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
+                      >
+                        Subscriber ID
+                      </th>
+                      <th
+                        class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
+                      >
+                        Address
+                      </th>
+                      <th
+                        class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest"
+                      >
+                        Plan & Tier
+                      </th>
+                      <th
+                        class="px-6 py-5 text-[11px] font-bold text-base-content/60 uppercase tracking-widest text-right"
+                      >
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="customer-tbody" class="divide-y divide-neutral/10">
+                    <!-- Diisi oleh customerController.js -->
+                  </tbody>
+                </table>
+
+                <!-- Pagination Footer -->
+                <div
+                  class="px-6 py-4 bg-base-200/30 flex items-center justify-between border-t border-neutral/10"
+                >
+                  <p
+                    id="pagination-info"
+                    class="text-xs font-medium text-base-content/60"
                   >
-                    42
-                  </button>
-                  <button
-                    class="p-2 rounded-lg border border-neutral/10 bg-base-100 hover:bg-base-200"
-                  >
-                    <span class="material-symbols-outlined">chevron_right</span>
-                  </button>
+                    Showing — customers
+                  </p>
+                  <div id="pagination-wrapper" class="flex items-center gap-2">
+                    <!-- Diisi oleh controller -->
+                  </div>
                 </div>
               </div>
             </div>
@@ -322,6 +230,216 @@
       </div>
     </div>
 
-    <script type="module" src="./js/pages/packages.js"></script>
+    <!-- Taruh sebelum closing </body> di customer.html -->
+    <dialog id="modal-customer-detail" class="modal">
+      <div class="modal-box max-w-lg">
+        <form method="dialog">
+          <button
+            class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3"
+          >
+            ✕
+          </button>
+        </form>
+
+        <!-- Loading state -->
+        <div id="modal-loading" class="py-16 flex flex-col items-center gap-3">
+          <span class="loading loading-spinner loading-md text-primary"></span>
+          <p class="text-sm text-base-content/50">Memuat data...</p>
+        </div>
+
+        <!-- Content (hidden saat loading) -->
+        <div id="modal-content" class="hidden">
+          <!-- Header: foto + nama + status -->
+          <div class="flex items-center gap-4 mb-6">
+            <div
+              class="w-16 h-16 rounded-2xl overflow-hidden bg-base-200 flex-shrink-0"
+            >
+              <img
+                id="modal-photo"
+                src="../uploads/photo_profile/user/default.png"
+                alt="Foto profil"
+                class="w-full h-full object-cover"
+                onerror="this.src = ''"
+              />
+            </div>
+            <div>
+              <h3
+                id="modal-name"
+                class="text-xl font-bold text-base-content"
+              ></h3>
+              <div class="flex items-center gap-2 mt-1">
+                <span
+                  id="modal-subscriber-id"
+                  class="font-mono text-xs text-base-content/60 bg-base-200 px-2 py-0.5 rounded"
+                ></span>
+                <span
+                  id="modal-status-badge"
+                  class="badge badge-sm font-bold"
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info Grid -->
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="bg-base-200 rounded-xl p-4 col-span-2">
+              <p
+                class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1"
+              >
+                Paket Aktif
+              </p>
+              <p id="modal-package" class="font-bold text-primary text-sm"></p>
+            </div>
+
+            <div class="bg-base-200 rounded-xl p-4">
+              <p
+                class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1"
+              >
+                NIK
+              </p>
+              <p
+                id="modal-nik"
+                class="font-medium text-sm text-base-content font-mono"
+              ></p>
+            </div>
+
+            <div class="bg-base-200 rounded-xl p-4">
+              <p
+                class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1"
+              >
+                Jenis Kelamin
+              </p>
+              <p
+                id="modal-gender"
+                class="font-medium text-sm text-base-content"
+              ></p>
+            </div>
+
+            <div class="bg-base-200 rounded-xl p-4">
+              <p
+                class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1"
+              >
+                No. Telepon
+              </p>
+              <p
+                id="modal-phone"
+                class="font-medium text-sm text-base-content"
+              ></p>
+            </div>
+
+            <div class="bg-base-200 rounded-xl p-4">
+              <p
+                class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1"
+              >
+                Kode Area
+              </p>
+              <p
+                id="modal-area"
+                class="font-medium text-sm text-base-content font-mono"
+              ></p>
+            </div>
+
+            <div class="bg-base-200 rounded-xl p-4">
+              <p
+                class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1"
+              >
+                Provinsi
+              </p>
+              <p
+                id="modal-province"
+                class="font-medium text-sm text-base-content leading-relaxed"
+              ></p>
+            </div>
+            <div class="bg-base-200 rounded-xl p-4">
+              <p
+                class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1"
+              >
+                Kabupaten/Kota
+              </p>
+              <p
+                id="modal-regency"
+                class="font-medium text-sm text-base-content leading-relaxed"
+              ></p>
+            </div>
+            <div class="bg-base-200 rounded-xl p-4">
+              <p
+                class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1"
+              >
+                Kecamatan
+              </p>
+              <p
+                id="modal-district"
+                class="font-medium text-sm text-base-content leading-relaxed"
+              ></p>
+            </div>
+
+            <div class="bg-base-200 rounded-xl p-4">
+              <p
+                class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1"
+              >
+                Desa/Kelurahan
+              </p>
+              <p
+                id="modal-village"
+                class="font-medium text-sm text-base-content leading-relaxed"
+              ></p>
+            </div>
+
+            <div class="bg-base-200 rounded-xl p-4 col-span-2">
+              <p
+                class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1"
+              >
+                Alamat Lengkap
+              </p>
+              <p
+                id="modal-address"
+                class="font-medium text-sm text-base-content leading-relaxed"
+              ></p>
+            </div>
+
+            <div class="bg-base-200 rounded-xl p-4 col-span-2">
+              <p
+                class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1"
+              >
+                Bergabung Sejak
+              </p>
+              <p
+                id="modal-created"
+                class="font-medium text-sm text-base-content"
+              ></p>
+            </div>
+          </div>
+
+          <!-- Footer actions -->
+          <div class="flex justify-end gap-2 pt-2 border-t border-base-300">
+            <form method="dialog">
+              <button class="btn btn-ghost btn-sm">Tutup</button>
+            </form>
+            <a id="modal-edit-link" href="#" class="btn btn-primary btn-sm">
+              <span class="material-symbols-outlined text-sm">edit</span>
+              Edit Pelanggan
+            </a>
+          </div>
+        </div>
+
+        <!-- Error state -->
+        <div
+          id="modal-error"
+          class="hidden py-12 flex flex-col items-center gap-3 text-center"
+        >
+          <div
+            class="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center text-error"
+          >
+            <span class="material-symbols-outlined">error</span>
+          </div>
+          <p class="text-sm text-base-content/60">
+            Gagal memuat detail pelanggan.
+          </p>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop"><button>close</button></form>
+    </dialog>
+
+    <script type="module" src="./js/pages/customer.js"></script>
   </body>
 </html>

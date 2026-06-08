@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   <p class="text-xs font-bold text-primary" id='provider-name'>${user.user.name}</p>
   `;
 
-    console.log(user.user.photo_profile);
     document.getElementById("provider-image").innerHTML = `
   <img src="${config.BASE_URL}/${user.user.img}" alt="" />
   `;

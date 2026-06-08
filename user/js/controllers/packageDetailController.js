@@ -83,7 +83,7 @@ export const initPackageDetail = async () => {
   if (btnConnect) {
     btnConnect.dataset.packageId = pkg.id_package;
     btnConnect.addEventListener("click", () => {
-      window.location.href = `subscribe.html?id=${pkg.id_package}`;
+      window.location.href = `/user/checkout/${pkg.slug}`;
     });
   }
 };

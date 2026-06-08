@@ -87,6 +87,33 @@ class PackageGateway {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getPackageWithRevenue(int $id_user, int $limit = 3)
+    {
+        $id_provider = $this->getProviderByIdUser($id_user);
+
+        $sql = "SELECT 
+            p.*,
+            SUM(t.amount) AS revenue,
+            COUNT(s.id_subscription) AS sales
+        FROM packages p
+        INNER JOIN providers pr 
+            ON p.id_provider = pr.id_provider
+        INNER JOIN subscriptions s 
+            ON p.id_package = s.id_package
+        INNER JOIN transactions t
+            ON s.id_subscription = t.id_subscription
+        WHERE p.id_provider = :id_provider AND t.payment_status = 'settlement'
+        GROUP BY p.id_package
+        ORDER BY revenue DESC
+        LIMIT :limit";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":id_provider", $id_provider, PDO::PARAM_INT);
+        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getPackageById(int $id, ?int $id_user = null) 
     {
         // 1. Panggil query dasar (Otomatis sudah nge-JOIN ke providers dan wilayah)
@@ -285,7 +312,7 @@ class PackageGateway {
         return $stmt->rowCount();
     }
 
-    public function patchPackage(int $id_package, int $id_user, array $data): int
+    public function patchPackage(int $id_package, ?int $id_user, array $data): int
     {
         $allowedColumns = [
             'name_package', 
@@ -308,10 +335,11 @@ class PackageGateway {
         $fields = [];
         $binds = [];
 
-        // 2. Looping data input untuk merakit query
+        // 1. Looping data input untuk merakit query (tambahkan prefix p. untuk tabel packages)
         foreach ($data as $key => $value) {
             if (in_array($key, $allowedColumns)) {
-                $fields[] = "$key = :$key";
+                $fields[] = "p.$key = :$key"; // Menggunakan alias p.
+                
                 if ($key === 'package_features' && is_array($value)) {
                     $value = json_encode($value);
                 }
@@ -319,11 +347,10 @@ class PackageGateway {
             }
         }
 
-
         if (array_key_exists('name_package', $data)) {
             $rawSlug = $this->slugify($data['name_package']);
             $uniqueSlug = $this->getUniqueSlug($rawSlug, $id_package);
-            $fields[] = "slug = :slug";
+            $fields[] = "p.slug = :slug";
             $binds[":slug"] = $uniqueSlug;
         }
 
@@ -333,26 +360,37 @@ class PackageGateway {
 
         $fieldsString = implode(", ", $fields);
 
-       
-        $sql = "UPDATE packages SET {$fieldsString} WHERE id_package = :id_package";
-
+        // 2. Merakit SQL UPDATE JOIN yang benar
+        $sql = "UPDATE packages p ";
+        
+        // JOIN diletakkan SEBELUM SET
         if ($id_user !== null) {
-            $sql .= " JOIN providers pr ON p.id_provider = pr.id_provider";
+            $sql .= "JOIN providers pr ON p.id_provider = pr.id_provider ";
         }
 
-        $sql .= " WHERE p.id_package = :id";
+        // SET dan WHERE utama
+        $sql .= "SET {$fieldsString} WHERE p.id_package = :id_package";
 
+        // Tambahan filter pengecekan kepemilikan provider
         if ($id_user !== null) {
             $sql .= " AND pr.id_user = :id_user"; 
         }
 
-        // 6. Bind data yang dinamis secara otomatis
+        // 3. UBAH DARI STRING MENJADI STATEMENT PDO (Ini yang sebelumnya kurang)
+        $stmt = $this->db->prepare($sql);
+
+        // 4. Eksekusi Binding Data
         foreach ($binds as $key => $value) {
             $stmt->bindValue($key, $value);
         }
 
-        // 7. Bind ID Package
+        // 5. Bind ID Package
         $stmt->bindValue(":id_package", $id_package, PDO::PARAM_INT);
+
+        // 6. Bind ID User (Jika Tidak Null)
+        if ($id_user !== null) {
+            $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
+        }
 
         $stmt->execute();
 

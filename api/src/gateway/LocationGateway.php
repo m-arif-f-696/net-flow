@@ -87,4 +87,37 @@ class LocationGateway
         
         return (bool) $stmt->fetchColumn();
     }
+
+    public function getArea(?string $code): array
+    {
+        $province_code = substr($code, 0, 2);
+        $regency_code = substr($code, 0, 5);
+        $district_code = substr($code, 0, 8);
+        $village_code = substr($code, 0, 13);
+
+        $area = [$province_code, $regency_code, $district_code, $village_code];
+        $results = [];
+
+        foreach ($area as $code) {
+          $sql = "SELECT kode, nama FROM wilayah WHERE kode = :code";
+          $stmt = $this->db->prepare($sql);
+          $stmt->bindValue(':code', $code, PDO::PARAM_STR);
+          $stmt->execute();
+          $result = $stmt->fetch(PDO::FETCH_ASSOC);
+          $results[] = $result;
+        }
+
+        $sql = "SELECT kode, nama FROM wilayah WHERE kode = :code";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':code', $code, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return [
+            'province' => $results[0],
+            'regencies' => $results[1],
+            'districts' => $results[2],
+            'villages' => $results[3]
+        ];
+    }
 }
