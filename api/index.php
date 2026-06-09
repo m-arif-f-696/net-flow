@@ -122,6 +122,11 @@ switch ($group) {
                 $controller = new CustomerController($gateway, $userActive);
                 $controller->processRequest($method, $params);
                 break;
+            case "transactions":
+                $gateway    = new TransactionGateway($database);
+                $controller = new TransactionController($gateway, $userActive);
+                $controller->processRequest($method, $params); // $resource = summary | outstanding | list
+                break;
 
             default:
                 http_response_code(404);
