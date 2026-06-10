@@ -27,21 +27,19 @@ class PackageGateway {
     }
 
     public function getAll(
-        ?int $id_user = null, 
-        ?string $status = null, 
-        ?int $limit = 10, 
-        ?int $offset = 0, 
-        ?string $search = null
+        ?int    $id_user        = null,
+        ?string $status         = null,
+        ?int    $limit          = 10,
+        ?int    $offset         = 0,
+        ?string $search         = null,
+        ?string $area           = null,
+        ?string $coverageFilter = null  // <-- tambahan: 'available' | 'unavailable' | null
     ): array {
-        // 1. Ambil query dasar
         $sql = $this->getBaseQuery();
-        
-        // Gunakan trik WHERE 1=1 agar penambahan kondisi selanjutnya lebih mudah
         $sql .= " WHERE 1=1";
 
         $id_provider = null;
 
-        // 2. Susun Kondisi SQL
         if ($status !== null) {
             $sql .= " AND p.package_status = :status";
         }
@@ -55,20 +53,28 @@ class PackageGateway {
             $sql .= " AND (p.name_package LIKE :search OR pr.name_company LIKE :search)";
         }
 
-        // 3. Tambahkan Order dan Pagination
+        // Filter coverage berdasarkan pilihan
+        if ($area !== null && $coverageFilter === 'available') {
+            // Hanya tampilkan provider yang coverage-nya mencakup area customer
+            $sql .= " AND (:area = pr.coverage_area OR :area LIKE CONCAT(pr.coverage_area, '.%'))";
+        } elseif ($area !== null && $coverageFilter === 'unavailable') {
+            // Hanya tampilkan provider yang coverage-nya TIDAK mencakup area customer
+            $sql .= " AND NOT (:area = pr.coverage_area OR :area LIKE CONCAT(pr.coverage_area, '.%'))";
+        }
+        // Jika $coverageFilter null → tidak ada filter, tampil semua
+
         $sql .= " ORDER BY p.created_at DESC";
-        
+
         if ($limit !== null && $offset !== null) {
             $sql .= " LIMIT :limit OFFSET :offset";
         }
 
         $stmt = $this->db->prepare($sql);
 
-        // 4. Lakukan Binding Data (PDO)
         if ($status !== null) {
             $stmt->bindValue(":status", $status, PDO::PARAM_STR);
         }
-        
+
         if ($id_provider !== null) {
             $stmt->bindValue(":id_provider", $id_provider, PDO::PARAM_INT);
         }
@@ -77,13 +83,16 @@ class PackageGateway {
             $stmt->bindValue(":search", "%" . $search . "%", PDO::PARAM_STR);
         }
 
+        if ($area !== null && $coverageFilter !== null) {
+            $stmt->bindValue(":area", $area, PDO::PARAM_STR);
+        }
+
         if ($limit !== null && $offset !== null) {
-            $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+            $stmt->bindValue(":limit",  $limit,  PDO::PARAM_INT);
             $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
         }
 
         $stmt->execute();
-        
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -397,19 +406,21 @@ class PackageGateway {
         return $stmt->rowCount();
     }
 
-    public function getPagination(?int $id_user = null, ?string $status = null, ?int $limit = null, ?int $offset = null, ?string $search = null): array 
-    {
-        // Gunakan COUNT untuk menghitung total keseluruhan data yang sesuai dengan filter
+    public function getPagination(
+        ?int    $id_user        = null,
+        ?string $status         = null,
+        ?int    $limit          = null,
+        ?int    $offset         = null,
+        ?string $search         = null,
+        ?string $area           = null,
+        ?string $coverageFilter = null  // <-- tambahan
+    ): array {
         $sql = "SELECT COUNT(p.id_package) as total FROM packages p";
-        
-        if ($id_user !== null) {
-            $sql .= " JOIN providers pr ON p.id_provider = pr.id_provider";
-        }
-
+        $sql .= " JOIN providers pr ON p.id_provider = pr.id_provider";
         $sql .= " WHERE 1=1";
 
         if ($id_user !== null) {
-            $sql .= " AND pr.id_user = :id_user"; 
+            $sql .= " AND pr.id_user = :id_user";
         }
 
         if ($status !== null) {
@@ -420,9 +431,14 @@ class PackageGateway {
             $sql .= " AND p.name_package LIKE :search";
         }
 
+        if ($area !== null && $coverageFilter === 'available') {
+            $sql .= " AND (:area = pr.coverage_area OR :area LIKE CONCAT(pr.coverage_area, '.%'))";
+        } elseif ($area !== null && $coverageFilter === 'unavailable') {
+            $sql .= " AND NOT (:area = pr.coverage_area OR :area LIKE CONCAT(pr.coverage_area, '.%'))";
+        }
+
         $stmt = $this->db->prepare($sql);
 
-        // -- PROSES BINDING (Sama dengan getAll, tapi TANPA limit & offset) --
         if ($id_user !== null) {
             $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
         }
@@ -434,33 +450,23 @@ class PackageGateway {
         if ($search !== null) {
             $stmt->bindValue(":search", "%" . $search . "%", PDO::PARAM_STR);
         }
-        
-        $stmt->execute();
-        
-        // Ambil hasil perhitungannya
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $total_data = (int) $row['total'];
 
-        // -- KALKULASI MATEMATIKA PAGINATION --
-        $total_pages = 1;
-        $current_page = 1;
-
-        if ($limit !== null && $limit > 0) {
-            // Hitung total halaman (Dibulatkan ke atas, misal 21 data / 10 limit = 3 halaman)
-            $total_pages = ceil($total_data / $limit);
-            
-            if ($offset !== null) {
-                // Hitung posisi halaman saat ini berdasarkan offset
-                $current_page = ($offset / $limit) + 1;
-            }
+        if ($area !== null && $coverageFilter !== null) {
+            $stmt->bindValue(":area", $area, PDO::PARAM_STR);
         }
 
-        // Kembalikan metadata yang sudah matang
+        $stmt->execute();
+
+        $row        = $stmt->fetch(PDO::FETCH_ASSOC);
+        $total_data = (int) $row['total'];
+        $total_pages  = ($limit > 0) ? ceil($total_data / $limit) : 1;
+        $current_page = ($limit > 0 && $offset !== null) ? ($offset / $limit) + 1 : 1;
+
         return [
             "total_data"   => $total_data,
             "total_pages"  => $total_pages,
             "current_page" => $current_page,
-            "limit"        => $limit
+            "limit"        => $limit,
         ];
     }
 

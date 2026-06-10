@@ -27,7 +27,7 @@ export default class MarketPage extends HTMLElement {
             </div>
             <input 
               id="search-package" 
-              class="w-full pl-12 pr-4 py-4 bg-base-200 border-b-2 border-base-300 focus:border-primary focus:outline-none transition-all text-base-content placeholder:text-base-content/40 font-medium" 
+              class="w-full bg-base-100 border-0 border-b-2 border-base-300 py-4 pl-12 pr-4 focus:outline-none focus:border-primary transition-all rounded-xl shadow-sm text-base-content placeholder:text-base-content/40" 
               placeholder="Search by package name..." 
               type="text" 
             />
@@ -53,7 +53,7 @@ export default class MarketPage extends HTMLElement {
       // Debounce 400ms: agar tidak spam API setiap keystroke
       this._debounceTimer = setTimeout(() => {
         this.dispatchEvent(
-          new CustomEvent("search-change", { detail: e.target.value.trim() })
+          new CustomEvent("search-change", { detail: e.target.value.trim() }),
         );
       }, 400);
     });
@@ -153,7 +153,9 @@ export default class MarketPage extends HTMLElement {
       const offset = (newPage - 1) * limit;
 
       this.dispatchEvent(
-        new CustomEvent("page-change", { detail: { page: newPage, offset, limit } })
+        new CustomEvent("page-change", {
+          detail: { page: newPage, offset, limit },
+        }),
       );
     });
   }

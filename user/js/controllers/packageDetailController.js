@@ -61,7 +61,10 @@ export const initPackageDetail = async () => {
     downloadUnit: pkg.download_unit,
     uploadSpeed: pkg.upload_speed,
     uploadUnit: pkg.upload_unit,
+    typePackage: pkg.type_package,
   });
+
+  console.log(pkg.type_package);
 
   document.querySelector("package-detail-benefits")?.setData({
     features,

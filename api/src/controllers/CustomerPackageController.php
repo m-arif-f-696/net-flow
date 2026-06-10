@@ -54,28 +54,51 @@ class CustomerPackageController
     }
 
     // Menangani request tanpa parameter (Contoh: GET /customer/packages)
-    private function processCollectionRequest(string $method) : void 
+    private function processCollectionRequest(string $method): void
     {
         if ($method !== "GET") {
             http_response_code(405);
             header("Allow: GET");
-            echo json_encode(["message" => "Metode tidak diizinkan. Customer hanya dapat melihat data."]);
+            echo json_encode(["message" => "Metode tidak diizinkan."]);
             return;
         }
 
-        // 1. TANGKAP QUERY PARAMETER (Dengan Nilai Default)
-
-        $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
-        $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
+        $limit  = isset($_GET['limit'])  ? (int)    $_GET['limit']  : 10;
+        $offset = isset($_GET['offset']) ? (int)    $_GET['offset'] : 0;
         $search = isset($_GET['search']) ? (string) $_GET['search'] : null;
 
+        // Validasi nilai coverage
+        $coverageFilter = isset($_GET['coverage']) ? trim($_GET['coverage']) : null;
+        $allowedCoverage = ['available', 'unavailable'];
 
-        $packages = $this->gateway->getAll(null, 'active', $limit, $offset, $search);
-        $pagination = $this->gateway->getPagination(null, 'active', $limit, $offset, $search);
+        if ($coverageFilter !== null && !in_array($coverageFilter, $allowedCoverage, true)) {
+            http_response_code(422);
+            echo json_encode([
+                "message" => "Nilai coverage tidak valid. Gunakan: available, unavailable, atau kosongkan."
+            ]);
+            return;
+        }
 
+        // Ambil area customer yang login
+        $id_user  = (int) $this->userActive->id_user;
+        $customer = $this->gateway->getCustomerByIdUser($id_user);
+        $area     = isset($_GET['area']) ? trim($_GET['area']) : ($customer['area_code'] ?? null);
+
+        $packages   = $this->gateway->getAll(null, 'active', $limit, $offset, $search, $area, $coverageFilter);
+        $pagination = $this->gateway->getPagination(null, 'active', $limit, $offset, $search, $area, $coverageFilter);
 
         http_response_code(200);
-        echo json_encode(["code"=>200, "message" => "Success", "data" => $packages, "pagination" => $pagination]);
+        echo json_encode([
+            "code"       => 200,
+            "message"    => "Success",
+            "filter"     => [
+                "area"     => $area,
+                "search"   => $search,
+                "coverage" => $coverageFilter ?? "all",
+            ],
+            "pagination" => $pagination,
+            "data"       => $packages,
+        ]);
     }
     private function isInCoverage(string $coverageCode, string $customerCode): bool
 {

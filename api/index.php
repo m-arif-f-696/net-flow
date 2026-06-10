@@ -142,11 +142,6 @@ switch ($group) {
         $userActive = AuthMiddleware::requireRole("customer");
 
         switch ($resource) {
-            case "search":
-                // $gateway    = new ProviderSearchGateway($database);
-                // $controller = new ProviderSearchController($gateway);
-                // $controller->processRequest($method);
-                break;
 
             case "packages":
                 $gateway    = new PackageGateway($database);
@@ -154,16 +149,16 @@ switch ($group) {
                 $controller->processRequest($method, $params); // $params = provider_id
                 break;
 
-            case "subscribe":
-                // $gateway    = new SubscriptionGateway($database);
-                // $controller = new SubscriptionController($gateway);
-                // $controller->processRequest($method);
+            case "my-subscription":
+                $gateway    = new MySubscriptionGateway($database);
+                $controller = new MySubscriptionController($gateway, $userActive);
+                $controller->processRequest($method, $params);
                 break;
 
-            case "my-subscription":
-                // $gateway    = new SubscriptionGateway($database);
-                // $controller = new MySubscriptionController($gateway);
-                // $controller->processRequest($method);
+            case "my-transactions":
+                $gateway    = new MyTransactionGateway($database);
+                $controller = new MyTransactionController($gateway, $userActive);
+                $controller->processRequest($method, $params);
                 break;
 
             default:
