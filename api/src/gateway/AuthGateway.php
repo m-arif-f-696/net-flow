@@ -13,7 +13,7 @@ class AuthGateway {
 
   {
     $sql = "SELECT 
-                u.id_user, u.email, u.password, u.role,
+                u.id_user, u.email, u.password, u.role, u.status_onboarding,
                 COALESCE(p.name_company, c.full_name) AS nama_user,
                 COALESCE(p.logo_provider, c.photo_profile) AS link_gambar
             FROM users u

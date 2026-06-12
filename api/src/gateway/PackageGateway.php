@@ -29,8 +29,8 @@ class PackageGateway {
     public function getAll(
         ?int    $id_user        = null,
         ?string $status         = null,
-        ?int    $limit          = 10,
-        ?int    $offset         = 0,
+        ?int    $limit          = null,
+        ?int    $offset         = null,
         ?string $search         = null,
         ?string $area           = null,
         ?string $coverageFilter = null  // <-- tambahan: 'available' | 'unavailable' | null
@@ -245,8 +245,7 @@ class PackageGateway {
 
     public function getSummary(int $id_user): array 
     {   
-        $provider = $this->getProviderByIdUser($id_user);
-        $id_provider = $provider['id_provider'];
+        $id_provider = $this->getProviderByIdUser($id_user);
 
         // 1. Hitung total paket & rata-rata harga untuk provider ini
         $sqlPackages = "SELECT 
@@ -470,13 +469,19 @@ class PackageGateway {
         ];
     }
 
-    private function getProviderByIdUser(int $id_user): array
+    private function getProviderByIdUser(int $id_user): int
     {
-        $sql = "SELECT id_provider FROM providers WHERE id_user = :id_user";
+        $sql  = "SELECT id_provider FROM providers WHERE id_user = :id_user LIMIT 1";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $row  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            throw new RuntimeException("Profil provider tidak ditemukan.", 404);
+        }
+
+        return (int) $row['id_provider'];
     }
 
     public function getCustomerByIdUser(int $id_user): array | false

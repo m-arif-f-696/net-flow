@@ -72,4 +72,50 @@ class NotificationGateway
         ]);
         return $stmt->rowCount() > 0;
     }
+
+    /**
+     * Kirim notifikasi ke user tertentu
+     */
+    public function create(array $data): int
+    {
+        $stmt = $this->db->prepare(
+            "INSERT INTO notifications 
+                (id_user, notification_title, notification_message, notification_category)
+            VALUES 
+                (:id_user, :title, :message, :category)"
+        );
+
+        $stmt->execute([
+            ':id_user'  => $data['id_user'],
+            ':title'    => $data['notification_title'],
+            ':message'  => $data['notification_message'],
+            ':category' => $data['notification_category'] ?? 'system',
+        ]);
+
+        return (int) $this->db->lastInsertId();
+    }
+
+    /**
+     * Validasi apakah user target adalah customer dari provider yang mengirim
+     */
+    public function isCustomerOfProvider(int $id_user_target, int $id_user_provider): bool
+    {
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(*) 
+            FROM subscriptions s
+            JOIN customers c    ON s.id_customer  = c.id_customer
+            JOIN packages p     ON s.id_package   = p.id_package
+            JOIN providers pr   ON p.id_provider  = pr.id_provider
+            WHERE c.id_user     = :id_user_target
+            AND pr.id_user    = :id_user_provider
+            AND s.status_subscription = 'active'"
+        );
+
+        $stmt->execute([
+            ':id_user_target'   => $id_user_target,
+            ':id_user_provider' => $id_user_provider,
+        ]);
+
+        return (int) $stmt->fetchColumn() > 0;
+    }
 }

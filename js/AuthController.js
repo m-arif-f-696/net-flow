@@ -1,4 +1,5 @@
 import config from "./config.js";
+import NotificationAlert from "../components/NotificationAlert.js";
 
 const loginForm = document.querySelector("#login-form");
 
@@ -34,6 +35,87 @@ loginForm?.addEventListener("submit", async (e) => {
     switchRole(data.user.role);
   } catch (error) {
     console.error("Error Sistem/Jaringan:", error);
+  }
+});
+
+const registerForm = document.querySelector("#register-form");
+
+registerForm?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(registerForm);
+  const submitterButton = e.submitter;
+  if (submitterButton && submitterButton.name === "role") {
+    formData.append("role", submitterButton.value);
+  }
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const role = formData.get("role");
+  console.log(email, password, role);
+  try {
+    const res = await fetch(`${config.API_BASE_URL}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, role }),
+      credentials: "include",
+    });
+
+    // Ambil data JSON respon dari PHP terlebih dahulu
+    const data = await res.json();
+
+    if (!res.ok) {
+      // Menampilkan pesan error spesifik dari backend (misal: "Email and password must be input")
+      const alertModal = document.getElementById("submit-error-alert");
+      if (alertModal) {
+        alertModal.setAttribute("title", "Registrasi Gagal");
+        alertModal.setAttribute("message", data.message);
+        alertModal.setAttribute("color", "error");
+        alertModal.render();
+        alertModal.connectedCallback();
+        alertModal.show();
+
+        alertModal.addEventListener("onOk", async () => {
+          alertModal.hide();
+        });
+      }
+      return;
+    }
+    // Jika sukses (Status 200 OK)
+    console.log("Register Sukses, Respon Server:", data);
+
+    const alertModal = document.getElementById("submit-success-alert");
+    if (alertModal) {
+      alertModal.setAttribute("title", "Registrasi Berhasil");
+      alertModal.setAttribute(
+        "message",
+        "Silakan klik OK untuk login ke akun anda.",
+      );
+      alertModal.setAttribute("color", "success");
+      alertModal.render();
+      alertModal.connectedCallback();
+      alertModal.show();
+
+      alertModal.addEventListener("onOk", async () => {
+        window.location.href = "/login.html";
+      });
+    }
+  } catch (error) {
+    // console.error("Error Sistem/Jaringan:", error);
+    const alertModal = document.getElementById("submit-error-alert");
+    if (alertModal) {
+      alertModal.setAttribute("title", "Registrasi Gagal");
+      alertModal.setAttribute("message", error);
+      alertModal.setAttribute("color", "error");
+      alertModal.render();
+      alertModal.connectedCallback();
+      alertModal.show();
+
+      alertModal.addEventListener("onOk", async () => {
+        alertModal.hide();
+      });
+    }
   }
 });
 

@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   ]);
 
   const currentPage = document.body.dataset.page;
-  document.getElementById("sidebar").setMenu([
+  document?.getElementById("sidebar").setMenu([
     {
       label: "Dashboard",
       url: `/provider/dashboard.html`,
@@ -57,8 +57,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("page-loader").remove();
   try {
     const user = await getProfile();
+    console.log(user.user.onboarding);
     if (user.code === 401) {
       window.location.href = "../login.html";
+    } else if (user.user.onboarding === "register") {
+      window.location.href = "provider-onboarding.html";
     } else if (user.user.role !== "provider") {
       switchRole(user.user.role);
     }

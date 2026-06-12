@@ -94,7 +94,8 @@ class AuthController {
             "email" => $user['email'],
             "role" => $user['role'],
             "name" => $user['nama_user'],
-            "img" => $user['link_gambar']
+            "img" => $user['link_gambar'],
+            "onboarding" => $user['status_onboarding']
         ]
     ];
 

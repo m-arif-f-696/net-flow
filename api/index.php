@@ -105,6 +105,12 @@ switch ($group) {
         $userActive = AuthMiddleware::requireRole("provider"); 
 
         switch ($resource) {
+            case "profile":
+                $gateway    = new ProviderGateway($database);
+                $controller = new ProviderProfileController($gateway, $userActive);
+                $controller->processRequest($method, $params);
+                break;
+
             case "report":
                 $gateway    = new ProviderReportGateway($database);
                 $controller = new ProviderReportController($gateway, $userActive);
