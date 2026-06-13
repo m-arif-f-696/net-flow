@@ -89,25 +89,34 @@ class IssueGateway
 
     public function create(int $id_customer, array $data): int
     {
-        $sqlProvider = "SELECT pk.id_provider
-                        FROM subscriptions s
-                        JOIN packages pk ON s.id_package = pk.id_package
-                        WHERE s.id_customer        = :id_customer
-                          AND s.status_subscription = 'active'
-                        LIMIT 1";
+        // Validasi: pastikan subscription ini milik customer yang login
+        $stmtProvider = $this->db->prepare(
+            "SELECT pk.id_provider
+            FROM subscriptions s
+            JOIN packages pk ON s.id_package = pk.id_package
+            WHERE s.id_subscription      = :id_subscription
+            AND s.id_customer          = :id_customer
+            AND s.status_subscription  = 'active'
+            LIMIT 1"
+        );
 
-        $stmtProvider = $this->db->prepare($sqlProvider);
-        $stmtProvider->execute([':id_customer' => $id_customer]);
+        $stmtProvider->execute([
+            ':id_subscription' => $data['id_subscription'],
+            ':id_customer'     => $id_customer,
+        ]);
+
         $provider = $stmtProvider->fetch(PDO::FETCH_ASSOC);
 
         if (!$provider) {
-            throw new RuntimeException("Tidak ada langganan aktif. Laporan gangguan tidak dapat dibuat.", 422);
+            throw new RuntimeException(
+                "Langganan tidak ditemukan, bukan milik Anda, atau sudah tidak aktif.", 422
+            );
         }
 
         $stmt = $this->db->prepare(
             "INSERT INTO network_issues 
                 (id_provider, id_customer, title_issue, description_issue, severity)
-             VALUES 
+            VALUES 
                 (:id_provider, :id_customer, :title_issue, :description_issue, :severity)"
         );
 
@@ -120,6 +129,23 @@ class IssueGateway
         ]);
 
         return (int) $this->db->lastInsertId();
+    }
+
+    public function createNotification(int $id_user, string $notification_title, string $notification_message, string $notification_category): void
+    {
+        $stmtNotification = $this->db->prepare(
+            "INSERT INTO notifications 
+                (id_user, notification_title, notification_message, notification_category)
+            VALUES 
+                (:id_user, :notification_title, :notification_message, :notification_category)"
+        );
+
+        $stmtNotification->execute([
+            ':id_user'           => $id_user,
+            ':notification_title' => $notification_title,
+            ':notification_message' => $notification_message,
+            ':notification_category'  => $notification_category,
+        ]);
     }
 
     // -------------------------------------------------------------------------
@@ -211,5 +237,24 @@ class IssueGateway
         }
 
         return (int) $row['id_customer'];
+    }
+
+    public function findUserIdByIdIssue(int $id_issue): int
+    {
+        $stmt = $this->db->prepare(
+            "SELECT p.id_user 
+            FROM providers p
+            JOIN network_issues ni ON p.id_provider = ni.id_provider
+            WHERE ni.id_issue = :id_issue
+            LIMIT 1"
+        );
+        $stmt->execute([':id_issue' => $id_issue]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            throw new RuntimeException("Profil user tidak ditemukan.", 404);
+        }
+
+        return (int) $row['id_user'];
     }
 }

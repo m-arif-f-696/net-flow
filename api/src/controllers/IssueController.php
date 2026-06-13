@@ -143,6 +143,14 @@ class IssueController
             $id_customer = $this->getCustomerId();
             $id_issue    = $this->gateway->create($id_customer, $data);
             $issue       = $this->gateway->getById($id_issue);
+            $id_user     = $this->gateway->findUserIdByIdIssue($id_issue);
+
+            $this->gateway->createNotification(
+                $id_user,
+                "Laporan gangguan baru",
+                "Laporan gangguan baru telah dibuat oleh customer " . $issue['customer_name'] . ". Segera tangani laporan tersebut.",
+                "system"
+            );
 
             http_response_code(201);
             echo json_encode([
@@ -247,6 +255,12 @@ class IssueController
     {
         $errors          = [];
         $severityAllowed = ['low', 'medium', 'high'];
+
+        if (empty($data['id_subscription'])) {
+            $errors['id_subscription'] = 'Langganan wajib dipilih.';
+        } elseif (!is_numeric($data['id_subscription'])) {
+            $errors['id_subscription'] = 'ID langganan tidak valid.';
+        }
 
         if (empty($data['title_issue'])) {
             $errors['title_issue'] = 'Judul laporan wajib diisi.';
