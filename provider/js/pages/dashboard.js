@@ -3,8 +3,12 @@ import {
   initNotification,
   initDashboardStats,
   initDashboardTopPackage,
+  initReportFromCustomer,
 } from "../controllers/dashboardController.js";
 
-initNotification();
-initDashboardStats();
-initDashboardTopPackage();
+document.addEventListener("DOMContentLoaded", async () => {
+  await initNotification();
+  await initDashboardStats();
+  await initDashboardTopPackage();
+  await initReportFromCustomer();
+});

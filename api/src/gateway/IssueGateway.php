@@ -9,80 +9,90 @@ class IssueGateway
         $this->db = $database->connect();
     }
 
-    /**
-     * Ambil semua issues.
-     * - Superadmin : semua issues
-     * - Provider   : issues milik provider tersebut
-     * - Customer   : issues milik customer tersebut
-     */
-    public function getAll(string $role, int $id_ref): array
+    // -------------------------------------------------------------------------
+    // GET ALL dengan filter status
+    // -------------------------------------------------------------------------
+
+    public function getAll(string $role, int $id_ref, ?string $status = null): array
     {
-        $sql = match ($role) {
+        // Resolved dibatasi 5, status lain ambil semua
+        $limitClause = $status === 'resolved' ? " LIMIT 5" : "";
+
+        $baseSelect = match ($role) {
             'superadmin' => "SELECT ni.*, 
-                                c.full_name  AS customer_name,
+                                c.full_name    AS customer_name,
                                 p.name_company AS provider_name
                              FROM network_issues ni
                              JOIN customers c ON ni.id_customer = c.id_customer
-                             JOIN providers p ON ni.id_provider = p.id_provider
-                             ORDER BY ni.created_at DESC",
+                             JOIN providers p ON ni.id_provider = p.id_provider",
 
             'provider'   => "SELECT ni.*,
                                 c.full_name AS customer_name
                              FROM network_issues ni
-                             JOIN customers c ON ni.id_customer = c.id_customer
-                             WHERE ni.id_provider = :id_ref
-                             ORDER BY ni.created_at DESC",
+                             JOIN customers c ON ni.id_customer = c.id_customer",
 
             'customer'   => "SELECT ni.*,
                                 p.name_company AS provider_name
                              FROM network_issues ni
-                             JOIN providers p ON ni.id_provider = p.id_provider
-                             WHERE ni.id_customer = :id_ref
-                             ORDER BY ni.created_at DESC",
+                             JOIN providers p ON ni.id_provider = p.id_provider",
 
             default => throw new RuntimeException("Role tidak dikenali.", 403),
         };
 
-        $stmt = $this->db->prepare($sql);
+        $sql    = $baseSelect . " WHERE 1=1";
+        $params = [];
 
-        if ($role !== 'superadmin') {
-            $stmt->bindValue(':id_ref', $id_ref, PDO::PARAM_INT);
+        // Filter by role
+        if ($role === 'provider') {
+            $sql             .= " AND ni.id_provider = :id_ref";
+            $params[':id_ref'] = $id_ref;
+        } elseif ($role === 'customer') {
+            $sql             .= " AND ni.id_customer = :id_ref";
+            $params[':id_ref'] = $id_ref;
         }
 
-        $stmt->execute();
+        // Filter by status (opsional)
+        if ($status !== null) {
+            $sql              .= " AND ni.status_issue = :status";
+            $params[':status'] = $status;
+        }
+
+        $sql .= " ORDER BY ni.created_at DESC" . $limitClause;
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Ambil satu issue berdasarkan id_issue.
-     */
+    // -------------------------------------------------------------------------
+    // GET BY ID
+    // -------------------------------------------------------------------------
+
     public function getById(int $id_issue): array|false
     {
-        $sql = "SELECT ni.*,
-                    c.full_name    AS customer_name,
-                    p.name_company AS provider_name
-                FROM network_issues ni
-                JOIN customers c ON ni.id_customer = c.id_customer
-                JOIN providers p ON ni.id_provider = p.id_provider
-                WHERE ni.id_issue = :id_issue";
-
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->db->prepare(
+            "SELECT ni.*,
+                c.full_name    AS customer_name,
+                p.name_company AS provider_name
+             FROM network_issues ni
+             JOIN customers c ON ni.id_customer = c.id_customer
+             JOIN providers p ON ni.id_provider = p.id_provider
+             WHERE ni.id_issue = :id_issue"
+        );
         $stmt->execute([':id_issue' => $id_issue]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Buat laporan gangguan baru (oleh Customer).
-     * Provider ditentukan otomatis dari paket aktif customer.
-     */
+    // -------------------------------------------------------------------------
+    // CREATE
+    // -------------------------------------------------------------------------
+
     public function create(int $id_customer, array $data): int
     {
-        // Cari id_provider dari subscription aktif customer
-        $sqlProvider = "SELECT p.id_provider
+        $sqlProvider = "SELECT pk.id_provider
                         FROM subscriptions s
                         JOIN packages pk ON s.id_package = pk.id_package
-                        JOIN providers p  ON pk.id_provider = p.id_provider
-                        WHERE s.id_customer = :id_customer
+                        WHERE s.id_customer        = :id_customer
                           AND s.status_subscription = 'active'
                         LIMIT 1";
 
@@ -94,12 +104,13 @@ class IssueGateway
             throw new RuntimeException("Tidak ada langganan aktif. Laporan gangguan tidak dapat dibuat.", 422);
         }
 
-        $sql = "INSERT INTO network_issues 
-                    (id_provider, id_customer, title_issue, description_issue, severity)
-                VALUES 
-                    (:id_provider, :id_customer, :title_issue, :description_issue, :severity)";
+        $stmt = $this->db->prepare(
+            "INSERT INTO network_issues 
+                (id_provider, id_customer, title_issue, description_issue, severity)
+             VALUES 
+                (:id_provider, :id_customer, :title_issue, :description_issue, :severity)"
+        );
 
-        $stmt = $this->db->prepare($sql);
         $stmt->execute([
             ':id_provider'       => $provider['id_provider'],
             ':id_customer'       => $id_customer,
@@ -111,10 +122,10 @@ class IssueGateway
         return (int) $this->db->lastInsertId();
     }
 
-    /**
-     * Update status issue (oleh Provider).
-     * Hanya kolom status_issue yang boleh diubah via endpoint ini.
-     */
+    // -------------------------------------------------------------------------
+    // UPDATE STATUS (oleh Provider)
+    // -------------------------------------------------------------------------
+
     public function updateStatus(int $id_issue, int $id_provider, string $status): bool
     {
         $allowed = ['open', 'investigating', 'progress', 'resolved'];
@@ -122,12 +133,13 @@ class IssueGateway
             throw new RuntimeException("Status tidak valid. Gunakan: " . implode(', ', $allowed), 422);
         }
 
-        $sql = "UPDATE network_issues
-                SET status_issue = :status
-                WHERE id_issue    = :id_issue
-                  AND id_provider = :id_provider";
+        $stmt = $this->db->prepare(
+            "UPDATE network_issues
+             SET status_issue = :status
+             WHERE id_issue    = :id_issue
+               AND id_provider = :id_provider"
+        );
 
-        $stmt = $this->db->prepare($sql);
         $stmt->execute([
             ':status'      => $status,
             ':id_issue'    => $id_issue,
@@ -136,9 +148,41 @@ class IssueGateway
 
         return $stmt->rowCount() > 0;
     }
-    /**
-     * Ambil id_provider berdasarkan id_user yang login.
-     */
+
+    // -------------------------------------------------------------------------
+    // UPDATE SEVERITY (oleh Provider )
+    // -------------------------------------------------------------------------
+
+    public function updateSeverity(int $id_issue, int $id_provider, string $severity): bool
+    {
+        $allowed = ['low', 'medium', 'high'];
+        if (!in_array($severity, $allowed, true)) {
+            throw new RuntimeException("Severity tidak valid. Gunakan: " . implode(', ', $allowed), 422);
+        }
+
+        // Provider bisa ubah severity di status apapun (open, investigating, progress)
+        // kecuali yang sudah resolved
+        $stmt = $this->db->prepare(
+            "UPDATE network_issues
+            SET severity = :severity
+            WHERE id_issue    = :id_issue
+            AND id_provider = :id_provider
+            AND status_issue != 'resolved'"
+        );
+
+        $stmt->execute([
+            ':severity'    => $severity,
+            ':id_issue'    => $id_issue,
+            ':id_provider' => $id_provider,
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    // -------------------------------------------------------------------------
+    // Lookup Helpers
+    // -------------------------------------------------------------------------
+
     public function findProviderIdByUser(int $id_user): int
     {
         $stmt = $this->db->prepare(
@@ -154,9 +198,6 @@ class IssueGateway
         return (int) $row['id_provider'];
     }
 
-    /**
-     * Ambil id_customer berdasarkan id_user yang login.
-     */
     public function findCustomerIdByUser(int $id_user): int
     {
         $stmt = $this->db->prepare(

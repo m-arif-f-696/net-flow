@@ -10,9 +10,10 @@ class IssueController
     public function processRequest(string $method, ?string $resource): void
     {
         // Route:
-        // GET  /issues               → daftar semua issues (sesuai role)
-        // POST /issues               → customer buat laporan baru
-        // PATCH /issues/{id_issue}   → provider update status issue
+        // GET   /issues                    → daftar issues (+ filter ?status=open dst)
+        // POST  /issues                    → customer buat laporan baru
+        // PATCH /issues/{id}/status        → provider ubah status
+        // PATCH /issues/{id}/severity      → provider ubah severity (tidak boleh resolved)
 
         if ($resource !== null) {
             $this->processResourceRequest($method, $resource);
@@ -25,58 +26,70 @@ class IssueController
     // -------------------------------------------------------------------------
     // Collection: GET /issues | POST /issues
     // -------------------------------------------------------------------------
+
     private function processCollectionRequest(string $method): void
     {
-        switch ($method) {
-            case 'GET':
-                $this->handleGetAll();
-                break;
-
-            case 'POST':
-                $this->handleCreate();
-                break;
-
-            default:
-                http_response_code(405);
-                echo json_encode(['message' => 'Method tidak diizinkan.']);
-        }
+        match ($method) {
+            'GET'  => $this->handleGetAll(),
+            'POST' => $this->handleCreate(),
+            default => $this->methodNotAllowed(),
+        };
     }
 
     // -------------------------------------------------------------------------
-    // Resource: PATCH /issues/{id_issue}
+    // Resource: /issues/{id}/status | /issues/{id}/severity
     // -------------------------------------------------------------------------
+
     private function processResourceRequest(string $method, string $resource): void
     {
-        $id_issue = filter_var($resource, FILTER_VALIDATE_INT);
+        $uri   = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");
+        $parts = explode("/", $uri);
+        // Pecah resource: "5/status" → id=5, action=status
+        $id     = filter_var($parts[2], FILTER_VALIDATE_INT);
+        $action = $parts[3] ?? null;
 
-        if ($id_issue === false) {
+        if ($id === false) {
             http_response_code(400);
             echo json_encode(['message' => 'ID issue tidak valid.']);
             return;
         }
 
-        switch ($method) {
-            case 'PATCH':
-                $this->handleUpdateStatus((int) $id_issue);
-                break;
-
-            default:
-                http_response_code(405);
-                echo json_encode(['message' => 'Method tidak diizinkan.']);
+        if ($method !== 'PATCH') {
+            $this->methodNotAllowed();
+            return;
         }
+
+        match ($action) {
+            'status'   => $this->handleUpdateStatus((int) $id),
+            'severity' => $this->handleUpdateSeverity((int) $id),
+            default    => $this->notFound(),
+        };
     }
 
     // -------------------------------------------------------------------------
-    // GET /issues
+    // GET /issues?status=open
     // -------------------------------------------------------------------------
+
     private function handleGetAll(): void
     {
         $role = $this->userActive->role;
 
+        // Validasi & ambil filter status
+        $status         = isset($_GET['status']) ? trim($_GET['status']) : null;
+        $allowedStatus  = ['open', 'investigating', 'progress', 'resolved'];
+
+        if ($status !== null && !in_array($status, $allowedStatus, true)) {
+            http_response_code(422);
+            echo json_encode([
+                'message' => 'Status tidak valid. Gunakan: open, investigating, progress, resolved.'
+            ]);
+            return;
+        }
+
         $id_ref = match ($role) {
             'provider'   => $this->getProviderId(),
             'customer'   => $this->getCustomerId(),
-            'superadmin' => 0, // tidak dipakai di query superadmin
+            'superadmin' => 0,
             default      => null,
         };
 
@@ -87,10 +100,15 @@ class IssueController
         }
 
         try {
-            $issues = $this->gateway->getAll($role, $id_ref);
+            $issues = $this->gateway->getAll($role, $id_ref, $status);
+
             http_response_code(200);
             echo json_encode([
                 'message' => 'Daftar laporan gangguan berhasil diambil.',
+                'filter'  => [
+                    'status' => $status ?? 'all',
+                    'note'   => $status === 'resolved' ? 'Dibatasi 5 data terbaru.' : null,
+                ],
                 'total'   => count($issues),
                 'data'    => $issues,
             ]);
@@ -103,6 +121,7 @@ class IssueController
     // -------------------------------------------------------------------------
     // POST /issues
     // -------------------------------------------------------------------------
+
     private function handleCreate(): void
     {
         if ($this->userActive->role !== 'customer') {
@@ -111,20 +130,19 @@ class IssueController
             return;
         }
 
-        $data = json_decode(file_get_contents('php://input'), true);
-
+        $data   = json_decode(file_get_contents('php://input'), true);
         $errors = $this->validateCreate($data);
+
         if (!empty($errors)) {
             http_response_code(422);
             echo json_encode(['message' => 'Validasi gagal.', 'errors' => $errors]);
             return;
         }
 
-        $id_customer = $this->getCustomerId();
-
         try {
-            $id_issue = $this->gateway->create($id_customer, $data);
-            $issue    = $this->gateway->getById($id_issue);
+            $id_customer = $this->getCustomerId();
+            $id_issue    = $this->gateway->create($id_customer, $data);
+            $issue       = $this->gateway->getById($id_issue);
 
             http_response_code(201);
             echo json_encode([
@@ -138,8 +156,9 @@ class IssueController
     }
 
     // -------------------------------------------------------------------------
-    // PATCH /issues/{id_issue}
+    // PATCH /issues/{id}/status  → Provider
     // -------------------------------------------------------------------------
+
     private function handleUpdateStatus(int $id_issue): void
     {
         if ($this->userActive->role !== 'provider') {
@@ -156,10 +175,9 @@ class IssueController
             return;
         }
 
-        $id_provider = $this->getProviderId();
-
         try {
-            $updated = $this->gateway->updateStatus($id_issue, $id_provider, $data['status_issue']);
+            $id_provider = $this->getProviderId();
+            $updated     = $this->gateway->updateStatus($id_issue, $id_provider, $data['status_issue']);
 
             if (!$updated) {
                 http_response_code(404);
@@ -167,12 +185,53 @@ class IssueController
                 return;
             }
 
-            $issue = $this->gateway->getById($id_issue);
-
             http_response_code(200);
             echo json_encode([
                 'message' => 'Status laporan berhasil diperbarui.',
-                'data'    => $issue,
+                'data'    => $this->gateway->getById($id_issue),
+            ]);
+        } catch (RuntimeException $e) {
+            http_response_code($e->getCode() ?: 500);
+            echo json_encode(['message' => $e->getMessage()]);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // PATCH /issues/{id}/severity  → Customer
+    // -------------------------------------------------------------------------
+
+    private function handleUpdateSeverity(int $id_issue): void
+    {
+        if ($this->userActive->role !== 'provider') {
+            http_response_code(403);
+            echo json_encode(['message' => 'Hanya provider yang dapat mengubah severity laporan.']);
+            return;
+        }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (empty($data['severity'])) {
+            http_response_code(422);
+            echo json_encode(['message' => 'Field severity wajib diisi.']);
+            return;
+        }
+
+        try {
+            $id_provider = $this->getProviderId();
+            $updated     = $this->gateway->updateSeverity($id_issue, $id_provider, $data['severity']);
+
+            if (!$updated) {
+                http_response_code(404);
+                echo json_encode([
+                    'message' => 'Laporan tidak ditemukan, bukan milik provider ini, atau sudah resolved.'
+                ]);
+                return;
+            }
+
+            http_response_code(200);
+            echo json_encode([
+                'message' => 'Severity laporan berhasil diperbarui.',
+                'data'    => $this->gateway->getById($id_issue),
             ]);
         } catch (RuntimeException $e) {
             http_response_code($e->getCode() ?: 500);
@@ -184,12 +243,9 @@ class IssueController
     // Helpers
     // -------------------------------------------------------------------------
 
-    /**
-     * Validasi body untuk POST /issues
-     */
     private function validateCreate(?array $data): array
     {
-        $errors = [];
+        $errors          = [];
         $severityAllowed = ['low', 'medium', 'high'];
 
         if (empty($data['title_issue'])) {
@@ -215,5 +271,17 @@ class IssueController
     private function getCustomerId(): int
     {
         return $this->gateway->findCustomerIdByUser((int) $this->userActive->id_user);
+    }
+
+    private function methodNotAllowed(): void
+    {
+        http_response_code(405);
+        echo json_encode(['message' => 'Method tidak diizinkan.']);
+    }
+
+    private function notFound(): void
+    {
+        http_response_code(404);
+        echo json_encode(['message' => 'Endpoint tidak ditemukan.']);
     }
 }

@@ -91,7 +91,6 @@ switch ($group) {
     
     case "issues":
         $userActive = AuthMiddleware::checkToken();
-       
         $gateway    = new IssueGateway($database);
         $controller = new IssueController($gateway, $userActive);
         $controller->processRequest($method, $resource);
