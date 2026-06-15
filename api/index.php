@@ -127,10 +127,17 @@ switch ($group) {
                 $controller = new CustomerController($gateway, $userActive);
                 $controller->processRequest($method, $params);
                 break;
+
             case "transactions":
                 $gateway    = new TransactionGateway($database);
                 $controller = new TransactionController($gateway, $userActive);
                 $controller->processRequest($method, $params); // $resource = summary | outstanding | list
+                break;
+
+            case "installations":
+                $gateway    = new InstallationScheduleGateway($database);
+                $controller = new InstallationScheduleController($gateway, $userActive);
+                $controller->processRequest($method, $params);
                 break;
 
             default:
@@ -166,6 +173,19 @@ switch ($group) {
                 $controller->processRequest($method, $params);
                 break;
 
+            case "pay":
+                $gateway    = new MyTransactionGateway($database);
+                $controller = new MyTransactionController($gateway, $userActive);
+                // Kita gunakan controller yang sama namun panggil method handlePay atau sesuaikan parameternya
+                $controller->processPayRequest($method, $params);
+                break;
+
+            case "checkout":
+                $gateway    = new CheckoutGateway($database);
+                $controller = new CheckoutController($gateway, $userActive);
+                $controller->processRequest($method);
+                break;
+
             default:
                 http_response_code(404);
                 echo json_encode(["message" => "Customer endpoint tidak ditemukan"]);
@@ -196,6 +216,22 @@ switch ($group) {
                 http_response_code(404);
                 echo json_encode(["message" => "Admin endpoint tidak ditemukan"]);
                 exit();
+        }
+        break;
+
+    // ──────────────────────────────────────────
+    // WEBHOOK  →  /api/webhook/payment
+    // Endpoint publik — TANPA middleware auth
+    // Dipanggil oleh server Midtrans
+    // ──────────────────────────────────────────
+    case "webhook":
+        if ($resource === "payment") {
+            $gateway    = new PaymentCallbackGateway($database);
+            $controller = new PaymentCallbackController($gateway);
+            $controller->processRequest($method);
+        } else {
+            http_response_code(404);
+            echo json_encode(["message" => "Webhook endpoint tidak ditemukan."]);
         }
         break;
 
