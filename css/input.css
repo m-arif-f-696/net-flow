@@ -27,6 +27,18 @@
       );
 }
 
+@utility no-scrollbar {
+  /* IE and Edge */
+  -ms-overflow-style: none;
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Safari and Chrome */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer utilities {
   .step-slide {
     animation: slideIn 0.3s ease forwards;

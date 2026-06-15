@@ -99,8 +99,7 @@ export default class NearbyProviders extends HTMLElement {
     this.innerHTML = /*html*/ `
       <section class="space-y-4">
         <div class="flex justify-between items-center">
-          <h2 class="text-lg font-bold tracking-tight text-base-content">Nearby Providers</h2>
-          <span class="text-primary text-xs font-bold cursor-pointer hover:underline">View All</span>
+          <h2 class="text-lg font-bold tracking-tight text-base-content">Paket Internet Terdekat</h2>
         </div>
 
         <div class="relative">
@@ -110,7 +109,7 @@ export default class NearbyProviders extends HTMLElement {
           <input class="w-full bg-base-100 border border-base-300 rounded-2xl pl-12 pr-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all text-base-content" placeholder="Search local ISPs..." type="text" value="${currentQuery}" />
         </div>
 
-        <div class="flex flex-rew gap-4 overflow-x-auto scroll-smooth ">
+        <div class="flex flex-rew gap-4 overflow-x-auto no-scrollbar scroll-smooth ">
           ${contentHTML}
         </div>
       </section>

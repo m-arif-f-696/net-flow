@@ -3,6 +3,9 @@
 // ─────────────────────────────────────────────
 import config from "../../../js/config.js";
 
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
 export const initNotification = async () => {
   const container = document.getElementById("notification-list");
   const badge = document.getElementById("notif-unread-badge");
@@ -119,7 +122,7 @@ export const initDashboardTopPackage = async () => {
 // ─────────────────────────────────────────────
 // STATE
 // ─────────────────────────────────────────────
-const _statusGroups = [
+const _statusGroupsReport = [
   { key: "open", label: "Belum Ditangani", badgeClass: "badge-error" },
   {
     key: "investigating",
@@ -131,7 +134,15 @@ const _statusGroups = [
 ];
 
 // Cache data per status
-const _cache = {};
+const _cacheReport = {};
+
+const _statusGroupsSchedule = [
+  { key: "pending", label: "Menunggu Pembayaran", badgeClass: "badge-warning" },
+  { key: "approved", label: "Siap Dipasang", badgeClass: "badge-info" },
+  { key: "completed", label: "Selesai", badgeClass: "badge-success" },
+];
+
+const _cacheSchedule = {};
 
 // ─────────────────────────────────────────────
 // INIT
@@ -144,13 +155,25 @@ export const initReportFromCustomer = async () => {
   _renderSkeletonAccordion(container);
 
   // Fetch semua status paralel
-  await Promise.all(_statusGroups.map((g) => _fetchIssues(g.key)));
+  await Promise.all(_statusGroupsReport.map((g) => _fetchIssues(g.key)));
 
   // Render accordion
-  _renderAccordion(container);
+  _renderAccordionReport(container);
 
   // Delegasi event untuk semua interaksi
-  _bindEvents(container);
+  _bindEventsReport(container);
+};
+
+export const initScheduleInstallation = async () => {
+  const container = document.getElementById("schedule-accordion-container");
+  if (!container) return;
+
+  _renderSkeletonAccordion(container);
+
+  await Promise.all(_statusGroupsSchedule.map((g) => _fetchSchedules(g.key)));
+
+  _renderAccordionSchedule(container);
+  _bindEventsSchedule(container);
 };
 
 // ─────────────────────────────────────────────
@@ -162,20 +185,34 @@ async function _fetchIssues(status) {
       headers: { "Content-Type": "application/json" },
     });
     const json = await res.json();
-    _cache[status] = json.data ?? [];
+    _cacheReport[status] = json.data ?? [];
   } catch (err) {
     console.error(`Gagal fetch issues ${status}:`, err);
-    _cache[status] = [];
+    _cacheReport[status] = [];
+  }
+}
+
+async function _fetchSchedules(status) {
+  try {
+    const res = await fetch(
+      `${config.API_BASE_URL}/provider/installations?filter=${status}`,
+      { headers: { "Content-Type": "application/json" } },
+    );
+    const json = await res.json();
+    _cacheSchedule[status] = json.data ?? [];
+  } catch (err) {
+    console.error(`Gagal fetch schedules ${status}:`, err);
+    _cacheSchedule[status] = [];
   }
 }
 
 // ─────────────────────────────────────────────
 // RENDER ACCORDION
 // ─────────────────────────────────────────────
-function _renderAccordion(container) {
-  container.innerHTML = _statusGroups
+function _renderAccordionReport(container) {
+  container.innerHTML = _statusGroupsReport
     .map((group) => {
-      const issues = _cache[group.key] ?? [];
+      const issues = _cacheReport[group.key] ?? [];
       const count = issues.length;
 
       return /*html*/ `
@@ -304,11 +341,158 @@ function _renderActions(issue, status) {
     </div>
   `;
 }
+function _renderAccordionSchedule(container) {
+  container.innerHTML = _statusGroupsSchedule
+    .map((group) => {
+      const schedules = _cacheSchedule[group.key] ?? [];
+      const count = schedules.length;
+
+      return /*html*/ `
+      <div class="collapse collapse-arrow join-item border-base-300 border">
+        <input type="checkbox" ${group.key === "approved" && count > 0 ? "checked" : ""} />
+        <div class="collapse-title font-semibold flex items-center gap-2">
+          ${group.label}
+          <span class="badge badge-sm ${group.badgeClass} badge-soft font-bold">${count}</span>
+        </div>
+        <div class="collapse-content text-sm space-y-2 pt-2">
+          ${
+            count === 0
+              ? `<p class="text-base-content/40 text-center py-4">Tidak ada jadwal.</p>`
+              : schedules.map((s) => _renderScheduleItem(s, group.key)).join("")
+          }
+        </div>
+      </div>
+    `;
+    })
+    .join("");
+}
+
+function _renderScheduleItem(s, status) {
+  const date = new Date(s.installation_date + "T00:00:00").toLocaleDateString(
+    "id-ID",
+    {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    },
+  );
+
+  const timeSlot = s.installation_time?.replace("-", " – ") ?? "—";
+  const createdAt = new Date(s.created_at).toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const statusBadge =
+    {
+      pending: "badge-warning",
+      approved: "badge-info",
+      completed: "badge-success",
+    }[status] ?? "badge-ghost";
+
+  return /*html*/ `
+    <div class="collapse collapse-plus bg-base-100 border border-base-300 rounded-xl"
+      data-schedule-id="${s.id_schedule}" data-status="${status}">
+      <input type="radio" name="schedule-accordion-${status}" />
+ 
+      <!-- Title row -->
+      <div class="collapse-title font-semibold pr-10">
+        <div class="flex items-start justify-between gap-2 flex-wrap">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="badge badge-sm ${statusBadge} badge-soft shrink-0">${s.name_package}</span>
+          </div>
+          <span class="text-xs text-base-content/40 font-normal shrink-0">${date}</span>
+        </div>
+        <p class="text-sm font-bold text-base-content mt-1">${s.customer_name}</p>
+      </div>
+ 
+      <!-- Detail content -->
+      <div class="collapse-content text-sm space-y-4">
+ 
+        <!-- Info Grid -->
+        <div class="grid grid-cols-2 gap-3">
+ 
+          <div class="bg-base-200 rounded-xl p-3">
+            <p class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1">Paket</p>
+            <p class="font-bold text-base-content text-sm">${s.name_package}</p>
+            <p class="text-xs text-base-content/50">${s.speed_mbps} Mbps</p>
+          </div>
+ 
+          <div class="bg-base-200 rounded-xl p-3">
+            <p class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1">Slot Waktu</p>
+            <p class="font-bold text-base-content text-sm">${timeSlot}</p>
+            <p class="text-xs text-base-content/50">${date}</p>
+          </div>
+ 
+          <div class="bg-base-200 rounded-xl p-3">
+            <p class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1">No. Telepon</p>
+            <a href="tel:${s.customer_phone}"
+              class="font-bold text-primary text-sm flex items-center gap-1 hover:underline">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+              </svg>
+              ${s.customer_phone}
+            </a>
+          </div>
+ 
+          <div class="bg-base-200 rounded-xl p-3">
+            <p class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1">Dibuat</p>
+            <p class="font-bold text-base-content text-sm">${createdAt}</p>
+          </div>
+ 
+        </div>
+ 
+        <!-- Alamat -->
+        <div class="bg-base-200 rounded-xl p-3">
+          <p class="text-[10px] text-base-content/50 uppercase tracking-widest font-bold mb-1">Alamat Instalasi</p>
+          <p class="font-medium text-base-content text-sm leading-relaxed">${s.full_address}</p>
+          <a href="https://maps.google.com/?q=${encodeURIComponent(s.full_address)}" target="_blank"
+            class="inline-flex items-center gap-1 text-xs text-primary font-bold mt-2 hover:underline">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+            </svg>
+            Buka di Maps
+          </a>
+        </div>
+ 
+        ${
+          s.additional_message
+            ? /*html*/ `
+        <div class="bg-warning/5 border border-warning/20 rounded-xl p-3">
+          <p class="text-[10px] text-warning uppercase tracking-widest font-bold mb-1">Pesan Tambahan</p>
+          <p class="text-base-content/70 text-sm leading-relaxed">${s.additional_message}</p>
+        </div>`
+            : ""
+        }
+ 
+        <!-- Action — hanya saat approved -->
+        ${
+          status === "approved"
+            ? /*html*/ `
+        <button data-action="complete" data-id="${s.id_schedule}"
+          class="btn btn-success btn-sm w-full rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          Tandai Instalasi Selesai
+        </button>`
+            : ""
+        }
+ 
+      </div>
+    </div>
+  `;
+}
 
 // ─────────────────────────────────────────────
 // EVENTS — delegasi ke container
 // ─────────────────────────────────────────────
-function _bindEvents(container) {
+function _bindEventsReport(container) {
   container.addEventListener("click", async (e) => {
     // ── Ubah status ──
     const statusBtn = e.target.closest("[data-action='status']");
@@ -323,16 +507,16 @@ function _bindEvents(container) {
       const ok = await _patchStatus(id, nextStatus);
       if (ok) {
         // Pindahkan issue dari cache lama ke cache baru
-        const issueIndex = _cache[currentStatus]?.findIndex(
+        const issueIndex = _cacheReport[currentStatus]?.findIndex(
           (i) => String(i.id_issue) === String(id),
         );
         if (issueIndex !== -1) {
-          const [issue] = _cache[currentStatus].splice(issueIndex, 1);
+          const [issue] = _cacheReport[currentStatus].splice(issueIndex, 1);
           issue.status_issue = nextStatus;
-          if (!_cache[nextStatus]) _cache[nextStatus] = [];
-          _cache[nextStatus].unshift(issue);
+          if (!_cacheReport[nextStatus]) _cacheReport[nextStatus] = [];
+          _cacheReport[nextStatus].unshift(issue);
         }
-        _renderAccordion(container);
+        _renderAccordionReport(container);
       } else {
         statusBtn.disabled = false;
         statusBtn.innerHTML = `<span class="material-symbols-outlined text-sm">error</span> Gagal`;
@@ -352,14 +536,48 @@ function _bindEvents(container) {
       const ok = await _patchSeverity(id, severity);
       if (ok) {
         // Update cache
-        const issue = _cache[status]?.find(
+        const issue = _cacheReport[status]?.find(
           (i) => String(i.id_issue) === String(id),
         );
         if (issue) issue.severity = severity;
-        _renderAccordion(container);
+        _renderAccordionReport(container);
       } else {
         sevBtn.disabled = false;
       }
+    }
+  });
+}
+
+function _bindEventsSchedule(container) {
+  container.addEventListener("click", async (e) => {
+    const completeBtn = e.target.closest("[data-action='complete']");
+    if (!completeBtn) return;
+
+    const id = completeBtn.dataset.id;
+
+    // Konfirmasi
+    if (!confirm("Tandai instalasi ini sebagai selesai?")) return;
+
+    completeBtn.disabled = true;
+    completeBtn.innerHTML = `<span class="loading loading-spinner loading-xs"></span> Menyimpan...`;
+
+    const ok = await _patchComplete(id);
+    if (ok) {
+      // Pindahkan dari approved → completed di cache
+      const idx = _cacheSchedule["approved"]?.findIndex(
+        (s) => String(s.id_schedule) === String(id),
+      );
+      if (idx !== -1) {
+        const [schedule] = _cacheSchedule["approved"].splice(idx, 1);
+        schedule.status_schedule = "completed";
+        _cacheSchedule["completed"] = _cacheSchedule["completed"] ?? [];
+        _cacheSchedule["completed"].unshift(schedule);
+      }
+      _renderAccordionSchedule(container);
+      _showToast("Instalasi berhasil ditandai selesai.", "success");
+    } else {
+      completeBtn.disabled = false;
+      completeBtn.innerHTML = `Tandai Instalasi Selesai`;
     }
   });
 }
@@ -401,11 +619,30 @@ async function _patchSeverity(id, severity) {
   }
 }
 
+async function _patchComplete(id) {
+  try {
+    const res = await fetch(
+      `${config.API_BASE_URL}/provider/installations/${id}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.message);
+    return true;
+  } catch (err) {
+    console.error("Gagal tandai selesai:", err);
+    _showToast(err.message ?? "Gagal mengubah status.", "error");
+    return false;
+  }
+}
+
 // ─────────────────────────────────────────────
 // SKELETON
 // ─────────────────────────────────────────────
 function _renderSkeletonAccordion(container) {
-  container.innerHTML = _statusGroups
+  container.innerHTML = _statusGroupsReport
     .map(
       (g) => /*html*/ `
     <div class="collapse collapse-arrow join-item border-base-300 border">

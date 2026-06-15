@@ -105,7 +105,7 @@ CREATE TABLE subscriptions (
     id_subscription INT AUTO_INCREMENT PRIMARY KEY,
     id_customer INT NOT NULL,
     id_package INT NOT NULL,
-    status_subscription ENUM('active', 'suspended', 'terminated') DEFAULT 'active',
+    status_subscription ENUM('pending', 'active', 'suspended', 'terminated') DEFAULT 'suspended',
     start_date DATE NOT NULL,
     end_date DATE NOT NULL, -- Digunakan untuk acuan generate invoice bulan berikutnya
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -181,6 +181,20 @@ CREATE TABLE network_issues (
     FOREIGN KEY (id_customer) REFERENCES customers(id_customer) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+-- 10. TABEL DATA: INSTALLATION_SCHEDULES (JADWAL PEMASANGAN WIFI)
+CREATE TABLE installation_schedules (
+    id_schedule INT AUTO_INCREMENT PRIMARY KEY,
+    id_subscription INT NOT NULL, -- Mengikat ke data langganan yang sedang diproses
+    installation_date DATE NOT NULL, -- Menangkap "Pilih Tanggal Pemasangan" dari UI
+    installation_time VARCHAR(50) NOT NULL, -- Menangkap "Pilih Waktu Pemasangan" (Misal: '08:00 - 10:00')
+    additional_message TEXT NULL, -- Menangkap "Pesan Tambahan (Opsional)"
+    status_schedule ENUM('pending', 'approved', 'completed', 'rescheduled', 'cancelled') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    -- Jika data langganan dibatalkan/dihapus, jadwal pasang otomatis terhapus
+    FOREIGN KEY (id_subscription) REFERENCES subscriptions(id_subscription) ON DELETE CASCADE
+) ENGINE=InnoDB;
 
 CREATE INDEX idx_package_id ON subscriptions(id_package);
 CREATE INDEX idx_provider_id ON packages(id_provider);

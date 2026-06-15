@@ -4,6 +4,7 @@ import {
   initDashboardStats,
   initDashboardTopPackage,
   initReportFromCustomer,
+  initScheduleInstallation,
 } from "../controllers/dashboardController.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -11,4 +12,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   await initDashboardStats();
   await initDashboardTopPackage();
   await initReportFromCustomer();
+  await initScheduleInstallation();
 });

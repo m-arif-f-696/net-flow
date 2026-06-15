@@ -53,7 +53,7 @@ function renderIssueCard(issue) {
       <input type="checkbox" />
       <div class="collapse-title pr-10">
         <div class="flex items-start justify-between gap-2">
-          <span class="font-semibold text-sm leading-snug">${issue.title_issue}</span>
+          <span class="font-semibold text-md leading-snug">${issue.title_issue}</span>
           <span class="badge ${status.cls} badge-sm shrink-0 mt-0.5">${status.label}</span>
         </div>
         <div class="flex items-center gap-2 mt-1 flex-wrap">
@@ -91,7 +91,7 @@ template.innerHTML = /* html */ `
       Butuh bantuan?<br />
       <span class="text-primary/70">Kami siap membantu.</span>
     </h2>
-    <p class="text-base-content/50 text-sm">
+    <p class="text-base-content/50 text-md">
       Laporkan gangguan, pantau tiket, atau cari jawaban dari FAQ.
     </p>
   </section>
@@ -110,7 +110,7 @@ template.innerHTML = /* html */ `
       </div>
       <button
         id="btn-open-modal"
-        class="z-10 bg-base-100 text-error font-bold px-4 py-2 rounded-full shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap shrink-0 text-sm"
+        class="z-10 bg-base-100 text-error font-bold px-4 py-2 rounded-full shadow-sm hover:shadow-md cursor-pointer whitespace-nowrap shrink-0 text-md"
       >
         + Buat Laporan
       </button>
@@ -228,7 +228,7 @@ template.innerHTML = /* html */ `
     <!-- Empty -->
     <div id="issues-empty" class="hidden text-center py-12">
       <div class="text-5xl mb-3">📭</div>
-      <p class="text-base-content/50 text-sm font-medium">Belum ada laporan ditemukan.</p>
+      <p class="text-base-content/50 text-md font-medium">Belum ada laporan ditemukan.</p>
       <p class="text-base-content/30 text-xs mt-1">Coba ubah filter atau buat laporan baru.</p>
     </div>
   </section>
@@ -240,40 +240,40 @@ template.innerHTML = /* html */ `
 
       <div class="collapse collapse-arrow bg-base-100 rounded-2xl shadow-sm border border-base-200">
         <input type="radio" name="faq" />
-        <div class="collapse-title font-semibold text-sm">Apa itu ISP Marketplace?</div>
-        <div class="collapse-content text-sm text-base-content/70 leading-relaxed">
+        <div class="collapse-title font-semibold text-md">Apa itu ISP Marketplace?</div>
+        <div class="collapse-content text-md text-base-content/70 leading-relaxed">
           ISP Marketplace adalah platform yang mempertemukan pelanggan dengan berbagai penyedia layanan internet (ISP) di wilayah Anda. Anda bisa membandingkan paket, harga, dan ulasan sebelum berlangganan.
         </div>
       </div>
 
       <div class="collapse collapse-arrow bg-base-100 rounded-2xl shadow-sm border border-base-200">
         <input type="radio" name="faq" />
-        <div class="collapse-title font-semibold text-sm">Bagaimana cara mengganti paket internet?</div>
-        <div class="collapse-content text-sm text-base-content/70 leading-relaxed">
+        <div class="collapse-title font-semibold text-md">Bagaimana cara mengganti paket internet?</div>
+        <div class="collapse-content text-md text-base-content/70 leading-relaxed">
           Buka menu <strong>Langganan</strong> → pilih paket aktif → tap <em>Ubah Paket</em>. Perubahan efektif di awal siklus tagihan berikutnya.
         </div>
       </div>
 
       <div class="collapse collapse-arrow bg-base-100 rounded-2xl shadow-sm border border-base-200">
         <input type="radio" name="faq" />
-        <div class="collapse-title font-semibold text-sm">Bagaimana cara melacak status laporan gangguan?</div>
-        <div class="collapse-content text-sm text-base-content/70 leading-relaxed">
+        <div class="collapse-title font-semibold text-md">Bagaimana cara melacak status laporan gangguan?</div>
+        <div class="collapse-content text-md text-base-content/70 leading-relaxed">
           Lihat bagian <strong>Riwayat Laporan</strong> di halaman ini. Setiap tiket punya stepper: <em>Open → Investigating → In Progress → Resolved</em>. Anda akan mendapat notifikasi saat status berubah.
         </div>
       </div>
 
       <div class="collapse collapse-arrow bg-base-100 rounded-2xl shadow-sm border border-base-200">
         <input type="radio" name="faq" />
-        <div class="collapse-title font-semibold text-sm">Apakah bisa punya lebih dari satu langganan aktif?</div>
-        <div class="collapse-content text-sm text-base-content/70 leading-relaxed">
+        <div class="collapse-title font-semibold text-md">Apakah bisa punya lebih dari satu langganan aktif?</div>
+        <div class="collapse-content text-md text-base-content/70 leading-relaxed">
           Ya, ISP Marketplace mendukung beberapa langganan aktif dari ISP berbeda dalam satu akun — cocok untuk kebutuhan rumah dan kantor sekaligus.
         </div>
       </div>
 
       <div class="collapse collapse-arrow bg-base-100 rounded-2xl shadow-sm border border-base-200">
         <input type="radio" name="faq" />
-        <div class="collapse-title font-semibold text-sm">Apa arti tingkat keparahan (severity) laporan?</div>
-        <div class="collapse-content text-sm text-base-content/70 leading-relaxed">
+        <div class="collapse-title font-semibold text-md">Apa arti tingkat keparahan (severity) laporan?</div>
+        <div class="collapse-content text-md text-base-content/70 leading-relaxed">
           <ul class="space-y-1 mt-1">
             <li>🟢 <strong>Rendah</strong> — Gangguan kecil, internet masih bisa digunakan.</li>
             <li>🟡 <strong>Sedang</strong> — Internet lambat / tidak stabil, mengganggu aktivitas.</li>
@@ -284,8 +284,8 @@ template.innerHTML = /* html */ `
 
       <div class="collapse collapse-arrow bg-base-100 rounded-2xl shadow-sm border border-base-200">
         <input type="radio" name="faq" />
-        <div class="collapse-title font-semibold text-sm">Bagaimana cara menghubungi ISP secara langsung?</div>
-        <div class="collapse-content text-sm text-base-content/70 leading-relaxed">
+        <div class="collapse-title font-semibold text-md">Bagaimana cara menghubungi ISP secara langsung?</div>
+        <div class="collapse-content text-md text-base-content/70 leading-relaxed">
           Buka profil ISP melalui menu <strong>Provider</strong>. Di sana tersedia kontak resmi: nomor telepon, email, dan live chat (jika tersedia).
         </div>
       </div>

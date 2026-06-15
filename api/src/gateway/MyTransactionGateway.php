@@ -156,4 +156,21 @@ class MyTransactionGateway
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    // -------------------------------------------------------------------------
+    // UPDATE: Simpan snap_token ke transaksi bulanan/aktivasi tertunda
+    // -------------------------------------------------------------------------
+
+    public function saveSnapToken(int $id_transaction, string $snap_token): void
+    {
+        $stmt = $this->db->prepare(
+            "UPDATE transactions
+             SET snap_token = :snap_token
+             WHERE id_transaction = :id_transaction"
+        );
+        $stmt->execute([
+            ':snap_token'      => $snap_token,
+            ':id_transaction'  => $id_transaction,
+        ]);
+    }
 }
