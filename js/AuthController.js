@@ -150,5 +150,19 @@ function switchRole(role) {
       break;
   }
 }
+async function checkOnboarding() {
+  const user = await getProfile();
 
-export { getProfile, switchRole };
+  if (!user || user.code === 401) {
+    window.location.href = "../login.html";
+    return null;
+  }
+
+  if (user.user.onboarding === "register") {
+    return "register";
+  }
+
+  return "completed";
+}
+
+export { getProfile, switchRole, checkOnboarding };

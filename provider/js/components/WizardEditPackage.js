@@ -1,4 +1,5 @@
 import WizardCreatePackage from "./WizardCreatePackage.js";
+import config from "../../../js/config.js";
 
 export default class WizardEditPackage extends WizardCreatePackage {
   static get observedAttributes() {
@@ -40,7 +41,7 @@ export default class WizardEditPackage extends WizardCreatePackage {
 
     try {
       const res = await fetch(
-        `http://net_flow.test/api/provider/packages/${this.slug}`,
+        `${config.API_BASE_URL}/provider/packages/${this.slug}`,
         {
           headers: { "Content-Type": "application/json" },
         },

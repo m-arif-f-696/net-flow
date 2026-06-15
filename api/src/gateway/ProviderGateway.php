@@ -61,13 +61,13 @@ class ProviderGateway {
         $stmtUser->execute();
 
         // Massage Selamat Datang
-        $sqlNotification = "INSERT INTO notifications (id_user, title, message, category) 
-                            VALUES (:id_user, :title, :message, :category)";
+        $sqlNotification = "INSERT INTO notifications (id_user, notification_title, notification_message, notification_category) 
+                    VALUES (:id_user, :title, :message, :category)";
         $stmtNotification = $this->db->prepare($sqlNotification);
-        $stmtNotification->bindValue(':id_user', $data['id_user'], PDO::PARAM_INT);
-        $stmtNotification->bindValue(':title', 'Selamat Datang', PDO::PARAM_STR);
-        $stmtNotification->bindValue(':message', 'Selamat Datang ' . $data['name_company'] . ', partner ISP terpercaya. Profile provider berhasil diselesaikan.', PDO::PARAM_STR);
-        $stmtNotification->bindValue(':category', 'system', PDO::PARAM_STR);
+        $stmtNotification->bindValue(':id_user',  $data['id_user'],   PDO::PARAM_INT);
+        $stmtNotification->bindValue(':title',    'Selamat Datang',   PDO::PARAM_STR);
+        $stmtNotification->bindValue(':message',  'Selamat Datang ' . $data['name_company'] . ', partner ISP terpercaya. Profil provider berhasil diselesaikan.', PDO::PARAM_STR);
+        $stmtNotification->bindValue(':category', 'system',           PDO::PARAM_STR);
         $stmtNotification->execute();
 
 
