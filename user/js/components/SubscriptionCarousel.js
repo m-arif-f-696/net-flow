@@ -3,24 +3,40 @@ export default class SubscriptionCarousel extends HTMLElement {
     // Render awal (bisa berupa loading state jika data belum ada)
     this.render();
   }
+  constructor() {
+    super();
+    this._data = [];
+    this._loaded = false;
+  }
 
   // Fungsi sakti untuk menerima data dari fetch API
   setData(data) {
     // Pastikan data berupa array, jika tidak jadikan array kosong
     this._data = Array.isArray(data) ? data : [];
+    this._loaded = true; // ← tandai sudah di-set
     this.render();
   }
 
   render() {
     const subscriptions = this._data;
 
-    // 1. Tampilkan animasi loading jika data belum di-fetch atau sedang kosong
-    if (!subscriptions || subscriptions.length === 0) {
+    if (!this._loaded) {
+      // Belum dapat data dari API, tampilkan spinner
       this.innerHTML = `
-        <section class="w-full relative pb-8 flex justify-center items-center h-40">
-          <span class="loading loading-spinner loading-md text-primary"></span>
-        </section>
-      `;
+      <section class="w-full relative pb-8 flex justify-center items-center h-40">
+        <span class="loading loading-spinner loading-md text-primary"></span>
+      </section>
+    `;
+      return;
+    }
+
+    if (subscriptions.length === 0) {
+      // Sudah dapat data tapi memang kosong
+      this.innerHTML = `
+      <section class="w-full relative pb-8 flex justify-center items-center h-40">
+        <span class="text-primary">Belum ada paket aktif</span>
+      </section>
+    `;
       return;
     }
 

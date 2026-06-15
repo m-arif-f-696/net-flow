@@ -9,43 +9,47 @@ import config from "../../js/config.js";
 import { getProfile, switchRole } from "../../js/AuthController.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
-  await Promise.all([
-    customElements.whenDefined("top-bar"),
-    customElements.whenDefined("nav-bar"),
-    customElements.whenDefined("notification-confirm"),
-  ]);
-
-  // Semua komponen sudah terdefinisi & dirender
-  // Hapus loader setelah sedikit delay agar transisi terasa smooth
-  setTimeout(() => {
-    const loader = document.getElementById("page-loader");
-    if (loader) {
-      loader.style.transition = "opacity 0.4s ease";
-      loader.style.opacity = "0";
-      setTimeout(() => loader.remove(), 400);
-    }
-  }, 600);
-
   try {
     const user = await getProfile();
 
-    if (user.code === 401) {
+    if (!user || user.code === 401) {
       window.location.href = "../login.html";
-    } else if (user.user.role !== "customer") {
+      return;
+    } else if (user?.user?.onboarding === "register") {
+      // Tambahkan '?.' agar aman jika 'user.user' tiba-tiba tidak ada dari backend
+      window.location.href = "customer-onboarding.html";
+      return;
+    } else if (user?.user?.role !== "customer") {
       switchRole(user.user.role);
-    } else {
-      // 1. Get the elements
-      const userNameEl = document.getElementById("user-name");
-      const userImageEl = document.getElementById("user-image");
+      return;
+    }
+    await Promise.all([
+      customElements.whenDefined("top-bar"),
+      customElements.whenDefined("nav-bar"),
+      customElements.whenDefined("notification-confirm"),
+    ]);
 
-      // 2. Assign values only if the elements exist
-      if (userNameEl) {
-        userNameEl.innerText = user.user.name;
+    // Semua komponen sudah terdefinisi & dirender
+    // Hapus loader setelah sedikit delay agar transisi terasa smooth
+    setTimeout(() => {
+      const loader = document.getElementById("page-loader");
+      if (loader) {
+        loader.style.transition = "opacity 0.4s ease";
+        loader.style.opacity = "0";
+        setTimeout(() => loader.remove(), 400);
       }
+    }, 600);
+    // 1. Get the elements
+    const userNameEl = document.getElementById("user-name");
+    const userImageEl = document.getElementById("user-image");
 
-      if (userImageEl) {
-        userImageEl.innerHTML = `<img alt="User profile avatar" src="${config.BASE_URL}/${user.user.img}" class="w-full h-full object-cover" />`;
-      }
+    // 2. Assign values only if the elements exist
+    if (userNameEl) {
+      userNameEl.innerText = user.user.name;
+    }
+
+    if (userImageEl) {
+      userImageEl.innerHTML = `<img alt="User profile avatar" src="${config.BASE_URL}/${user.user.img}" class="w-full h-full object-cover" />`;
     }
   } catch (error) {
     const nameEl = document.getElementById("user-name");

@@ -19,13 +19,11 @@ export default class Hero extends HTMLElement {
           </h1>
           
           <p class="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut
-            assumenda excepturi exercitationem quasi. In deleniti eaque aut
-            repudiandae et a id nisi.
+            Temukan koneksi internet terbaik di sekitar Anda. Cepat, aman, dan terpercaya dari ribuan provider lokal.
           </p>
           <div class="flex gap-4 items-center justify-center">
-            <button class="btn btn-primary">Find Provider</button>
-            <button class="btn btn-outline btn-primary">
+            <button onclick="window.location.href='login.html'" class="btn btn-primary">Find Provider</button>
+            <button onclick="window.location.href='login.html'" class="btn btn-outline btn-primary">
               Become as Provider
             </button>
           </div>

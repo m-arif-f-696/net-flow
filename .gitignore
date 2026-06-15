@@ -1,5 +1,5 @@
 # Dependency Backend (PHP/Composer)
-api/vendor/
+
 
 # Dependency Frontend (Node.js)
 node_modules/

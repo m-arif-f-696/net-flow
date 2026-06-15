@@ -155,6 +155,12 @@ switch ($group) {
 
         switch ($resource) {
 
+            case "profile":
+                $gateway    = new CustomerProfileGateway($database);
+                $controller = new CustomerProfileController($gateway, $userActive);
+                $controller->processRequest($method, $params); 
+                break;
+
             case "packages":
                 $gateway    = new PackageGateway($database);
                 $controller = new CustomerPackageController($gateway, $userActive);
